@@ -13,15 +13,16 @@ struct MainView: View {
   @AppStorage("signup") private var signup: Bool = false
   
   var body: some View {
-    ZStack {
-      if signup == false {
-        ContentView()
-      }
-      
-      if signup == true {
-        HomeView()
-      }
-    }
+    MLGame(isAuthenticated: .constant(false))
+//    ZStack {
+//      if signup == false {
+//        ContentView()
+//      }
+//
+//      if signup == true {
+//        HomeView()
+//      }
+//    }
   }
 }
 

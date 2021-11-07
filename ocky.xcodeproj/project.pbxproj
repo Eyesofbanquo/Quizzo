@@ -23,10 +23,12 @@
 		33D421DB2733AF9E0058C74F /* Answer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D421DA2733AF9E0058C74F /* Answer.swift */; };
 		33D421DF2733B31D0058C74F /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33D421DE2733B31D0058C74F /* CloudKit.framework */; };
 		33D421E12733B5820058C74F /* CloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D421E02733B5820058C74F /* CloudManager.swift */; };
+		33D421E3273707640058C74F /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33D421E2273707640058C74F /* GameKit.framework */; };
+		33D421E6273707B50058C74F /* MLGameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D421E5273707B50058C74F /* MLGameController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		336262F62732562C00264C98 /* SignsUp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SignsUp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		336262F62732562C00264C98 /* ocky.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ocky.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		336262F92732562C00264C98 /* SignsUpApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignsUpApp.swift; sourceTree = "<group>"; };
 		336262FB2732562C00264C98 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		336262FD2732562E00264C98 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -41,9 +43,11 @@
 		33D421D62733A3030058C74F /* QuizView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizView.swift; sourceTree = "<group>"; };
 		33D421D82733AF980058C74F /* Quiz.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quiz.swift; sourceTree = "<group>"; };
 		33D421DA2733AF9E0058C74F /* Answer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Answer.swift; sourceTree = "<group>"; };
-		33D421DC2733B2590058C74F /* SignsUp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SignsUp.entitlements; sourceTree = "<group>"; };
 		33D421DE2733B31D0058C74F /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		33D421E02733B5820058C74F /* CloudManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudManager.swift; sourceTree = "<group>"; };
+		33D421E2273707640058C74F /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
+		33D421E5273707B50058C74F /* MLGameController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLGameController.swift; sourceTree = "<group>"; };
+		33D421E82737193D0058C74F /* SignsUp.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = SignsUp.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +56,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				33D421DF2733B31D0058C74F /* CloudKit.framework in Frameworks */,
+				33D421E3273707640058C74F /* GameKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,7 +66,7 @@
 		336262ED2732562C00264C98 = {
 			isa = PBXGroup;
 			children = (
-				336262F82732562C00264C98 /* SignsUp */,
+				336262F82732562C00264C98 /* ocky */,
 				336262F72732562C00264C98 /* Products */,
 				33D421DD2733B31D0058C74F /* Frameworks */,
 			);
@@ -70,15 +75,16 @@
 		336262F72732562C00264C98 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				336262F62732562C00264C98 /* SignsUp.app */,
+				336262F62732562C00264C98 /* ocky.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		336262F82732562C00264C98 /* SignsUp */ = {
+		336262F82732562C00264C98 /* ocky */ = {
 			isa = PBXGroup;
 			children = (
-				33D421DC2733B2590058C74F /* SignsUp.entitlements */,
+				33D421E82737193D0058C74F /* SignsUp.entitlements */,
+				33D421E42737077E0058C74F /* Controller */,
 				3362630F273267D900264C98 /* View */,
 				3362630C273267C200264C98 /* Model */,
 				3362630727325F5F00264C98 /* Modifiers */,
@@ -88,7 +94,7 @@
 				336262FF2732562E00264C98 /* Preview Content */,
 				33D421E02733B5820058C74F /* CloudManager.swift */,
 			);
-			path = SignsUp;
+			path = ocky;
 			sourceTree = "<group>";
 		};
 		336262FF2732562E00264C98 /* Preview Content */ = {
@@ -122,7 +128,7 @@
 			children = (
 				33D421D52733A2F80058C74F /* Quiz */,
 				3362631A273392A400264C98 /* Quiz List */,
-				336263152732EF7A00264C98 /* MainView */,
+				336263152732EF7A00264C98 /* StartView */,
 				33626310273267E100264C98 /* Signup */,
 				336263162732EF8F00264C98 /* HomeView.swift */,
 			);
@@ -138,12 +144,12 @@
 			path = Signup;
 			sourceTree = "<group>";
 		};
-		336263152732EF7A00264C98 /* MainView */ = {
+		336263152732EF7A00264C98 /* StartView */ = {
 			isa = PBXGroup;
 			children = (
 				336263132732EF5A00264C98 /* MainView.swift */,
 			);
-			path = MainView;
+			path = StartView;
 			sourceTree = "<group>";
 		};
 		3362631A273392A400264C98 /* Quiz List */ = {
@@ -165,17 +171,26 @@
 		33D421DD2733B31D0058C74F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				33D421E2273707640058C74F /* GameKit.framework */,
 				33D421DE2733B31D0058C74F /* CloudKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		33D421E42737077E0058C74F /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				33D421E5273707B50058C74F /* MLGameController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		336262F52732562C00264C98 /* SignsUp */ = {
+		336262F52732562C00264C98 /* ocky */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 336263042732562E00264C98 /* Build configuration list for PBXNativeTarget "SignsUp" */;
+			buildConfigurationList = 336263042732562E00264C98 /* Build configuration list for PBXNativeTarget "ocky" */;
 			buildPhases = (
 				336262F22732562C00264C98 /* Sources */,
 				336262F32732562C00264C98 /* Frameworks */,
@@ -185,9 +200,9 @@
 			);
 			dependencies = (
 			);
-			name = SignsUp;
+			name = ocky;
 			productName = SignsUp;
-			productReference = 336262F62732562C00264C98 /* SignsUp.app */;
+			productReference = 336262F62732562C00264C98 /* ocky.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -205,7 +220,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 336262F12732562C00264C98 /* Build configuration list for PBXProject "SignsUp" */;
+			buildConfigurationList = 336262F12732562C00264C98 /* Build configuration list for PBXProject "ocky" */;
 			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -218,7 +233,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				336262F52732562C00264C98 /* SignsUp */,
+				336262F52732562C00264C98 /* ocky */,
 			);
 		};
 /* End PBXProject section */
@@ -248,6 +263,7 @@
 				33D421E12733B5820058C74F /* CloudManager.swift in Sources */,
 				3362630927325F8300264C98 /* InputModifier.swift in Sources */,
 				3362630B273263ED00264C98 /* SignupFormViewModel.swift in Sources */,
+				33D421E6273707B50058C74F /* MLGameController.swift in Sources */,
 				336263172732EF8F00264C98 /* HomeView.swift in Sources */,
 				33D421D92733AF980058C74F /* Quiz.swift in Sources */,
 				33D421D72733A3030058C74F /* QuizView.swift in Sources */,
@@ -380,16 +396,17 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = SignsUp/SignsUp.entitlements;
+				CODE_SIGN_ENTITLEMENTS = ocky/SignsUp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"SignsUp/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"ocky/Preview Content\"";
 				DEVELOPMENT_TEAM = 2W3P634BS8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIRequiredDeviceCapabilities = gamekit;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -399,8 +416,8 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.donderapps.quizzo;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.donderapps.mlquizzo;
+				PRODUCT_NAME = ocky;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -412,16 +429,17 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = SignsUp/SignsUp.entitlements;
+				CODE_SIGN_ENTITLEMENTS = ocky/SignsUp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"SignsUp/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"ocky/Preview Content\"";
 				DEVELOPMENT_TEAM = 2W3P634BS8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIRequiredDeviceCapabilities = gamekit;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -431,8 +449,8 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.donderapps.quizzo;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.donderapps.mlquizzo;
+				PRODUCT_NAME = ocky;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -442,7 +460,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		336262F12732562C00264C98 /* Build configuration list for PBXProject "SignsUp" */ = {
+		336262F12732562C00264C98 /* Build configuration list for PBXProject "ocky" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				336263022732562E00264C98 /* Debug */,
@@ -451,7 +469,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		336263042732562E00264C98 /* Build configuration list for PBXNativeTarget "SignsUp" */ = {
+		336263042732562E00264C98 /* Build configuration list for PBXNativeTarget "ocky" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				336263052732562E00264C98 /* Debug */,
