@@ -80,12 +80,8 @@ struct QuizView: View {
               Spacer()
             }
           }
-          
-          
         }
         .padding()
-        
-        
       }
     }
   }

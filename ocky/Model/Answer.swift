@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Answer {
+struct Answer: Codable {
   var isCorrect: Bool
   var text: String
 }

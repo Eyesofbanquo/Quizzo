@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3343D8E427388EED00EFC8CB /* MLGameAuthViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3343D8E327388EED00EFC8CB /* MLGameAuthViewRepresentable.swift */; };
+		3343D8E627388F0C00EFC8CB /* GameViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3343D8E527388F0C00EFC8CB /* GameViewRepresentable.swift */; };
+		3343D8E827388F8000EFC8CB /* MLGameAuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3343D8E727388F8000EFC8CB /* MLGameAuthView.swift */; };
+		3343D8EA27388FBC00EFC8CB /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3343D8E927388FBC00EFC8CB /* GameView.swift */; };
 		336262FA2732562C00264C98 /* SignsUpApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336262F92732562C00264C98 /* SignsUpApp.swift */; };
 		336262FC2732562C00264C98 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336262FB2732562C00264C98 /* ContentView.swift */; };
 		336262FE2732562E00264C98 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 336262FD2732562E00264C98 /* Assets.xcassets */; };
@@ -15,7 +19,7 @@
 		3362630B273263ED00264C98 /* SignupFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3362630A273263ED00264C98 /* SignupFormViewModel.swift */; };
 		3362630E273267CE00264C98 /* TextFieldType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3362630D273267CE00264C98 /* TextFieldType.swift */; };
 		3362631227329F1E00264C98 /* InvalidTextModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3362631127329F1E00264C98 /* InvalidTextModifier.swift */; };
-		336263142732EF5A00264C98 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336263132732EF5A00264C98 /* MainView.swift */; };
+		336263142732EF5A00264C98 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336263132732EF5A00264C98 /* SplashView.swift */; };
 		336263172732EF8F00264C98 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336263162732EF8F00264C98 /* HomeView.swift */; };
 		336263192733929F00264C98 /* QuizListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336263182733929F00264C98 /* QuizListView.swift */; };
 		33D421D72733A3030058C74F /* QuizView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D421D62733A3030058C74F /* QuizView.swift */; };
@@ -24,10 +28,18 @@
 		33D421DF2733B31D0058C74F /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33D421DE2733B31D0058C74F /* CloudKit.framework */; };
 		33D421E12733B5820058C74F /* CloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D421E02733B5820058C74F /* CloudManager.swift */; };
 		33D421E3273707640058C74F /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33D421E2273707640058C74F /* GameKit.framework */; };
-		33D421E6273707B50058C74F /* MLGameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D421E5273707B50058C74F /* MLGameController.swift */; };
+		33D421E6273707B50058C74F /* MLGameAuthController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D421E5273707B50058C74F /* MLGameAuthController.swift */; };
+		33D421EA27375BB30058C74F /* MLGameData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D421E927375BB30058C74F /* MLGameData.swift */; };
+		33D421EC27375BD40058C74F /* MLPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D421EB27375BD40058C74F /* MLPlayer.swift */; };
+		33D421EE27375F220058C74F /* MLGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D421ED27375F220058C74F /* MLGame.swift */; };
+		33D421F12737730D0058C74F /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D421F02737730D0058C74F /* GameViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3343D8E327388EED00EFC8CB /* MLGameAuthViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLGameAuthViewRepresentable.swift; sourceTree = "<group>"; };
+		3343D8E527388F0C00EFC8CB /* GameViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewRepresentable.swift; sourceTree = "<group>"; };
+		3343D8E727388F8000EFC8CB /* MLGameAuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLGameAuthView.swift; sourceTree = "<group>"; };
+		3343D8E927388FBC00EFC8CB /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
 		336262F62732562C00264C98 /* ocky.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ocky.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		336262F92732562C00264C98 /* SignsUpApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignsUpApp.swift; sourceTree = "<group>"; };
 		336262FB2732562C00264C98 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -37,7 +49,7 @@
 		3362630A273263ED00264C98 /* SignupFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupFormViewModel.swift; sourceTree = "<group>"; };
 		3362630D273267CE00264C98 /* TextFieldType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldType.swift; sourceTree = "<group>"; };
 		3362631127329F1E00264C98 /* InvalidTextModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvalidTextModifier.swift; sourceTree = "<group>"; };
-		336263132732EF5A00264C98 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		336263132732EF5A00264C98 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		336263162732EF8F00264C98 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		336263182733929F00264C98 /* QuizListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizListView.swift; sourceTree = "<group>"; };
 		33D421D62733A3030058C74F /* QuizView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizView.swift; sourceTree = "<group>"; };
@@ -46,8 +58,12 @@
 		33D421DE2733B31D0058C74F /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		33D421E02733B5820058C74F /* CloudManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudManager.swift; sourceTree = "<group>"; };
 		33D421E2273707640058C74F /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
-		33D421E5273707B50058C74F /* MLGameController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLGameController.swift; sourceTree = "<group>"; };
+		33D421E5273707B50058C74F /* MLGameAuthController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLGameAuthController.swift; sourceTree = "<group>"; };
 		33D421E82737193D0058C74F /* SignsUp.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = SignsUp.entitlements; sourceTree = "<group>"; };
+		33D421E927375BB30058C74F /* MLGameData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLGameData.swift; sourceTree = "<group>"; };
+		33D421EB27375BD40058C74F /* MLPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLPlayer.swift; sourceTree = "<group>"; };
+		33D421ED27375F220058C74F /* MLGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLGame.swift; sourceTree = "<group>"; };
+		33D421F02737730D0058C74F /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +79,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3343D8E227388EE300EFC8CB /* Representables */ = {
+			isa = PBXGroup;
+			children = (
+				3343D8E327388EED00EFC8CB /* MLGameAuthViewRepresentable.swift */,
+				3343D8E527388F0C00EFC8CB /* GameViewRepresentable.swift */,
+			);
+			path = Representables;
+			sourceTree = "<group>";
+		};
+		3343D8EB2738900900EFC8CB /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				336263182733929F00264C98 /* QuizListView.swift */,
+				33D421D62733A3030058C74F /* QuizView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		336262ED2732562C00264C98 = {
 			isa = PBXGroup;
 			children = (
@@ -83,6 +117,8 @@
 		336262F82732562C00264C98 /* ocky */ = {
 			isa = PBXGroup;
 			children = (
+				3343D8E227388EE300EFC8CB /* Representables */,
+				33D421EF27375FA90058C74F /* Observables */,
 				33D421E82737193D0058C74F /* SignsUp.entitlements */,
 				33D421E42737077E0058C74F /* Controller */,
 				3362630F273267D900264C98 /* View */,
@@ -119,6 +155,8 @@
 			children = (
 				33D421D82733AF980058C74F /* Quiz.swift */,
 				33D421DA2733AF9E0058C74F /* Answer.swift */,
+				33D421E927375BB30058C74F /* MLGameData.swift */,
+				33D421EB27375BD40058C74F /* MLPlayer.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -126,46 +164,15 @@
 		3362630F273267D900264C98 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				33D421D52733A2F80058C74F /* Quiz */,
-				3362631A273392A400264C98 /* Quiz List */,
-				336263152732EF7A00264C98 /* StartView */,
-				33626310273267E100264C98 /* Signup */,
-				336263162732EF8F00264C98 /* HomeView.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		33626310273267E100264C98 /* Signup */ = {
-			isa = PBXGroup;
-			children = (
+				336263132732EF5A00264C98 /* SplashView.swift */,
 				336262FB2732562C00264C98 /* ContentView.swift */,
 				3362630D273267CE00264C98 /* TextFieldType.swift */,
+				3343D8EB2738900900EFC8CB /* Components */,
+				336263162732EF8F00264C98 /* HomeView.swift */,
+				3343D8E727388F8000EFC8CB /* MLGameAuthView.swift */,
+				3343D8E927388FBC00EFC8CB /* GameView.swift */,
 			);
-			path = Signup;
-			sourceTree = "<group>";
-		};
-		336263152732EF7A00264C98 /* StartView */ = {
-			isa = PBXGroup;
-			children = (
-				336263132732EF5A00264C98 /* MainView.swift */,
-			);
-			path = StartView;
-			sourceTree = "<group>";
-		};
-		3362631A273392A400264C98 /* Quiz List */ = {
-			isa = PBXGroup;
-			children = (
-				336263182733929F00264C98 /* QuizListView.swift */,
-			);
-			path = "Quiz List";
-			sourceTree = "<group>";
-		};
-		33D421D52733A2F80058C74F /* Quiz */ = {
-			isa = PBXGroup;
-			children = (
-				33D421D62733A3030058C74F /* QuizView.swift */,
-			);
-			path = Quiz;
+			path = View;
 			sourceTree = "<group>";
 		};
 		33D421DD2733B31D0058C74F /* Frameworks */ = {
@@ -180,9 +187,18 @@
 		33D421E42737077E0058C74F /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				33D421E5273707B50058C74F /* MLGameController.swift */,
+				33D421F02737730D0058C74F /* GameViewController.swift */,
+				33D421E5273707B50058C74F /* MLGameAuthController.swift */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		33D421EF27375FA90058C74F /* Observables */ = {
+			isa = PBXGroup;
+			children = (
+				33D421ED27375F220058C74F /* MLGame.swift */,
+			);
+			path = Observables;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -256,19 +272,27 @@
 			buildActionMask = 2147483647;
 			files = (
 				336262FC2732562C00264C98 /* ContentView.swift in Sources */,
+				33D421EA27375BB30058C74F /* MLGameData.swift in Sources */,
 				336263192733929F00264C98 /* QuizListView.swift in Sources */,
-				336263142732EF5A00264C98 /* MainView.swift in Sources */,
+				33D421EE27375F220058C74F /* MLGame.swift in Sources */,
+				336263142732EF5A00264C98 /* SplashView.swift in Sources */,
 				33D421DB2733AF9E0058C74F /* Answer.swift in Sources */,
 				3362631227329F1E00264C98 /* InvalidTextModifier.swift in Sources */,
+				3343D8E427388EED00EFC8CB /* MLGameAuthViewRepresentable.swift in Sources */,
 				33D421E12733B5820058C74F /* CloudManager.swift in Sources */,
 				3362630927325F8300264C98 /* InputModifier.swift in Sources */,
 				3362630B273263ED00264C98 /* SignupFormViewModel.swift in Sources */,
-				33D421E6273707B50058C74F /* MLGameController.swift in Sources */,
+				3343D8E627388F0C00EFC8CB /* GameViewRepresentable.swift in Sources */,
+				33D421F12737730D0058C74F /* GameViewController.swift in Sources */,
+				33D421E6273707B50058C74F /* MLGameAuthController.swift in Sources */,
 				336263172732EF8F00264C98 /* HomeView.swift in Sources */,
+				3343D8E827388F8000EFC8CB /* MLGameAuthView.swift in Sources */,
+				3343D8EA27388FBC00EFC8CB /* GameView.swift in Sources */,
 				33D421D92733AF980058C74F /* Quiz.swift in Sources */,
 				33D421D72733A3030058C74F /* QuizView.swift in Sources */,
 				3362630E273267CE00264C98 /* TextFieldType.swift in Sources */,
 				336262FA2732562C00264C98 /* SignsUpApp.swift in Sources */,
+				33D421EC27375BD40058C74F /* MLPlayer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

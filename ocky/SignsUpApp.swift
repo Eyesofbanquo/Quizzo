@@ -11,7 +11,7 @@ import SwiftUI
 struct SignsUpApp: App {
   var body: some Scene {
     WindowGroup {
-      MainView()
+      SplashView()
     }
   }
 }
