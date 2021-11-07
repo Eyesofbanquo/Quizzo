@@ -11,27 +11,27 @@ import SwiftUI
 import Combine
 
 enum MLGameState: CaseIterable {
-  case authenticate, none
+  case isAuthenticating, isAuthenticated, none, matchRequest
 }
-
-//class MLGameStateHandler: ObservableObject {
-//}
 
 final class MLGameController: UIViewController,
                               GKLocalPlayerListener {
   
-  // MARK: - Views -
-  private var helloLabel: UILabel = {
-    let label = UILabel()
-    label.translatesAutoresizingMaskIntoConstraints = false
-    label.font = UIFont.preferredFont(forTextStyle: .headline)
-    return label
-  }()
-  
-  
-  lazy var currentState: MLGameState = .none
-  var gameStatePassthrough = PassthroughSubject<MLGameState, Never>()
+  // MARK: - State -
+  var gameStarted: Binding<Bool>
+  var gameStatePassthrough = CurrentValueSubject<MLGameState, Never>(.none)
   var cancellables = Set<AnyCancellable>()
+  
+  // MARK: - Init -
+  
+  init(gameStarted: Binding<Bool>) {
+    self.gameStarted = gameStarted
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
   
   // MARK: - Lifecycle -
   
@@ -42,9 +42,11 @@ final class MLGameController: UIViewController,
 
     gameStatePassthrough.sink { nextState in
       print("Received: \(nextState)")
-      switch (nextState, self.currentState) {
-        case (.authenticate, .none):
+      switch nextState {
+        case .isAuthenticating:
           self.authenticateUser()
+        case .matchRequest:
+          self.presentMatchmaker()
         default: break
       }
     }
@@ -68,6 +70,7 @@ final class MLGameController: UIViewController,
     GKLocalPlayer.local.authenticateHandler = { viewController, error in
       if GKLocalPlayer.local.isAuthenticated {
         GKLocalPlayer.local.register(self)
+        self.gameStatePassthrough.send(.isAuthenticated)
       } else if let vc = viewController {
         self.present(vc, animated: true)
       }
@@ -83,12 +86,15 @@ final class MLGameController: UIViewController,
     
     let vc = GKTurnBasedMatchmakerViewController(matchRequest: request)
     vc.turnBasedMatchmakerDelegate = self
+    self.present(vc, animated: true)
   }
 }
 
 extension MLGameController: GKTurnBasedMatchmakerViewControllerDelegate  {
   func turnBasedMatchmakerViewControllerWasCancelled(_ viewController: GKTurnBasedMatchmakerViewController) {
-    
+    self.dismiss(animated: true, completion: {
+      self.gameStatePassthrough.send(.isAuthenticated)
+    })
   }
   
   func turnBasedMatchmakerViewController(_ viewController: GKTurnBasedMatchmakerViewController, didFailWithError error: Error) {
@@ -96,16 +102,21 @@ extension MLGameController: GKTurnBasedMatchmakerViewControllerDelegate  {
   }
   
   func player(_ player: GKPlayer, receivedTurnEventFor match: GKTurnBasedMatch, didBecomeActive: Bool) {
-   
+   print("haha")
+  }
+  
+  func player(_ player: GKPlayer, receivedExchangeCancellation exchange: GKTurnBasedExchange, for match: GKTurnBasedMatch) {
+    print("called?")
   }
 }
 
 struct MLGame: UIViewControllerRepresentable {
   
-  @Binding var isAuthenticated: Bool?
+  @Binding var gameStarted: Bool
   
   func makeUIViewController(context: Context) -> MLGameController {
-    let controller = MLGameController()
+    let controller = MLGameController(gameStarted: $gameStarted)
+    
     return controller
   }
   
@@ -116,25 +127,42 @@ struct MLGame: UIViewControllerRepresentable {
 
 struct MLGameView: View {
   @State private var receivedAction: MLGameState = .none
-  var actions: PassthroughSubject<MLGameState, Never>
+  var actions: CurrentValueSubject<MLGameState, Never>
+  
   var body: some View {
-    VStack {
-      Text("Press button")
-      Button(action: {
-        let randomAction = MLGameState.allCases.randomElement() ?? .none
-        actions.send(randomAction)
-      }) {
-        Text("Authenticate user")
+    Group {
+      switch receivedAction {
+        case .none:
+          VStack {
+            Text("Press button")
+            Button(action: {
+              actions.send(.isAuthenticating)
+            }) {
+              Text("Authenticate user")
+            }
+          }
+        case .isAuthenticating:
+          ProgressView()
+            .progressViewStyle(CircularProgressViewStyle())
+        case .isAuthenticated:
+          Button(action: {
+            actions.send(.matchRequest)
+          }) {
+            Text("Request match")
+          }
+        case .matchRequest:
+          Text("Match requested")
       }
     }
     .onReceive(actions) { output in
       self.receivedAction = output
+      print("Received from SwiftUI")
     }
   }
 }
 
 struct MLGameView_Previews: PreviewProvider {
   static var previews: some View {
-    MLGame(isAuthenticated: .constant(false))
+    MLGame(gameStarted: .constant(false))
   }
 }
