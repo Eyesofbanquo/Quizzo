@@ -16,6 +16,11 @@ class GameViewController: UIViewController, GKTurnBasedMatchmakerViewControllerD
   
   func turnBasedMatchmakerViewControllerWasCancelled(_ viewController: GKTurnBasedMatchmakerViewController) {
     self.dismiss(animated: true, completion: nil)
+    Task {
+      await MainActor.run {
+        self.handler.setState(.idle)
+      }
+    }
   }
   
   func turnBasedMatchmakerViewController(_ viewController: GKTurnBasedMatchmakerViewController, didFailWithError error: Error) {
@@ -56,6 +61,10 @@ class GameViewController: UIViewController, GKTurnBasedMatchmakerViewControllerD
           Task {
             try await self.handler.loadMatches()
           }
+        case .loadMatch(let matchID):
+          Task {
+            try await self.handler.loadMatch(matchID: matchID)
+          }
         default: break
       }
     }
@@ -93,17 +102,14 @@ class GameViewController: UIViewController, GKTurnBasedMatchmakerViewControllerD
 
 extension GameViewController: GKLocalPlayerListener {
   func player(_ player: GKPlayer, receivedTurnEventFor match: GKTurnBasedMatch, didBecomeActive: Bool) {
+    if self.presentedViewController is GKTurnBasedMatchmakerViewController {
+      self.dismiss(animated: true, completion: nil)
+    }
     self.handler.activeMatch = match
-    self.dismiss(animated: true, completion: nil)
-    
-    self.handler.setState(.playing(isMyTurn: didBecomeActive))
+    self.handler.setState(.playing(match: match))
     print("haha")
   }
-  
-  func player(_ player: GKPlayer, receivedExchangeCancellation exchange: GKTurnBasedExchange, for match: GKTurnBasedMatch) {
-    print("called?")
-  }
-  
+
   func player(_ player: GKPlayer, didRequestMatchWithRecipients recipientPlayers: [GKPlayer]) {
     print("is this called?")
   }
@@ -114,6 +120,10 @@ extension GameViewController: GKLocalPlayerListener {
   
   func player(_ player: GKPlayer, wantsToQuitMatch match: GKTurnBasedMatch) {
     print("wants to quit")
+  }
+  
+  func player(_ player: GKPlayer, didAccept invite: GKInvite) {
+    
   }
 }
 

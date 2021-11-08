@@ -23,36 +23,61 @@ struct GameView: View {
         case .idle:
           VStack {
             Button(action: {
-              handler.gameStatePasshtrough.send(.findMatch)
+              handler.setState(.findMatch)
             }) {
               Text("Find match")
             }
             Button(action: {
-              handler.gameStatePasshtrough.send(.loadMatches)
+              handler.setState(.loadMatches)
             }) {
               Text("Load matches")
             }
           }
+          .transition(.move(edge: .trailing))
         case .findMatch:
           Button(action: {
             handler.setState(.findMatch)
           }) {
             Text("Find match")
           }
-        case .loadMatches:
-          VStack {
-            Text("Searching for matches started")
-            if handler.matches.count > 0 {
-              Text("Found \(handler.matches.count) matches!")
+        case .loadMatches, .loadMatch:
+          ProgressView()
+            .progressViewStyle(CircularProgressViewStyle())
+        case .displayMatches(let mlMatches):
+          ZStack {
+            VStack {
+              HStack {
+                Button(action: {
+                  handler.setState(.idle)
+                }) {
+                  Image(systemName: "xmark.circle.fill")
+                    .padding()
+                }
+                .buttonStyle(PlainButtonStyle())
+                Spacer()
+              }
+              LazyVStack {
+                ForEach(mlMatches, id: \.matchID) { match in
+                  MatchView(match: match)
+                    .zIndex(2.0)
+                    .onTapGesture {
+                      self.handler.setState(.loadMatch(matchID: match.matchID))
+                    }
+                }
+              }
+              .zIndex(2.0)
+              Spacer()
             }
+            .zIndex(2.0)
           }
-        case .playing(let isMyTurn):
+          .transition(.move(edge: .trailing))
+        case .playing(let match):
           VStack {
             Text("Welcome, \(GKLocalPlayer.local.displayName)")
             Text("Number of players: \(handler.activeMatch?.participants.count ?? 1)")
             Text("We're waiting on... \(currentParticipant)")
             
-            if isMyTurn {
+            if userIsCurrentParticipant {
               Button(action: {
                 Task {
                   try await handler.sendData()
@@ -80,6 +105,11 @@ struct GameView: View {
             .progressViewStyle(CircularProgressViewStyle())
       }
     }
+  }
+  
+  
+  private func PlayingView() {
+    
   }
   
 }
