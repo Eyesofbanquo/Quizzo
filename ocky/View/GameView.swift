@@ -9,6 +9,10 @@ import SwiftUI
 import Combine
 import GameKit
 
+// the active player can only be in the playing state when they go into a match
+// if there isn't any history then put it into editing mode
+// if you go into a match and aren't active player then make it showing
+
 struct GameView: View {
   @EnvironmentObject var handler: MLGame
   var userIsCurrentParticipant: Bool {
@@ -44,62 +48,21 @@ struct GameView: View {
           ProgressView()
             .progressViewStyle(CircularProgressViewStyle())
         case .displayMatches(let mlMatches):
-          ZStack {
-            VStack {
-              HStack {
-                Button(action: {
-                  handler.setState(.idle)
-                }) {
-                  Image(systemName: "xmark.circle.fill")
-                    .padding()
-                }
-                .buttonStyle(PlainButtonStyle())
-                Spacer()
-              }
-              LazyVStack {
-                ForEach(mlMatches, id: \.matchID) { match in
-                  MatchView(match: match)
-                    .zIndex(2.0)
-                    .onTapGesture {
-                      self.handler.setState(.loadMatch(matchID: match.matchID))
-                    }
-                }
-              }
-              .zIndex(2.0)
-              Spacer()
-            }
-            .zIndex(2.0)
-          }
-          .transition(.move(edge: .trailing))
-        case .playing(let match):
-          VStack {
-            Text("Welcome, \(GKLocalPlayer.local.displayName)")
-            Text("Number of players: \(handler.activeMatch?.participants.count ?? 1)")
-            Text("We're waiting on... \(currentParticipant)")
-            
-            if userIsCurrentParticipant {
-              Button(action: {
-                Task {
-                  try await handler.sendData()
-                }
-              }) {
-                Text("Play your turn")
-              }
-            }
-            Button(action: {
-              handler.setState(.findMatch)
-            }) {
-              Text("Go back to match list")
+          MatchListView(matches: mlMatches)
+            .environmentObject(handler)
+            .transition(.move(edge: .trailing))
+        case .playing:
+          Group {
+            if handler.gameData.history.isEmpty {
+              QuestionView(questionNumber: 0, question: nil)
             }
             
-            Button(action: {
-              Task {
-                try await handler.quitGame()
-              }
-            }) {
-              Text("Quit game")
+            if let mostRecentQuestion = handler.gameData.history.last {
+              QuestionView(questionNumber: handler.gameData.history.count, question: mostRecentQuestion)
             }
           }
+        case .displayMatch(let gameData, let currentParticipant):
+          QuestionView(questionNumber: gameData.history.count, question: gameData.history.last, state: currentParticipant ? .playing : .results)
         @unknown default:
           ProgressView()
             .progressViewStyle(CircularProgressViewStyle())
@@ -120,3 +83,4 @@ struct GameView_Previews: PreviewProvider {
       .environmentObject(MLGame.stub)
   }
 }
+

@@ -17,7 +17,12 @@ struct MatchView: View {
   }
   
   var matchViewText: String {
-    GKLocalPlayer.local.displayName == match.currentParticipant ? "It's your turn now" : "It's \(match.currentParticipant)'s turn"
+    if match.currentParticipant.isEmpty {
+      return "Searching for match..."
+    } else {
+      return GKLocalPlayer.local.displayName == match.currentParticipant ? "It's your turn now" : "It's \(match.currentParticipant)'s turn"
+    }
+    
   }
   
   var body: some View {
@@ -45,6 +50,7 @@ struct MatchView: View {
           .bold()
           .foregroundColor(Color.white)
           .padding(.bottom, 8.0)
+          .fixedSize(horizontal: false, vertical: true)
       }
       Spacer()
     }
