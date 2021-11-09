@@ -188,7 +188,15 @@ extension QuestionView {
   }
   private func CloseButton() -> some View {
     Button(action: {
-      handler.setState(.idle)
+      if case .loadMatch = handler.previousGameState {
+        Task {
+          try await handler.loadMatches()
+        }
+      }
+      
+      if case .findMatch = handler.previousGameState {
+        handler.setState(.playing)
+      }
     }) {
       Image(systemName: "xmark.circle")
         .resizable()

@@ -38,16 +38,7 @@ struct GameView: View {
             }
           }
           .transition(.move(edge: .trailing))
-        case .findMatch:
-          Button(action: {
-            handler.setState(.findMatch)
-          }) {
-            Text("Find match")
-          }
-        case .loadMatches, .loadMatch:
-          ProgressView()
-            .progressViewStyle(CircularProgressViewStyle())
-        case .displayMatches(let mlMatches):
+        case .listMatches(let mlMatches):
           MatchListView(matches: mlMatches)
             .environmentObject(handler)
             .transition(.move(edge: .trailing))
@@ -61,8 +52,11 @@ struct GameView: View {
               QuestionView(questionNumber: handler.gameData.history.count, question: mostRecentQuestion)
             }
           }
-        case .displayMatch(let gameData, let currentParticipant):
+        case .showSelectedMatch(let gameData, let currentParticipant):
           QuestionView(questionNumber: gameData.history.count, question: gameData.history.last, state: currentParticipant ? .playing : .results)
+        case .loadMatches, .loadMatch, .findMatch:
+          ProgressView()
+            .progressViewStyle(CircularProgressViewStyle())
         @unknown default:
           ProgressView()
             .progressViewStyle(CircularProgressViewStyle())

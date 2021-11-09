@@ -9,23 +9,14 @@ import SwiftUI
 import Combine
 import GameKit
 
-class GameViewController: UIViewController, GKTurnBasedMatchmakerViewControllerDelegate {
+class GameViewController: UIViewController {
+  
+  // MARK: - Properties -
   
   var handler: MLGame = MLGame()
   var cancellables = Set<AnyCancellable>()
   
-  func turnBasedMatchmakerViewControllerWasCancelled(_ viewController: GKTurnBasedMatchmakerViewController) {
-    self.dismiss(animated: true, completion: nil)
-    Task {
-      await MainActor.run {
-        self.handler.setState(.idle)
-      }
-    }
-  }
-  
-  func turnBasedMatchmakerViewController(_ viewController: GKTurnBasedMatchmakerViewController, didFailWithError error: Error) {
-  }
-  
+  // MARK: - Initializers -
   init() {
     super.init(nibName: nil, bundle: nil)
     GKLocalPlayer.local.register(self)
@@ -43,6 +34,7 @@ class GameViewController: UIViewController, GKTurnBasedMatchmakerViewControllerD
     return request
   }
   
+  // MARK: - Lifecycle -
   override func viewDidLoad() {
     super.viewDidLoad()
     
@@ -106,7 +98,7 @@ extension GameViewController: GKLocalPlayerListener {
       self.dismiss(animated: true, completion: nil)
     }
     self.handler.activeMatch = match
-    self.handler.setState(.playing(match: match))
+    self.handler.setState(.playing)
     print("haha")
   }
 
@@ -128,4 +120,17 @@ extension GameViewController: GKLocalPlayerListener {
 }
 
 
-
+extension GameViewController: GKTurnBasedMatchmakerViewControllerDelegate {
+  func turnBasedMatchmakerViewControllerWasCancelled(_ viewController: GKTurnBasedMatchmakerViewController) {
+    self.dismiss(animated: true, completion: nil)
+    Task {
+      await MainActor.run {
+        self.handler.setState(.idle)
+      }
+    }
+  }
+  
+  func turnBasedMatchmakerViewController(_ viewController: GKTurnBasedMatchmakerViewController, didFailWithError error: Error) {
+  }
+  
+}
