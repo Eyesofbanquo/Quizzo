@@ -23,6 +23,7 @@ struct QuestionView: View {
   @State private var questionName: String = ""
   @State private var numberOfAnswerChoices: Int = 0
   @State private var answerChoices: [Answer] = []
+  @State private var submittedAnswer: Bool = false
   
   var userIsCurrentParticipant: Bool {
     GKLocalPlayer.local.displayName == currentParticipant
@@ -33,16 +34,15 @@ struct QuestionView: View {
   
   init(questionNumber: Int,
        question: Question?,
-       state: QuestionViewState = .playing) {
+       state: QuestionViewState) {
     self.questionNumber = questionNumber
     self.question = question
-    self.questionViewState = question == nil ? .editing : state
+    self.questionViewState = state
   }
   
   var body: some View {
     GeometryReader { proxy in
       ZStack {
-        //        Background()
         VStack {
           HStack {
             CloseButton()
@@ -61,13 +61,31 @@ struct QuestionView: View {
           }
           Spacer()
           
+          HStack {
+            Text(handler.activeMatch?.matchID.prefix(4) ?? "ID #")
+            Spacer()
+          }
+          .padding(.top)
+          
           ScrollView {
             VStack {
               Spacer()
               
               VStack(alignment: .leading) {
-                Text("Question \(questionNumber)")
-                  .foregroundColor(Color.pink)
+                Text("\(handler.currentPlayer?.displayName ?? "")'s turn")
+                HStack {
+                  Text("Question \(questionNumber + 1)")
+                    .foregroundColor(Color.pink)
+                  if let currentPlayer = handler.user, questionViewState == .results && !handler.isUserTurn {
+                    Text(currentPlayer.correctQuestions.contains(question?.id ?? UUID()) ? "Correct" : "Incorrect" )
+                  }
+                  
+                  if questionViewState == .playing && submittedAnswer {
+                    Text(handler.isCorrect(currentQuestion: question!, usingAnswerChoices: selectedAnswerChoices) ? "Correct" : "Incorrect" )
+                  }
+                  Spacer()
+                }
+                
                 if questionViewState == .editing {
                   TextField("", text: $questionName, prompt: Text("Enter a question"))
                     .disableAutocorrection(true)
@@ -153,8 +171,10 @@ struct QuestionView: View {
                       withAnimation {
                         if self.selectedAnswerChoices.contains(choice.id) == false {
                           self.selectedAnswerChoices.append(choice.id)
+                          self.answerChoices.append(choice)
                         } else {
                           self.selectedAnswerChoices = self.selectedAnswerChoices.filter { $0 != choice.id}
+                          self.answerChoices = self.answerChoices.filter { $0.id != choice.id}
                         }
                       }
                     }) {
@@ -165,8 +185,11 @@ struct QuestionView: View {
                   }
                   Button(action: {
                     if self.userIsCurrentParticipant {
-                      Task {
-                        try await handler.sendData()
+                      if let question = question {
+                        handler.grade(currentQuestion: question, usingAnswerChoices: answerChoices)
+                        Task {
+                          try await handler.sendData()
+                        }
                       }
                     }
                   }) {
@@ -175,6 +198,8 @@ struct QuestionView: View {
                       .padding()
                       .background(RoundedRectangle(cornerRadius: 16.0))
                   }
+                  .animation(.easeInOut, value: submittedAnswer)
+                  .disabled(submittedAnswer)
                 } // playing
               } //v-stack
               
@@ -216,14 +241,14 @@ extension QuestionView {
   }
   private func CloseButton() -> some View {
     Button(action: {
-      if case .loadMatch = handler.previousGameState {
-        Task {
-          try await handler.loadMatches()
-        }
-      }
-      
-      if case .findMatch = handler.previousGameState {
-        handler.setState(.playing)
+      switch handler.previousGameState {
+        case .loadMatch:
+          Task {
+            try await handler.loadMatches()
+          }
+        case .findMatch, .playing:
+          handler.setState(.idle)
+        default: break
       }
     }) {
       Image(systemName: "xmark.circle")

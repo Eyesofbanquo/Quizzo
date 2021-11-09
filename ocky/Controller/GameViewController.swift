@@ -82,12 +82,14 @@ class GameViewController: UIViewController {
   private func presentMatchmaker() {
     guard GKLocalPlayer.local.isAuthenticated else { return }
     let request = GKMatchRequest()
+    request.recipients
     request.minPlayers = 2
     request.maxPlayers = 2
     request.inviteMessage = "Get in here ASAP"
     
     let vc = GKTurnBasedMatchmakerViewController(matchRequest: request)
     vc.turnBasedMatchmakerDelegate = self
+    vc.matchmakingMode = .automatchOnly
     self.present(vc, animated: true)
   }
 }
@@ -97,7 +99,31 @@ extension GameViewController: GKLocalPlayerListener {
     if self.presentedViewController is GKTurnBasedMatchmakerViewController {
       self.dismiss(animated: true, completion: nil)
     }
-    self.handler.activeMatch = match
+    
+    print(match.currentParticipant?.player?.displayName ?? "", match.currentParticipant?.status)
+    
+    if let matchData = match.matchData,
+              let gameData = MLGameData.decode(data: matchData),
+              gameData.history.count == 1 {
+      let player = MLPlayer(displayName: GKLocalPlayer.local.displayName,
+                            lives: 3,
+                            correctQuestions: [])
+      var newGameData = MLGameData()
+      newGameData.players.append(contentsOf: gameData.players)
+      newGameData.players.append(player)
+      newGameData.history.append(contentsOf: gameData.history)
+      self.handler.setActiveMatch(match, andGameData: newGameData)
+    } else if let matchData = match.matchData,
+              let gameData = MLGameData.decode(data: matchData),
+              gameData.history.count > 1 {
+      self.handler.setActiveMatch(match)
+    } else {
+      let player = MLPlayer(displayName: GKLocalPlayer.local.displayName, lives: 3, correctQuestions: [])
+      let gameData = MLGameData(players: [player], history: [])
+      self.handler.setActiveMatch(match, andGameData: gameData)
+    }
+////    self.handler.activeMatch = match
+//    self.handler.setActiveMatch(match)
     self.handler.setState(.playing)
     print("haha")
   }
@@ -111,12 +137,17 @@ extension GameViewController: GKLocalPlayerListener {
   }
   
   func player(_ player: GKPlayer, wantsToQuitMatch match: GKTurnBasedMatch) {
-    print("wants to quit")
+    match.currentParticipant?.matchOutcome = .quit
+    match.endMatchInTurn(withMatch: match.matchData ?? Data()) { _ in }
+  }
+  
+  func player(_ player: GKPlayer, matchEnded match: GKTurnBasedMatch) {
+    print("match ended")
   }
   
   func player(_ player: GKPlayer, didAccept invite: GKInvite) {
     
-  }
+  } 
 }
 
 

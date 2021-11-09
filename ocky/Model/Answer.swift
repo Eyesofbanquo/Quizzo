@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Answer: Codable, Identifiable {
+struct Answer: Codable, Identifiable, Hashable {
   var id: UUID
   var isCorrect: Bool
   var text: String

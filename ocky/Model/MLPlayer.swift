@@ -13,6 +13,18 @@ enum MLPlayerState: Int, Codable {
   case playing = 2
 }
 
-struct MLPlayer: Codable {
+class MLPlayer: Codable {
   var displayName: String
+  var lives: Int
+  var correctQuestions: [UUID]
+  
+  init(displayName: String, lives: Int, correctQuestions: [UUID]) {
+    self.displayName = displayName
+    self.lives = lives
+    self.correctQuestions = correctQuestions
+  }
+  
+  func addCorrectQuestion(id: UUID) {
+    correctQuestions.append(id)
+  }
 }

@@ -45,11 +45,11 @@ struct GameView: View {
         case .playing:
           Group {
             if handler.gameData.history.isEmpty {
-              QuestionView(questionNumber: 0, question: nil)
+              QuestionView(questionNumber: 0, question: nil, state: .editing)
             }
             
             if let mostRecentQuestion = handler.gameData.history.last {
-              QuestionView(questionNumber: handler.gameData.history.count, question: mostRecentQuestion)
+              QuestionView(questionNumber: handler.gameData.history.count, question: mostRecentQuestion, state: .playing)
             }
           }
         case .showSelectedMatch(let gameData, let currentParticipant):
