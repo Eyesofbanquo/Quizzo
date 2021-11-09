@@ -70,6 +70,8 @@ struct QuestionView: View {
                   .foregroundColor(Color.pink)
                 if questionViewState == .editing {
                   TextField("", text: $questionName, prompt: Text("Enter a question"))
+                    .disableAutocorrection(true)
+                    .textFieldStyle(.roundedBorder)
                     .font(.largeTitle)
                     .foregroundColor(Color.pink)
                     .fixedSize(horizontal: false, vertical: true)
@@ -95,6 +97,14 @@ struct QuestionView: View {
                     }), prompt: Text("Enter an answer choice")
                                 .foregroundColor(Color.gray)
                                 .font(.headline))
+                      .disableAutocorrection(true)
+                      .textFieldStyle(.roundedBorder)
+                      .padding()
+                  }
+                  if answerChoices.count < 2 {
+                    Text("Add \(2 - answerChoices.count) more answer choice\(2 - answerChoices.count == 1 ? "" : "s")")
+                      .font(.subheadline)
+                      .foregroundColor(.red)
                   }
                   Button(action: {
                     answerChoices.append(.empty)
@@ -121,12 +131,20 @@ struct QuestionView: View {
                     Text(choice.text)
                       .questionButton(isHighlighted: false)
                   }
-                  HStack {
+                  HStack(spacing: 8.0) {
                     ProgressView()
-                      .progressViewStyle(CircularProgressViewStyle())
-                    Text("Waiting on other player...")
-                      .questionButton(isHighlighted: false)
+                      .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                      .foregroundColor(.white)
+                    Text("Waiting on other player")
                   }
+                  .foregroundColor(Color.white)
+                  .frame(maxWidth: .infinity)
+                  .padding()
+                  .background(RoundedRectangle(cornerRadius: 16.0)
+                                .fill(Color.green)
+                                .shadow(color: Color.black.opacity(0.3),
+                                        radius: 10.0, x: 0, y: 10))
+                  .padding()
                   
                 } // editing
                 if questionViewState == .playing {
@@ -174,10 +192,20 @@ struct QuestionView: View {
 
 struct QuizView_Previews: PreviewProvider {
   static var previews: some View {
-    QuestionView(questionNumber: 1,
-                 question: .stub,
-                 state: .playing)
-      .environmentObject(MLGame())
+    Group {
+      QuestionView(questionNumber: 1,
+                   question: .stub,
+                   state: .playing)
+        .environmentObject(MLGame())
+      QuestionView(questionNumber: 1,
+                   question: .stub,
+                   state: .editing)
+        .environmentObject(MLGame())
+      QuestionView(questionNumber: 1,
+                   question: .stub,
+                   state: .results)
+        .environmentObject(MLGame())
+    }
   }
 }
 
@@ -250,5 +278,14 @@ extension Text {
   func questionButton(isHighlighted: Bool) -> some View {
     self
       .modifier(QuestionViewAnswerButtonModifier(isHighlighted: isHighlighted))
+  }
+  
+  func questionButtonWithLoading(isHighlighted: Bool) -> some View {
+    HStack {
+      ProgressView()
+        .progressViewStyle(CircularProgressViewStyle())
+      self
+        .modifier(QuestionViewAnswerButtonModifier(isHighlighted: isHighlighted))
+    }
   }
 }
