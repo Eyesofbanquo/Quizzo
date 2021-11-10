@@ -20,6 +20,7 @@ struct QuestionView: View {
   var question: Question?
   var questionViewState: QuestionViewState = .playing
   @State private var selectedAnswerChoices: [UUID] = []
+  @State private var selectedCorrectAnswerChoices: [UUID] = []
   @State private var questionName: String = ""
   @State private var numberOfAnswerChoices: Int = 0
   @State private var answerChoices: [Answer] = []
@@ -72,7 +73,9 @@ struct QuestionView: View {
               Spacer()
               
               VStack(alignment: .leading) {
-                Text("\(handler.currentPlayer?.displayName ?? "")'s turn")
+                if handler.activeMatch?.status != .matching {
+                  Text("\(handler.currentPlayer?.displayName ?? "")'s turn")
+                }
                 HStack {
                   Text("Question \(questionNumber + 1)")
                     .foregroundColor(Color.pink)
@@ -108,17 +111,28 @@ struct QuestionView: View {
               VStack {
                 if questionViewState == .editing {
                   ForEach(0..<answerChoices.count, id: \.self) { idx in
-                    TextField(answerChoices[idx].text, text: Binding<String>(get: {
-                      answerChoices[idx].text
-                    }, set: { val in
-                      answerChoices[idx].text = val
-                    }), prompt: Text("Enter an answer choice")
-                                .foregroundColor(Color.gray)
-                                .font(.headline))
-                      .disableAutocorrection(true)
-                      .textFieldStyle(.roundedBorder)
-                      .padding()
+                    HStack {
+                      CheckboxField(id: answerChoices[idx].id) { id, enabled in
+                        if enabled {
+                          selectedCorrectAnswerChoices.append(id)
+                        } else {
+                          selectedCorrectAnswerChoices = selectedCorrectAnswerChoices.filter { $0 != id}
+                        }
+                      }
+                      TextField(answerChoices[idx].text, text: Binding<String>(get: {
+                        answerChoices[idx].text
+                      }, set: { val in
+                        answerChoices[idx].text = val
+                      }), prompt: Text("Enter an answer choice")
+                                  .foregroundColor(Color.gray)
+                                  .font(.headline))
+                        .disableAutocorrection(true)
+                        .textFieldStyle(.roundedBorder)
+                        .padding()
+                    } 
                   }
+                  Text("Press check mark to signal correct answer(s)")
+                    .fixedSize(horizontal: false, vertical: true)
                   if answerChoices.count < 2 {
                     Text("Add \(2 - answerChoices.count) more answer choice\(2 - answerChoices.count == 1 ? "" : "s")")
                       .font(.subheadline)
@@ -133,7 +147,15 @@ struct QuestionView: View {
                       .background(RoundedRectangle(cornerRadius: 16.0))
                   }
                   Button(action: {
-                    handler.appendQuestion(question: Question(name: questionName, choices: answerChoices))
+                    let modifiedAnswerChoices = answerChoices.map { choice -> Answer in
+                      if selectedCorrectAnswerChoices.contains(choice.id) {
+                        return Answer(isCorrect: true, text: choice.text)
+                      }
+                      return choice
+                    }
+                    
+                    let question = Question(name: questionName, choices: modifiedAnswerChoices)
+                    handler.appendQuestion(question: question)
                     Task {
                       try await handler.sendData()
                     }
