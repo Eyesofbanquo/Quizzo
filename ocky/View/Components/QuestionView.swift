@@ -62,32 +62,17 @@ struct QuestionView: View {
           }
           Spacer()
           
-          HStack {
-            Text(handler.activeMatch?.matchID.prefix(4) ?? "ID #")
-            Spacer()
-          }
-          .padding(.top)
-          
           ScrollView {
             VStack {
               Spacer()
               
               VStack(alignment: .leading) {
-                if handler.activeMatch?.status != .matching {
-                  Text("\(handler.currentPlayer?.displayName ?? "")'s turn")
-                }
-                HStack {
-                  Text("Question \(questionNumber + 1)")
-                    .foregroundColor(Color.pink)
-                  if let currentPlayer = handler.user, questionViewState == .results && !handler.isUserTurn {
-                    Text(currentPlayer.correctQuestions.contains(question?.id ?? UUID()) ? "Correct" : "Incorrect" )
-                  }
-                  
-                  if questionViewState == .playing && submittedAnswer {
-                    Text(handler.isCorrect(currentQuestion: question!, usingAnswerChoices: selectedAnswerChoices) ? "Correct" : "Incorrect" )
-                  }
-                  Spacer()
-                }
+                QuestionViewHeader(
+                  matchID: String(handler.activeMatch?.matchID.prefix(4) ?? ""),
+                  matchStatus: handler.activeMatch?.status ?? .ended,
+                                   currentPlayerDisplayName: handler.currentPlayer?.displayName ?? "",
+                                   questionIndex: questionNumber,
+                                   questionViewState: questionViewState)
                 
                 if questionViewState == .editing {
                   TextField("", text: $questionName, prompt: Text("Enter a question"))
