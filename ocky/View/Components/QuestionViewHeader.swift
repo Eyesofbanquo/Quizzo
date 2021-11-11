@@ -9,6 +9,7 @@ import SwiftUI
 import GameKit
 
 struct QuestionViewHeader: View {
+
   var matchID: String
   var matchStatus: GKTurnBasedMatch.Status
   var currentPlayerDisplayName: String
@@ -18,6 +19,7 @@ struct QuestionViewHeader: View {
   var questionNumber: Int {
     questionIndex + 1
   }
+  
   
   var body: some View {
     VStack(alignment: .leading) {
@@ -43,11 +45,12 @@ struct QuestionViewHeader: View {
 
 struct QuestionViewHeader_Previews: PreviewProvider {
   static var previews: some View {
-    QuestionViewHeader(matchID: "123",
-                       matchStatus: .open,
-                       currentPlayerDisplayName: "Markim",
-                       questionIndex: 1,
-                       questionViewState: .playing)
+    QuestionViewHeader(
+      matchID: "123",
+      matchStatus: .open,
+      currentPlayerDisplayName: "Markim",
+      questionIndex: 1,
+      questionViewState: .playing)
       .previewLayout(.sizeThatFits)
   }
 }

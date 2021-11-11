@@ -17,6 +17,8 @@
 		3343D8F12739A70000EFC8CB /* MatchListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3343D8F02739A6FF00EFC8CB /* MatchListView.swift */; };
 		3343D8F3273A1FBF00EFC8CB /* EmilyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3343D8F2273A1FBF00EFC8CB /* EmilyView.swift */; };
 		335A0DBC273C92210068379D /* QuestionViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335A0DBB273C92210068379D /* QuestionViewHeader.swift */; };
+		335A0DBE273C984C0068379D /* QuestionViewEditingBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335A0DBD273C984C0068379D /* QuestionViewEditingBody.swift */; };
+		335A0DC0273C9A050068379D /* QuestionViewResultsBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335A0DBF273C9A050068379D /* QuestionViewResultsBody.swift */; };
 		336262FA2732562C00264C98 /* SignsUpApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336262F92732562C00264C98 /* SignsUpApp.swift */; };
 		336262FC2732562C00264C98 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336262FB2732562C00264C98 /* ContentView.swift */; };
 		336262FE2732562E00264C98 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 336262FD2732562E00264C98 /* Assets.xcassets */; };
@@ -52,6 +54,8 @@
 		3343D8F02739A6FF00EFC8CB /* MatchListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchListView.swift; sourceTree = "<group>"; };
 		3343D8F2273A1FBF00EFC8CB /* EmilyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmilyView.swift; sourceTree = "<group>"; };
 		335A0DBB273C92210068379D /* QuestionViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionViewHeader.swift; sourceTree = "<group>"; };
+		335A0DBD273C984C0068379D /* QuestionViewEditingBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionViewEditingBody.swift; sourceTree = "<group>"; };
+		335A0DBF273C9A050068379D /* QuestionViewResultsBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionViewResultsBody.swift; sourceTree = "<group>"; };
 		336262F62732562C00264C98 /* ocky.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ocky.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		336262F92732562C00264C98 /* SignsUpApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignsUpApp.swift; sourceTree = "<group>"; };
 		336262FB2732562C00264C98 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -104,10 +108,12 @@
 			isa = PBXGroup;
 			children = (
 				336263182733929F00264C98 /* QuizListView.swift */,
+				335A0DBF273C9A050068379D /* QuestionViewResultsBody.swift */,
 				33D421D62733A3030058C74F /* QuestionView.swift */,
 				3343D8F2273A1FBF00EFC8CB /* EmilyView.swift */,
 				3303AFD5273B5B5A00F0D116 /* CheckboxField.swift */,
 				335A0DBB273C92210068379D /* QuestionViewHeader.swift */,
+				335A0DBD273C984C0068379D /* QuestionViewEditingBody.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -303,6 +309,8 @@
 				3343D8E427388EED00EFC8CB /* MLGameAuthViewRepresentable.swift in Sources */,
 				3343D8ED2738A02B00EFC8CB /* MatchView.swift in Sources */,
 				33D421E12733B5820058C74F /* CloudManager.swift in Sources */,
+				335A0DBE273C984C0068379D /* QuestionViewEditingBody.swift in Sources */,
+				335A0DC0273C9A050068379D /* QuestionViewResultsBody.swift in Sources */,
 				3362630927325F8300264C98 /* InputModifier.swift in Sources */,
 				3362630B273263ED00264C98 /* SignupFormViewModel.swift in Sources */,
 				3343D8E627388F0C00EFC8CB /* GameViewRepresentable.swift in Sources */,

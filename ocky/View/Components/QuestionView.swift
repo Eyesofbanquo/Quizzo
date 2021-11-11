@@ -62,94 +62,39 @@ struct QuestionView: View {
           }
           Spacer()
           
+          VStack(alignment: .leading) {
+            QuestionViewHeader(
+              matchID: String(handler.activeMatch?.matchID.prefix(4) ?? ""),
+              matchStatus: handler.activeMatch?.status ?? .ended,
+              currentPlayerDisplayName: handler.currentPlayer?.displayName ?? "",
+              questionIndex: questionNumber,
+              questionViewState: questionViewState)
+            
+            if questionViewState == .editing {
+              TextField("", text: $questionName, prompt: Text("Enter a question"))
+                .disableAutocorrection(true)
+                .textFieldStyle(.roundedBorder)
+                .font(.largeTitle)
+                .foregroundColor(Color.pink)
+                .fixedSize(horizontal: false, vertical: true)
+                .scaledToFit()
+            } else {
+              Text(question?.name ?? "")
+                .font(.largeTitle)
+                .bold()
+                .foregroundColor(Color.pink)
+                .fixedSize(horizontal: false, vertical: true)
+                .scaledToFit()
+            }
+          }
+          .padding()
+          
           ScrollView {
             VStack {
               Spacer()
-              
-              VStack(alignment: .leading) {
-                QuestionViewHeader(
-                  matchID: String(handler.activeMatch?.matchID.prefix(4) ?? ""),
-                  matchStatus: handler.activeMatch?.status ?? .ended,
-                                   currentPlayerDisplayName: handler.currentPlayer?.displayName ?? "",
-                                   questionIndex: questionNumber,
-                                   questionViewState: questionViewState)
-                
-                if questionViewState == .editing {
-                  TextField("", text: $questionName, prompt: Text("Enter a question"))
-                    .disableAutocorrection(true)
-                    .textFieldStyle(.roundedBorder)
-                    .font(.largeTitle)
-                    .foregroundColor(Color.pink)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .scaledToFit()
-                } else {
-                  Text(question?.name ?? "")
-                    .font(.largeTitle)
-                    .bold()
-                    .foregroundColor(Color.pink)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .scaledToFit()
-                }
-              }
-              .padding()
-              
               VStack {
                 if questionViewState == .editing {
-                  ForEach(0..<answerChoices.count, id: \.self) { idx in
-                    HStack {
-                      CheckboxField(id: answerChoices[idx].id) { id, enabled in
-                        if enabled {
-                          selectedCorrectAnswerChoices.append(id)
-                        } else {
-                          selectedCorrectAnswerChoices = selectedCorrectAnswerChoices.filter { $0 != id}
-                        }
-                      }
-                      TextField(answerChoices[idx].text, text: Binding<String>(get: {
-                        answerChoices[idx].text
-                      }, set: { val in
-                        answerChoices[idx].text = val
-                      }), prompt: Text("Enter an answer choice")
-                                  .foregroundColor(Color.gray)
-                                  .font(.headline))
-                        .disableAutocorrection(true)
-                        .textFieldStyle(.roundedBorder)
-                        .padding()
-                    } 
-                  }
-                  Text("Press check mark to signal correct answer(s)")
-                    .fixedSize(horizontal: false, vertical: true)
-                  if answerChoices.count < 2 {
-                    Text("Add \(2 - answerChoices.count) more answer choice\(2 - answerChoices.count == 1 ? "" : "s")")
-                      .font(.subheadline)
-                      .foregroundColor(.red)
-                  }
-                  Button(action: {
-                    answerChoices.append(.empty)
-                  }) {
-                    Text("Add new answer choice")
-                      .foregroundColor(.white)
-                      .padding()
-                      .background(RoundedRectangle(cornerRadius: 16.0))
-                  }
-                  Button(action: {
-                    let modifiedAnswerChoices = answerChoices.map { choice -> Answer in
-                      if selectedCorrectAnswerChoices.contains(choice.id) {
-                        return Answer(isCorrect: true, text: choice.text)
-                      }
-                      return choice
-                    }
-                    
-                    let question = Question(name: questionName, choices: modifiedAnswerChoices)
-                    handler.appendQuestion(question: question)
-                    Task {
-                      try await handler.sendData()
-                    }
-                  } ) {
-                    Text("Submit question")
-                      .foregroundColor(.white)
-                      .padding()
-                      .background(RoundedRectangle(cornerRadius: 16.0))
-                  }
+                  QuestionViewEditingBody()
                 }
                 if questionViewState == .results {
                   ForEach(question?.choices ?? []) { choice in
