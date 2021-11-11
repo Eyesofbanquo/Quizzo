@@ -18,6 +18,8 @@ enum MLGameState {
   case listMatches(matches: [MLMatch])
   case showSelectedMatch(gameData: MLGameData, isCurrentPlayer: Bool)
   case playing
+  case result(question: Question, answers: [Answer])
+  case updateLives(gotQuestionRight: Bool)
 }
 
 

@@ -12,6 +12,8 @@
 		331F7281273C9EEC00003CE8 /* Text+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331F7280273C9EEC00003CE8 /* Text+.swift */; };
 		331F7283273C9F1000003CE8 /* QuestionViewAnswerButtonModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331F7282273C9F1000003CE8 /* QuestionViewAnswerButtonModifier.swift */; };
 		331F7285273C9F4900003CE8 /* QuestionNavigationBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331F7284273C9F4900003CE8 /* QuestionNavigationBarView.swift */; };
+		331F7287273CA58700003CE8 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331F7286273CA58700003CE8 /* Data.swift */; };
+		331F7289273CA6AF00003CE8 /* QuestionResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331F7288273CA6AF00003CE8 /* QuestionResultView.swift */; };
 		3343D8E427388EED00EFC8CB /* MLGameAuthViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3343D8E327388EED00EFC8CB /* MLGameAuthViewRepresentable.swift */; };
 		3343D8E627388F0C00EFC8CB /* GameViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3343D8E527388F0C00EFC8CB /* GameViewRepresentable.swift */; };
 		3343D8E827388F8000EFC8CB /* MLGameAuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3343D8E727388F8000EFC8CB /* MLGameAuthView.swift */; };
@@ -53,6 +55,8 @@
 		331F7280273C9EEC00003CE8 /* Text+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Text+.swift"; sourceTree = "<group>"; };
 		331F7282273C9F1000003CE8 /* QuestionViewAnswerButtonModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionViewAnswerButtonModifier.swift; sourceTree = "<group>"; };
 		331F7284273C9F4900003CE8 /* QuestionNavigationBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionNavigationBarView.swift; sourceTree = "<group>"; };
+		331F7286273CA58700003CE8 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
+		331F7288273CA6AF00003CE8 /* QuestionResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionResultView.swift; sourceTree = "<group>"; };
 		3343D8E327388EED00EFC8CB /* MLGameAuthViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLGameAuthViewRepresentable.swift; sourceTree = "<group>"; };
 		3343D8E527388F0C00EFC8CB /* GameViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewRepresentable.swift; sourceTree = "<group>"; };
 		3343D8E727388F8000EFC8CB /* MLGameAuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLGameAuthView.swift; sourceTree = "<group>"; };
@@ -124,8 +128,10 @@
 			isa = PBXGroup;
 			children = (
 				336263182733929F00264C98 /* QuizListView.swift */,
+				331F7286273CA58700003CE8 /* Data.swift */,
 				335A0DBF273C9A050068379D /* QuestionViewResultsBody.swift */,
 				331F727D273C9CA300003CE8 /* QuestionViewPlayingBody.swift */,
+				331F7288273CA6AF00003CE8 /* QuestionResultView.swift */,
 				33D421D62733A3030058C74F /* QuestionView.swift */,
 				331F7284273C9F4900003CE8 /* QuestionNavigationBarView.swift */,
 				3343D8F2273A1FBF00EFC8CB /* EmilyView.swift */,
@@ -336,6 +342,7 @@
 				331F7285273C9F4900003CE8 /* QuestionNavigationBarView.swift in Sources */,
 				3362630B273263ED00264C98 /* SignupFormViewModel.swift in Sources */,
 				3343D8E627388F0C00EFC8CB /* GameViewRepresentable.swift in Sources */,
+				331F7287273CA58700003CE8 /* Data.swift in Sources */,
 				331F7283273C9F1000003CE8 /* QuestionViewAnswerButtonModifier.swift in Sources */,
 				33D421F12737730D0058C74F /* GameViewController.swift in Sources */,
 				33D421E6273707B50058C74F /* MLGameAuthController.swift in Sources */,
@@ -343,6 +350,7 @@
 				336263172732EF8F00264C98 /* HomeView.swift in Sources */,
 				3343D8E827388F8000EFC8CB /* MLGameAuthView.swift in Sources */,
 				3343D8EA27388FBC00EFC8CB /* GameView.swift in Sources */,
+				331F7289273CA6AF00003CE8 /* QuestionResultView.swift in Sources */,
 				33D421D92733AF980058C74F /* Question.swift in Sources */,
 				33D421D72733A3030058C74F /* QuestionView.swift in Sources */,
 				3362630E273267CE00264C98 /* TextFieldType.swift in Sources */,

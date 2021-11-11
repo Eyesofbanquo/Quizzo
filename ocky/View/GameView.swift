@@ -54,6 +54,12 @@ struct GameView: View {
           }
         case .showSelectedMatch(let gameData, let currentParticipant):
           QuestionView(questionNumber: gameData.history.count, question: gameData.history.last, state: currentParticipant ? .playing : .results)
+        case .result(question: let question, answers: let answers):
+          QuestionResultView(question: question, selectedAnswers: answers)
+            .environmentObject(handler)
+        case .updateLives(gotQuestionRight: let condition):
+          ProgressView()
+            .progressViewStyle(CircularProgressViewStyle())
         case .loadMatches, .loadMatch, .findMatch:
           ProgressView()
             .progressViewStyle(CircularProgressViewStyle())
