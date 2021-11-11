@@ -53,7 +53,7 @@ struct QuizListView: View {
         .padding()
         .onTapGesture {
           Task {
-            try? await cloud.create(question: Question(name: "What is this?", choices: [Answer(isCorrect: true, text: "yes")]))
+//            try? await cloud.create(question: Question(name: "What is this?", choices: [Answer(isCorrect: true, text: "yes")]))
           }
         }
       }

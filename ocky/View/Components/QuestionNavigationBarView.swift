@@ -42,7 +42,7 @@ extension QuestionNavigationBarView {
           Task {
             try await handler.loadMatches()
           }
-        case .findMatch, .playing, .updateLives:
+        case .findMatch, .playing, .result:
           handler.setState(.idle)
         default: break
       }

@@ -62,9 +62,6 @@ struct GameView: View {
         case .result(question: let question, answers: let answers):
           QuestionResultView(question: question, selectedAnswers: answers)
             .environmentObject(handler)
-        case .updateLives(gotQuestionRight: let condition):
-          ProgressView()
-            .progressViewStyle(CircularProgressViewStyle())
         case .loadMatches, .loadMatch, .findMatch:
           ProgressView()
             .progressViewStyle(CircularProgressViewStyle())

@@ -104,8 +104,10 @@ class MLGame: NSObject, ObservableObject {
     do {
       let match = try await GKTurnBasedMatch.load(withID: matchID)
       self.setActiveMatch(match)
+      
       self.setState(.showSelectedMatch(gameData: gameData,
                                        isCurrentPlayer: match.currentParticipant?.player?.displayName == GKLocalPlayer.local.displayName))
+      
     } catch {
       print(error)
     }

@@ -43,25 +43,25 @@ class GameViewController: UIViewController {
     handler.gameStatePasshtrough
       .receive(on: DispatchQueue.main)
       .sink { newValue in
-      switch newValue {
-        case .findMatch:
-          self.handler.clearActiveMatch()
-          self.presentMatchmaker()
-//          Task {
-//            let match = try await GKTurnBasedMatch.find(for: self.matchRequest)
-//          }
-        case .loadMatches:
-          Task {
-            try await self.handler.loadMatches()
-          }
-        case .loadMatch(let matchID):
-          Task {
-            try await self.handler.loadMatch(matchID: matchID)
-          }
-        default: break
+        switch newValue {
+          case .findMatch:
+            self.handler.clearActiveMatch()
+            self.presentMatchmaker()
+            //          Task {
+            //            let match = try await GKTurnBasedMatch.find(for: self.matchRequest)
+            //          }
+          case .loadMatches:
+            Task {
+              try await self.handler.loadMatches()
+            }
+          case .loadMatch(let matchID):
+            Task {
+              try await self.handler.loadMatch(matchID: matchID)
+            }
+          default: break
+        }
       }
-    }
-    .store(in: &cancellables)
+      .store(in: &cancellables)
   }
   
   
@@ -100,19 +100,12 @@ extension GameViewController: GKLocalPlayerListener {
       self.dismiss(animated: true, completion: nil)
     }
     
-    print(match.currentParticipant?.player?.displayName ?? "", match.currentParticipant?.status)
-//    match.currentParticipant?.matchOutcome = .lost
-//    match.endMatchInTurn(withMatch: <#T##Data#>, completionHandler: <#T##((Error?) -> Void)?##((Error?) -> Void)?##(Error?) -> Void#>)
+    //    match.currentParticipant?.matchOutcome = .lost
+    //    match.endMatchInTurn(withMatch: <#T##Data#>, completionHandler: <#T##((Error?) -> Void)?##((Error?) -> Void)?##(Error?) -> Void#>)
     
     if let matchData = match.matchData,
        let gameData = MLGameData.decode(data: matchData),
-       gameData.players.count == 1 {
-      
-    }
-    
-    if let matchData = match.matchData,
-              let gameData = MLGameData.decode(data: matchData),
-              gameData.history.count == 1 {
+       gameData.history.count == 1 {
       let player = MLPlayer(displayName: GKLocalPlayer.local.displayName,
                             lives: 3,
                             correctQuestions: [])
@@ -130,12 +123,37 @@ extension GameViewController: GKLocalPlayerListener {
       let gameData = MLGameData(players: [player], history: [])
       self.handler.setActiveMatch(match, andGameData: gameData)
     }
-////    self.handler.activeMatch = match
-//    self.handler.setActiveMatch(match)
+    ////    self.handler.activeMatch = match
+    //    self.handler.setActiveMatch(match)
+    
+    let isAlreadyInForeground = didBecomeActive
+    
+    if handler.gameData.history.last != nil, !isAlreadyInForeground {
+      let playerName = handler.gameData.history.last?.player ?? "It's your turn"
+      let alert = createAlert(playerName: playerName, matchID: match.matchID)
+      self.present(alert, animated: true, completion: nil)
+      return
+    }
+    
+    if !isAlreadyInForeground && handler.isCurrentPlayer {
+      self.handler.setState(.playing)
+      return
+    }
+    
     self.handler.setState(.playing)
+    
     print("haha")
   }
-
+  
+  func createAlert(playerName: String, matchID: String) -> UIAlertController {
+    let controller = UIAlertController(title: "\(playerName) just played their turn", message: "Would you like to play yours?", preferredStyle: .alert)
+    controller.addAction(UIAlertAction(title: "Yes", style: .default, handler: { [self] _ in
+      handler.setState(.loadMatch(matchID: matchID))
+    }))
+    controller.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in }))
+    return controller
+  }
+  
   func player(_ player: GKPlayer, didRequestMatchWithRecipients recipientPlayers: [GKPlayer]) {
     print("is this called?")
   }
@@ -146,7 +164,8 @@ extension GameViewController: GKLocalPlayerListener {
   
   func player(_ player: GKPlayer, wantsToQuitMatch match: GKTurnBasedMatch) {
     match.currentParticipant?.matchOutcome = .quit
-    match.endMatchInTurn(withMatch: match.matchData ?? Data()) { _ in }
+    match.participantQuitInTurn(with: .quit, nextParticipants: match.participants.filter { $0.player?.displayName != GKLocalPlayer.local.displayName}, turnTimeout: GKTurnTimeoutDefault, match: match.matchData ?? Data(), completionHandler: nil)
+//    match.endMatchInTurn(withMatch: match.matchData ?? Data()) { _ in }
   }
   
   func player(_ player: GKPlayer, matchEnded match: GKTurnBasedMatch) {
@@ -155,7 +174,7 @@ extension GameViewController: GKLocalPlayerListener {
   
   func player(_ player: GKPlayer, didAccept invite: GKInvite) {
     
-  } 
+  }
 }
 
 

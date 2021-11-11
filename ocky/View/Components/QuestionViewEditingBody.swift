@@ -63,7 +63,7 @@ struct QuestionViewEditingBody: View {
           return choice
         }
         
-        let question = Question(name: questionName, choices: modifiedAnswerChoices)
+        let question = Question(name: questionName, choices: modifiedAnswerChoices, player: handler.user?.displayName ?? "")
         handler.appendQuestion(question: question)
         Task {
           if selectedCorrectAnswerChoices.isEmpty  {
