@@ -44,7 +44,7 @@ struct QuestionResultView: View {
           .foregroundColor(isCorrect ? .green : .pink)
         Text(resultText)
           .font(.largeTitle)
-        Button(action: {}) {
+        NavigationLink(destination: LivesView(correctQuestion: isCorrect)) {
           Text("Continue")
             .questionButton(isHighlighted: false)
         }

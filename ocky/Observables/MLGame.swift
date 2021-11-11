@@ -25,7 +25,8 @@ enum MLGameState {
 
 class MLGame: NSObject, ObservableObject {
   @Published var gameData: MLGameData
-  @Published var activeMatch: GKTurnBasedMatch?
+  
+  var activeMatch: GKTurnBasedMatch?
   @Published var gameState: MLGameState = .idle
   var previousGameState: MLGameState = .idle
   var gameStatePasshtrough = PassthroughSubject<MLGameState, Never>()

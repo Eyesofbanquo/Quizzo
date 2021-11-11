@@ -39,9 +39,10 @@ struct QuestionViewPlayingBody: View {
         if handler.isUserTurn {
           if let question = question {
             handler.grade(currentQuestion: question, usingAnswerChoices: answerChoices)
-            Task {
-              try await handler.sendData()
-            }
+            handler.setState(.result(question: question, answers: answerChoices))
+//            Task {
+//              try await handler.sendData()
+//            }
           }
         }
       }) {
