@@ -16,22 +16,12 @@ enum QuestionViewState {
 
 struct QuestionView: View {
   @EnvironmentObject var handler: MLGame
+  @State private var questionName: String = ""
+
   var questionNumber: Int
   var question: Question?
   var questionViewState: QuestionViewState = .playing
-  @State private var selectedAnswerChoices: [UUID] = []
-  @State private var selectedCorrectAnswerChoices: [UUID] = []
-  @State private var questionName: String = ""
-  @State private var numberOfAnswerChoices: Int = 0
-  @State private var answerChoices: [Answer] = []
-  @State private var submittedAnswer: Bool = false
-  
-  var userIsCurrentParticipant: Bool {
-    GKLocalPlayer.local.displayName == currentParticipant
-  }
-  var currentParticipant: String {
-    handler.activeMatch?.currentParticipant?.player?.displayName ?? ""
-  }
+
   
   init(questionNumber: Int,
        question: Question?,
@@ -45,23 +35,9 @@ struct QuestionView: View {
     GeometryReader { proxy in
       ZStack {
         VStack {
-          HStack {
-            CloseButton()
-            Spacer()
-            Button(action: {
-              Task {
-                try await handler.quitGame()
-              }
-            }) {
-              Text("Surrender")
-                .bold()
-            }
-            //            Counter()
-            Spacer()
-            AttemptsCounter()
-          }
+          QuestionNavigationBarView()
+            .environmentObject(handler)
           Spacer()
-          
           VStack(alignment: .leading) {
             QuestionViewHeader(
               matchID: String(handler.activeMatch?.matchID.prefix(4) ?? ""),
@@ -95,63 +71,13 @@ struct QuestionView: View {
               VStack {
                 if questionViewState == .editing {
                   QuestionViewEditingBody()
+                    .environmentObject(handler)
                 }
                 if questionViewState == .results {
-                  ForEach(question?.choices ?? []) { choice in
-                    Text(choice.text)
-                      .questionButton(isHighlighted: false)
-                  }
-                  HStack(spacing: 8.0) {
-                    ProgressView()
-                      .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                      .foregroundColor(.white)
-                    Text("Waiting on other player")
-                  }
-                  .foregroundColor(Color.white)
-                  .frame(maxWidth: .infinity)
-                  .padding()
-                  .background(RoundedRectangle(cornerRadius: 16.0)
-                                .fill(Color.green)
-                                .shadow(color: Color.black.opacity(0.3),
-                                        radius: 10.0, x: 0, y: 10))
-                  .padding()
-                  
-                } // editing
+                  QuestionViewResultsBody(choices: question?.choices ?? [])
+                }
                 if questionViewState == .playing {
-                  ForEach(question?.choices ?? []) { choice in
-                    Button(action: {
-                      withAnimation {
-                        if self.selectedAnswerChoices.contains(choice.id) == false {
-                          self.selectedAnswerChoices.append(choice.id)
-                          self.answerChoices.append(choice)
-                        } else {
-                          self.selectedAnswerChoices = self.selectedAnswerChoices.filter { $0 != choice.id}
-                          self.answerChoices = self.answerChoices.filter { $0.id != choice.id}
-                        }
-                      }
-                    }) {
-                      Text(choice.text)
-                        .questionButton(isHighlighted: selectedAnswerChoices.contains(choice.id))
-                        .animation(.easeInOut, value: selectedAnswerChoices)
-                    }
-                  }
-                  Button(action: {
-                    if self.userIsCurrentParticipant {
-                      if let question = question {
-                        handler.grade(currentQuestion: question, usingAnswerChoices: answerChoices)
-                        Task {
-                          try await handler.sendData()
-                        }
-                      }
-                    }
-                  }) {
-                    Text("Play turn")
-                      .foregroundColor(.white)
-                      .padding()
-                      .background(RoundedRectangle(cornerRadius: 16.0))
-                  }
-                  .animation(.easeInOut, value: submittedAnswer)
-                  .disabled(submittedAnswer)
+                  QuestionViewPlayingBody(question: question)
                 } // playing
               } //v-stack
               
@@ -187,10 +113,6 @@ struct QuizView_Previews: PreviewProvider {
 }
 
 extension QuestionView {
-  private func Background() -> some View {
-    Color.yellow.opacity(0.2)
-      .ignoresSafeArea()
-  }
   private func CloseButton() -> some View {
     Button(action: {
       switch handler.previousGameState {
@@ -233,36 +155,5 @@ extension QuestionView {
     .padding(4)
     .padding(.horizontal, 6)
     .overlay(Capsule().stroke(Color.black, lineWidth: 1.0))
-  }
-}
-
-struct QuestionViewAnswerButtonModifier: ViewModifier {
-  var isHighlighted: Bool
-  func body(content: Content) -> some View {
-    content
-      .foregroundColor(Color.white)
-      .frame(maxWidth: .infinity)
-      .padding()
-      .background(RoundedRectangle(cornerRadius: 16.0)
-                    .fill(isHighlighted ? Color.green : Color.pink)
-                    .shadow(color: Color.black.opacity(0.3),
-                            radius: 10.0, x: 0, y: 10))
-      .padding()
-  }
-}
-
-extension Text {
-  func questionButton(isHighlighted: Bool) -> some View {
-    self
-      .modifier(QuestionViewAnswerButtonModifier(isHighlighted: isHighlighted))
-  }
-  
-  func questionButtonWithLoading(isHighlighted: Bool) -> some View {
-    HStack {
-      ProgressView()
-        .progressViewStyle(CircularProgressViewStyle())
-      self
-        .modifier(QuestionViewAnswerButtonModifier(isHighlighted: isHighlighted))
-    }
   }
 }

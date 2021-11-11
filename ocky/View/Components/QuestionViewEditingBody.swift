@@ -78,5 +78,6 @@ struct QuestionViewEditingBody: View {
 struct QuestionViewEditingBody_Previews: PreviewProvider {
   static var previews: some View {
     QuestionViewEditingBody()
+      .environmentObject(MLGame())
   }
 }
