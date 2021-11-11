@@ -12,6 +12,7 @@ import Combine
 
 enum MLGameState {
   case idle
+  case editing
   case findMatch
   case loadMatches
   case loadMatch(matchID: String)

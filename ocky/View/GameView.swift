@@ -52,6 +52,11 @@ struct GameView: View {
               QuestionView(questionNumber: handler.gameData.history.count, question: mostRecentQuestion, state: .playing)
             }
           }
+        case .editing:
+          if let gameData = handler.gameData.history {
+            QuestionView(questionNumber: gameData.count, question: nil, state: .editing)
+          }
+//          QuestionView(questionNumber: , question: nil, state: .editing)
         case .showSelectedMatch(let gameData, let currentParticipant):
           QuestionView(questionNumber: gameData.history.count, question: gameData.history.last, state: currentParticipant ? .playing : .results)
         case .result(question: let question, answers: let answers):
