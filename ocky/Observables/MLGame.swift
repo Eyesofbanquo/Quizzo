@@ -25,8 +25,7 @@ enum MLGameState {
 
 
 class MLGame: NSObject, ObservableObject {
-  @Published var gameData: MLGameData
-  
+  var gameData: MLGameData
   var activeMatch: GKTurnBasedMatch?
   @Published var gameState: MLGameState = .idle
   var previousGameState: MLGameState = .idle
@@ -176,6 +175,11 @@ class MLGame: NSObject, ObservableObject {
       self.gameData = gameData
     }
     self.activeMatch = match
+  }
+  
+  func clearActiveMatch() {
+    self.activeMatch = nil
+    self.gameData = MLGameData()
   }
   
   @MainActor

@@ -45,6 +45,7 @@ class GameViewController: UIViewController {
       .sink { newValue in
       switch newValue {
         case .findMatch:
+          self.handler.clearActiveMatch()
           self.presentMatchmaker()
 //          Task {
 //            let match = try await GKTurnBasedMatch.find(for: self.matchRequest)
@@ -82,7 +83,6 @@ class GameViewController: UIViewController {
   private func presentMatchmaker() {
     guard GKLocalPlayer.local.isAuthenticated else { return }
     let request = GKMatchRequest()
-    request.recipients
     request.minPlayers = 2
     request.maxPlayers = 2
     request.inviteMessage = "Get in here ASAP"
@@ -101,6 +101,14 @@ extension GameViewController: GKLocalPlayerListener {
     }
     
     print(match.currentParticipant?.player?.displayName ?? "", match.currentParticipant?.status)
+//    match.currentParticipant?.matchOutcome = .lost
+//    match.endMatchInTurn(withMatch: <#T##Data#>, completionHandler: <#T##((Error?) -> Void)?##((Error?) -> Void)?##(Error?) -> Void#>)
+    
+    if let matchData = match.matchData,
+       let gameData = MLGameData.decode(data: matchData),
+       gameData.players.count == 1 {
+      
+    }
     
     if let matchData = match.matchData,
               let gameData = MLGameData.decode(data: matchData),

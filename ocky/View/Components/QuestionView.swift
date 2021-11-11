@@ -70,7 +70,7 @@ struct QuestionView: View {
               Spacer()
               VStack {
                 if questionViewState == .editing {
-                  QuestionViewEditingBody()
+                  QuestionViewEditingBody(questionName: $questionName)
                     .environmentObject(handler)
                 }
                 if questionViewState == .results {

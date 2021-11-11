@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct CheckboxField: View {
+  @Environment(\.colorScheme) var colorScheme
+
   let id: UUID
   let size: CGFloat
   let color: Color
@@ -35,16 +37,15 @@ struct CheckboxField: View {
       self.isMarked.toggle()
       self.callback(self.id, self.isMarked)
     }) {
-      HStack(alignment: .center, spacing: 10) {
         Image(systemName: self.isMarked ? "checkmark.square" : "square")
-          .renderingMode(.original)
           .resizable()
           .aspectRatio(contentMode: .fit)
           .frame(width: 20, height: 20)
-      }.foregroundColor(self.color)
+          .foregroundColor(colorScheme == .dark ?
+                           Color.white :
+                              .black)
     }
     .buttonStyle(PlainButtonStyle())
-    .foregroundColor(Color.white)
     .fixedSize()
   }
 }

@@ -10,8 +10,10 @@ import SwiftUI
 struct QuestionViewEditingBody: View {
   @EnvironmentObject var handler: MLGame
   @State private var selectedCorrectAnswerChoices: [UUID] = []
-  @State private var questionName: String = ""
+  @Binding var questionName: String
   @State private var answerChoices: [Answer] = []
+  @State private var hasEnoughAnswerChoices: Bool = true
+  @State private var hasEnoughQuestions: Bool = true
   
   var body: some View {
     VStack {
@@ -39,6 +41,7 @@ struct QuestionViewEditingBody: View {
       
       Text("Press check mark to signal correct answer(s)")
         .fixedSize(horizontal: false, vertical: true)
+        .opacity(hasEnoughAnswerChoices ? 0.0 : 1.0)
       if answerChoices.count < 2 {
         Text("Add \(2 - answerChoices.count) more answer choice\(2 - answerChoices.count == 1 ? "" : "s")")
           .font(.subheadline)
@@ -63,7 +66,22 @@ struct QuestionViewEditingBody: View {
         let question = Question(name: questionName, choices: modifiedAnswerChoices)
         handler.appendQuestion(question: question)
         Task {
-          try await handler.sendData()
+          if selectedCorrectAnswerChoices.isEmpty  {
+            withAnimation {
+              hasEnoughAnswerChoices = false
+            }
+          }
+          
+          if questionName.isEmpty {
+            withAnimation {
+              hasEnoughQuestions = false
+            }
+          }
+          
+          if !questionName.isEmpty && (selectedCorrectAnswerChoices.count > 0 && modifiedAnswerChoices.count > 1) {
+            try await handler.sendData()
+          }
+
         }
       } ) {
         Text("Submit question")
@@ -77,7 +95,7 @@ struct QuestionViewEditingBody: View {
 
 struct QuestionViewEditingBody_Previews: PreviewProvider {
   static var previews: some View {
-    QuestionViewEditingBody()
+    QuestionViewEditingBody(questionName: .constant("MarkiM"))
       .environmentObject(MLGame())
   }
 }
