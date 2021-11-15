@@ -32,7 +32,7 @@ struct LivesView: View {
             .scaleEffect(0.80 * CGFloat(currentLife) / CGFloat(LivesView.totalLives))
             .animation(.easeInOut(duration: 0.3), value: currentLife))
       Button(action: {
-        handler.setState(.editing)
+        handler.setState(.inQuestion(playState: .editing))
         presentationMode.wrappedValue.dismiss()
       }) {
         Text("Play your turn")

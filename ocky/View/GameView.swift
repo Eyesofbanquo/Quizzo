@@ -42,30 +42,31 @@ struct GameView: View {
           MatchListView(matches: mlMatches)
             .environmentObject(handler)
             .transition(.move(edge: .trailing))
-        case .playing:
-          Group {
-            if handler.gameData.history.isEmpty {
-              QuestionView(questionNumber: 0, question: nil, state: .editing)
-            }
-            
-            if let mostRecentQuestion = handler.gameData.history.last {
-              QuestionView(questionNumber: handler.gameData.history.count, question: mostRecentQuestion, state: .playing)
-            }
+        case .inQuestion(let playState):
+          
+          switch playState {
+            case .playing:
+              Group {
+                if handler.gameData.history.isEmpty {
+                  QuestionView(questionNumber: 0, question: nil, state: .editing)
+                }
+                
+                if let mostRecentQuestion = handler.gameData.history.last {
+                  QuestionView(questionNumber: handler.gameData.history.count, question: mostRecentQuestion, state: playState)
+                }
+              }
+            case .editing:
+              if let gameData = handler.gameData.history {
+                QuestionView(questionNumber: gameData.count, question: nil, state: playState)
+              }
+              
+            case .showQuestion(let gameData, let currentParticipant):
+              QuestionView(questionNumber: gameData.history.count, question: gameData.history.last, state: currentParticipant ? .playing : playState)
           }
-        case .editing:
-          if let gameData = handler.gameData.history {
-            QuestionView(questionNumber: gameData.count, question: nil, state: .editing)
-          }
-//          QuestionView(questionNumber: , question: nil, state: .editing)
-        case .showSelectedMatch(let gameData, let currentParticipant):
-          QuestionView(questionNumber: gameData.history.count, question: gameData.history.last, state: currentParticipant ? .playing : .results)
         case .result(question: let question, answers: let answers):
           QuestionResultView(question: question, selectedAnswers: answers)
             .environmentObject(handler)
         case .loadMatches, .loadMatch, .findMatch:
-          ProgressView()
-            .progressViewStyle(CircularProgressViewStyle())
-        @unknown default:
           ProgressView()
             .progressViewStyle(CircularProgressViewStyle())
       }
