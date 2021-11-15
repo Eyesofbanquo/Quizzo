@@ -11,7 +11,7 @@ import GameKit
 enum QuestionViewState {
   case editing
   case playing
-  case results
+  case showQuestion(gameData: MLGameData, isCurrentPlayer: Bool)
 }
 
 struct QuestionView: View {
@@ -46,7 +46,7 @@ struct QuestionView: View {
               questionIndex: questionNumber,
               questionViewState: questionViewState)
             
-            if questionViewState == .editing {
+            if case .editing = questionViewState {
               TextField("", text: $questionName, prompt: Text("Enter a question"))
                 .disableAutocorrection(true)
                 .textFieldStyle(.roundedBorder)
@@ -69,16 +69,15 @@ struct QuestionView: View {
             VStack {
               Spacer()
               VStack {
-                if questionViewState == .editing {
-                  QuestionViewEditingBody(questionName: $questionName)
-                    .environmentObject(handler)
+                switch questionViewState {
+                  case .editing:
+                    QuestionViewEditingBody(questionName: $questionName)
+                      .environmentObject(handler)
+                  case .showQuestion:
+                    QuestionViewResultsBody(choices: question?.choices ?? [])
+                  case .playing:
+                    QuestionViewPlayingBody(question: question)
                 }
-                if questionViewState == .results {
-                  QuestionViewResultsBody(choices: question?.choices ?? [])
-                }
-                if questionViewState == .playing {
-                  QuestionViewPlayingBody(question: question)
-                } // playing
               } //v-stack
               
               Spacer()
@@ -106,54 +105,8 @@ struct QuizView_Previews: PreviewProvider {
         .environmentObject(MLGame())
       QuestionView(questionNumber: 1,
                    question: .stub,
-                   state: .results)
+                   state: .showQuestion(gameData: MLGameData(), isCurrentPlayer: true))
         .environmentObject(MLGame())
     }
-  }
-}
-
-extension QuestionView {
-  private func CloseButton() -> some View {
-    Button(action: {
-      switch handler.previousGameState {
-        case .loadMatch:
-          Task {
-            try await handler.loadMatches()
-          }
-        case .findMatch, .playing:
-          handler.setState(.idle)
-        default: break
-      }
-    }) {
-      Image(systemName: "xmark.circle")
-        .resizable()
-        .frame(width: 32, height: 32)
-    }
-  }
-  
-  private func Counter() -> some View {
-    Text("05")
-      .font(.body)
-      .bold()
-      .padding()
-      .overlay(Circle()
-                .trim(from: 0.0, to: 1.0)
-                .stroke(Color.gray, lineWidth: 8.0)
-                .rotationEffect(.degrees(-90))
-                .opacity(0.2))
-      .overlay(Circle()
-                .trim(from: 0.0, to: 0.4)
-                .stroke(Color.black, lineWidth: 8.0)
-                .rotationEffect(.degrees(-90)))
-  }
-  
-  private func AttemptsCounter() -> some View {
-    HStack(spacing: 4) {
-      Image(systemName: "heart.fill")
-      Text("3")
-    }
-    .padding(4)
-    .padding(.horizontal, 6)
-    .overlay(Capsule().stroke(Color.black, lineWidth: 1.0))
   }
 }

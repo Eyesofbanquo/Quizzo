@@ -37,15 +37,7 @@ struct QuestionNavigationBarView_Previews: PreviewProvider {
 extension QuestionNavigationBarView {
   private func CloseButton() -> some View {
     Button(action: {
-      switch handler.previousGameState {
-        case .loadMatch:
-          Task {
-            try await handler.loadMatches()
-          }
-        case .findMatch, .playing, .result:
-          handler.setState(.idle)
-        default: break
-      }
+      handler.returnToPreviousState()
     }) {
       Image(systemName: "xmark.circle")
         .resizable()

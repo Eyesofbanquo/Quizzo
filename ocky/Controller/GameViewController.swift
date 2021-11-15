@@ -102,30 +102,31 @@ extension GameViewController: GKLocalPlayerListener {
     
     //    match.currentParticipant?.matchOutcome = .lost
     //    match.endMatchInTurn(withMatch: <#T##Data#>, completionHandler: <#T##((Error?) -> Void)?##((Error?) -> Void)?##(Error?) -> Void#>)
-    
-    if let matchData = match.matchData,
-       let gameData = MLGameData.decode(data: matchData),
-       gameData.history.count == 1 {
-      let player = MLPlayer(displayName: GKLocalPlayer.local.displayName,
-                            lives: 3,
-                            correctQuestions: [])
-      var newGameData = MLGameData()
-      newGameData.players.append(contentsOf: gameData.players)
-      newGameData.players.append(player)
-      newGameData.history.append(contentsOf: gameData.history)
-      self.handler.setActiveMatch(match, andGameData: newGameData)
-    } else if let matchData = match.matchData,
-              let gameData = MLGameData.decode(data: matchData),
-              gameData.history.count > 1 {
-      self.handler.setActiveMatch(match)
-    } else {
-      let player = MLPlayer(displayName: GKLocalPlayer.local.displayName, lives: 3, correctQuestions: [])
-      let gameData = MLGameData(players: [player], history: [])
-      self.handler.setActiveMatch(match, andGameData: gameData)
-    }
+//    
+//    if let matchData = match.matchData,
+//       let gameData = MLGameData.decode(data: matchData),
+//       gameData.history.count == 1 {
+//      let player = MLPlayer(displayName: GKLocalPlayer.local.displayName,
+//                            lives: 3,
+//                            correctQuestions: [])
+//      var newGameData = MLGameData()
+//      newGameData.players.append(contentsOf: gameData.players)
+//      newGameData.players.append(player)
+//      newGameData.history.append(contentsOf: gameData.history)
+//      self.handler.setActiveMatch(match, andGameData: newGameData)
+//    } else if let matchData = match.matchData,
+//              let gameData = MLGameData.decode(data: matchData),
+//              gameData.history.count > 1 {
+//      self.handler.setActiveMatch(match)
+//    } else {
+//      let player = MLPlayer(displayName: GKLocalPlayer.local.displayName, lives: 3, correctQuestions: [])
+//      let gameData = MLGameData(players: [player], history: [])
+//      self.handler.setActiveMatch(match, andGameData: gameData)
+//    }
     ////    self.handler.activeMatch = match
     //    self.handler.setActiveMatch(match)
     
+    self.handler.setActiveMatch(match)
     let isAlreadyInForeground = didBecomeActive
     
     if handler.gameData.history.last != nil, !isAlreadyInForeground {
@@ -135,12 +136,12 @@ extension GameViewController: GKLocalPlayerListener {
       return
     }
     
-    if !isAlreadyInForeground && handler.isCurrentPlayer {
-      self.handler.setState(.playing)
-      return
-    }
+//    if !isAlreadyInForeground && handler.isCurrentPlayer {
+//      self.handler.setState(.inQuestion(playState: .playing))
+//      return
+//    }
     
-    self.handler.setState(.playing)
+    self.handler.setState(.inQuestion(playState: .playing))
     
     print("haha")
   }

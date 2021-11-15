@@ -12,23 +12,49 @@ import Combine
 
 enum MLGameState {
   case idle
-  case editing
   case findMatch
   case loadMatches
   case loadMatch(matchID: String)
   case listMatches(matches: [MLMatch])
-  case showSelectedMatch(gameData: MLGameData, isCurrentPlayer: Bool)
-  case playing
+  case inQuestion(playState: QuestionViewState)
   case result(question: Question, answers: [Answer])
-  case updateLives(gotQuestionRight: Bool)
+}
+
+class MLGameStateStack {
+  var stack: [MLGameState]
+  
+  init() {
+    stack = []
+  }
+  
+  func push(_ state: MLGameState) {
+    if case .inQuestion = self.peek(),
+       case .inQuestion = state {
+      self.pop()
+    }
+    
+    switch state {
+      case .findMatch, .loadMatch, .loadMatches, .result:
+        return
+      default: stack.append(state)
+    }
+  }
+  
+  func pop() {
+    stack = stack.dropLast()
+  }
+  
+  func peek() -> MLGameState? {
+    stack.last
+  }
 }
 
 
 class MLGame: NSObject, ObservableObject {
   var gameData: MLGameData
+  lazy var stateStack: MLGameStateStack = MLGameStateStack()
   var activeMatch: GKTurnBasedMatch?
   @Published var gameState: MLGameState = .idle
-  var previousGameState: MLGameState = .idle
   var gameStatePasshtrough = PassthroughSubject<MLGameState, Never>()
   
   var currentPlayer: MLPlayer? {
@@ -102,11 +128,12 @@ class MLGame: NSObject, ObservableObject {
   @MainActor
   func loadMatch(matchID: String) async throws {
     do {
+      // has the chance overriding data if first game and resumed from loadmatches state
       let match = try await GKTurnBasedMatch.load(withID: matchID)
       self.setActiveMatch(match)
       
-      self.setState(.showSelectedMatch(gameData: gameData,
-                                       isCurrentPlayer: match.currentParticipant?.player?.displayName == GKLocalPlayer.local.displayName))
+      self.setState(.inQuestion(playState: .showQuestion(gameData: gameData,
+                                       isCurrentPlayer: match.currentParticipant?.player?.displayName == GKLocalPlayer.local.displayName)))
       
     } catch {
       print(error)
@@ -117,12 +144,13 @@ class MLGame: NSObject, ObservableObject {
   func sendData() async throws {
     do {
       guard let data = gameData.encode() else { return }
+      // check to make srue the person didnt quit with participant.matchoutcome
       try await activeMatch?.endTurn(withNextParticipants: activeMatch?.participants.filter { $0.player?.displayName != user?.displayName } ?? [],
                                      turnTimeout: GKTurnTimeoutDefault,
                                      match: data)
       self.setActiveMatch(activeMatch!)
       // Take the user to a waiting state
-      self.setState(.showSelectedMatch(gameData: gameData, isCurrentPlayer: false))
+      self.setState(.inQuestion(playState: .showQuestion(gameData: gameData, isCurrentPlayer: false)))
     } catch {
       print(error.localizedDescription)
       print("Send data failed")
@@ -153,7 +181,7 @@ class MLGame: NSObject, ObservableObject {
   @MainActor
   func setState(_ state: MLGameState) {
     withAnimation {
-      self.previousGameState = self.gameState
+      self.stateStack.push(state)
       self.gameState = state
       self.gameStatePasshtrough.send(state)
     }
@@ -168,14 +196,14 @@ class MLGame: NSObject, ObservableObject {
        let gameData = MLGameData.decode(data: matchData) {
       // Same as above. Match is in progress
       self.gameData = gameData
-    } else {
-      let player = MLPlayer(displayName: GKLocalPlayer.local.displayName,
-                            lives: 3,
-                            correctQuestions: [])
-      // Match just started
-      let gameData = MLGameData(players: [player], history: [])
-      self.gameData = gameData
     }
+    
+    if !self.gameData.players.contains(where: { $0.displayName == GKLocalPlayer.local.displayName }) {
+      self.gameData.players.append(MLPlayer(displayName: GKLocalPlayer.local.displayName,
+                                            lives: 3,
+                                            correctQuestions: []))
+    }
+    
     self.activeMatch = match
   }
   
@@ -186,7 +214,16 @@ class MLGame: NSObject, ObservableObject {
   
   @MainActor
   func returnToPreviousState() {
-    self.setState(self.previousGameState)
+//    self.setState(self.previousGameState)
+    withAnimation {
+      self.stateStack.pop()
+      if let state = self.stateStack.peek() {
+        self.gameState = state
+        self.gameStatePasshtrough.send(state)
+      }
+      
+    }
+    
   }
   
 }
