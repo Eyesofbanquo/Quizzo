@@ -10,46 +10,6 @@ import SwiftUI
 import GameKit
 import Combine
 
-enum MLGameState {
-  case idle
-  case findMatch
-  case loadMatches
-  case loadMatch(matchID: String)
-  case listMatches(matches: [MLMatch])
-  case inQuestion(playState: QuestionViewState)
-  case result(question: Question, answers: [Answer])
-}
-
-class MLGameStateStack {
-  var stack: [MLGameState]
-  
-  init() {
-    stack = []
-  }
-  
-  func push(_ state: MLGameState) {
-    if case .inQuestion = self.peek(),
-       case .inQuestion = state {
-      self.pop()
-    }
-    
-    switch state {
-      case .findMatch, .loadMatch, .loadMatches, .result:
-        return
-      default: stack.append(state)
-    }
-  }
-  
-  func pop() {
-    stack = stack.dropLast()
-  }
-  
-  func peek() -> MLGameState? {
-    stack.last
-  }
-}
-
-
 class MLGame: NSObject, ObservableObject {
   var gameData: MLGameData
   lazy var stateStack: MLGameStateStack = MLGameStateStack()
@@ -162,6 +122,7 @@ class MLGame: NSObject, ObservableObject {
     guard let data = gameData.encode() else { return }
     do {
       if activeMatch?.currentParticipant?.player?.displayName == GKLocalPlayer.local.displayName {
+        // filter out the user info
         try await activeMatch?.participantQuitInTurn(with: .quit,
                                                      nextParticipants: activeMatch?.participants ?? [],
                                                      turnTimeout: GKTurnTimeoutDefault, match: data)

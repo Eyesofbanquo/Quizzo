@@ -15,6 +15,8 @@
 		331F7287273CA58700003CE8 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331F7286273CA58700003CE8 /* Data.swift */; };
 		331F7289273CA6AF00003CE8 /* QuestionResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331F7288273CA6AF00003CE8 /* QuestionResultView.swift */; };
 		331F728B273CAA1200003CE8 /* LivesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331F728A273CAA1200003CE8 /* LivesView.swift */; };
+		331F728D27430B2C00003CE8 /* MLGameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331F728C27430B2C00003CE8 /* MLGameState.swift */; };
+		331F728F27430C8500003CE8 /* MLGameStateStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331F728E27430C8500003CE8 /* MLGameStateStack.swift */; };
 		3343D8E427388EED00EFC8CB /* MLGameAuthViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3343D8E327388EED00EFC8CB /* MLGameAuthViewRepresentable.swift */; };
 		3343D8E627388F0C00EFC8CB /* GameViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3343D8E527388F0C00EFC8CB /* GameViewRepresentable.swift */; };
 		3343D8E827388F8000EFC8CB /* MLGameAuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3343D8E727388F8000EFC8CB /* MLGameAuthView.swift */; };
@@ -59,6 +61,8 @@
 		331F7286273CA58700003CE8 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		331F7288273CA6AF00003CE8 /* QuestionResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionResultView.swift; sourceTree = "<group>"; };
 		331F728A273CAA1200003CE8 /* LivesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LivesView.swift; sourceTree = "<group>"; };
+		331F728C27430B2C00003CE8 /* MLGameState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLGameState.swift; sourceTree = "<group>"; };
+		331F728E27430C8500003CE8 /* MLGameStateStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLGameStateStack.swift; sourceTree = "<group>"; };
 		3343D8E327388EED00EFC8CB /* MLGameAuthViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLGameAuthViewRepresentable.swift; sourceTree = "<group>"; };
 		3343D8E527388F0C00EFC8CB /* GameViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewRepresentable.swift; sourceTree = "<group>"; };
 		3343D8E727388F8000EFC8CB /* MLGameAuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLGameAuthView.swift; sourceTree = "<group>"; };
@@ -178,6 +182,7 @@
 				336262FD2732562E00264C98 /* Assets.xcassets */,
 				336262FF2732562E00264C98 /* Preview Content */,
 				33D421E02733B5820058C74F /* CloudManager.swift */,
+				331F728E27430C8500003CE8 /* MLGameStateStack.swift */,
 			);
 			path = ocky;
 			sourceTree = "<group>";
@@ -205,6 +210,7 @@
 			children = (
 				33D421D82733AF980058C74F /* Question.swift */,
 				33D421DA2733AF9E0058C74F /* Answer.swift */,
+				331F728C27430B2C00003CE8 /* MLGameState.swift */,
 				33D421E927375BB30058C74F /* MLGameData.swift */,
 				3343D8EE2738A0EB00EFC8CB /* MLMatch.swift */,
 				33D421EB27375BD40058C74F /* MLPlayer.swift */,
@@ -325,6 +331,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				336262FC2732562C00264C98 /* ContentView.swift in Sources */,
+				331F728F27430C8500003CE8 /* MLGameStateStack.swift in Sources */,
 				3343D8F3273A1FBF00EFC8CB /* EmilyView.swift in Sources */,
 				33D421EA27375BB30058C74F /* MLGameData.swift in Sources */,
 				335A0DBC273C92210068379D /* QuestionViewHeader.swift in Sources */,
@@ -346,6 +353,7 @@
 				331F7285273C9F4900003CE8 /* QuestionNavigationBarView.swift in Sources */,
 				3362630B273263ED00264C98 /* SignupFormViewModel.swift in Sources */,
 				3343D8E627388F0C00EFC8CB /* GameViewRepresentable.swift in Sources */,
+				331F728D27430B2C00003CE8 /* MLGameState.swift in Sources */,
 				331F7287273CA58700003CE8 /* Data.swift in Sources */,
 				331F7283273C9F1000003CE8 /* QuestionViewAnswerButtonModifier.swift in Sources */,
 				33D421F12737730D0058C74F /* GameViewController.swift in Sources */,
