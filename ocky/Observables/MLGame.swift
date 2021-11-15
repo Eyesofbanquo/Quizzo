@@ -10,16 +10,6 @@ import SwiftUI
 import GameKit
 import Combine
 
-enum MLGameState {
-  case idle
-  case findMatch
-  case loadMatches
-  case loadMatch(matchID: String)
-  case listMatches(matches: [MLMatch])
-  case inQuestion(playState: QuestionViewState)
-  case result(question: Question, answers: [Answer])
-}
-
 class MLGameStateStack {
   var stack: [MLGameState]
   
@@ -42,6 +32,7 @@ class MLGameStateStack {
   
   func pop() {
     stack = stack.dropLast()
+    stack.count == 0 ? push(.idle) : ()
   }
   
   func peek() -> MLGameState? {
