@@ -15,12 +15,7 @@ import GameKit
 
 struct GameView: View {
   @EnvironmentObject var handler: MLGame
-  var userIsCurrentParticipant: Bool {
-    GKLocalPlayer.local.displayName == currentParticipant
-  }
-  var currentParticipant: String {
-    handler.activeMatch?.currentParticipant?.player?.displayName ?? ""
-  }
+
   var body: some View {
     Group {
       switch handler.gameState {

@@ -141,7 +141,12 @@ extension GameViewController: GKLocalPlayerListener {
   
   func player(_ player: GKPlayer, wantsToQuitMatch match: GKTurnBasedMatch) {
     match.currentParticipant?.matchOutcome = .quit
-    match.participantQuitInTurn(with: .quit, nextParticipants: match.participants.filter { $0.player?.displayName != GKLocalPlayer.local.displayName}, turnTimeout: GKTurnTimeoutDefault, match: match.matchData ?? Data(), completionHandler: nil)
+    let availableParticipants = handler.availableParticipants
+    match.participantQuitInTurn(with: .quit,
+                                nextParticipants: availableParticipants,
+                                turnTimeout: GKTurnTimeoutDefault,
+                                match: match.matchData ?? Data(),
+                                completionHandler: nil)
   }
   
   func player(_ player: GKPlayer, matchEnded match: GKTurnBasedMatch) {

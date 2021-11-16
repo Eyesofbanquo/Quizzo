@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MatchListView: View {
   @EnvironmentObject var handler: MLGame
-  let matches: [MLMatch]
+  let matches: [Matchable]
   
   var body: some View {
     ZStack {
@@ -63,12 +63,12 @@ extension MatchListView {
   
   private func MatchList() -> some View {
     LazyVStack {
-      ForEach(matches, id: \.matchID) { match in
-        MatchView(match: match)
+      ForEach(matches, id: \.id) { match in
+        MatchView(match: match, isPlayerInTurn: handler.isUserTurn)
           .zIndex(2.0)
           .onTapGesture {
             Task {
-              try await self.handler.loadMatch(matchID: match.matchID)
+              try await self.handler.loadMatch(matchID: match.id)
             }
           }
       }
