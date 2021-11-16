@@ -19,6 +19,7 @@
 		331F728F27430C8500003CE8 /* MLGameStateStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331F728E27430C8500003CE8 /* MLGameStateStack.swift */; };
 		331F729127430FC600003CE8 /* GKPlayerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331F729027430FC600003CE8 /* GKPlayerManager.swift */; };
 		331F7293274415A500003CE8 /* MLSimpleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331F7292274415A500003CE8 /* MLSimpleFactory.swift */; };
+		331F729527441F3800003CE8 /* QuestionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331F729427441F3800003CE8 /* QuestionService.swift */; };
 		3343D8E427388EED00EFC8CB /* MLGameAuthViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3343D8E327388EED00EFC8CB /* MLGameAuthViewRepresentable.swift */; };
 		3343D8E627388F0C00EFC8CB /* GameViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3343D8E527388F0C00EFC8CB /* GameViewRepresentable.swift */; };
 		3343D8E827388F8000EFC8CB /* MLGameAuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3343D8E727388F8000EFC8CB /* MLGameAuthView.swift */; };
@@ -67,6 +68,7 @@
 		331F728E27430C8500003CE8 /* MLGameStateStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLGameStateStack.swift; sourceTree = "<group>"; };
 		331F729027430FC600003CE8 /* GKPlayerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GKPlayerManager.swift; sourceTree = "<group>"; };
 		331F7292274415A500003CE8 /* MLSimpleFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLSimpleFactory.swift; sourceTree = "<group>"; };
+		331F729427441F3800003CE8 /* QuestionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionService.swift; sourceTree = "<group>"; };
 		3343D8E327388EED00EFC8CB /* MLGameAuthViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLGameAuthViewRepresentable.swift; sourceTree = "<group>"; };
 		3343D8E527388F0C00EFC8CB /* GameViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewRepresentable.swift; sourceTree = "<group>"; };
 		3343D8E727388F8000EFC8CB /* MLGameAuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLGameAuthView.swift; sourceTree = "<group>"; };
@@ -189,6 +191,7 @@
 				331F728E27430C8500003CE8 /* MLGameStateStack.swift */,
 				331F729027430FC600003CE8 /* GKPlayerManager.swift */,
 				331F7292274415A500003CE8 /* MLSimpleFactory.swift */,
+				331F729427441F3800003CE8 /* QuestionService.swift */,
 			);
 			path = ocky;
 			sourceTree = "<group>";
@@ -339,6 +342,7 @@
 				336262FC2732562C00264C98 /* ContentView.swift in Sources */,
 				331F728F27430C8500003CE8 /* MLGameStateStack.swift in Sources */,
 				3343D8F3273A1FBF00EFC8CB /* EmilyView.swift in Sources */,
+				331F729527441F3800003CE8 /* QuestionService.swift in Sources */,
 				33D421EA27375BB30058C74F /* MLGameData.swift in Sources */,
 				335A0DBC273C92210068379D /* QuestionViewHeader.swift in Sources */,
 				336263192733929F00264C98 /* QuizListView.swift in Sources */,

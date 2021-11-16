@@ -14,6 +14,7 @@ class GameViewController: UIViewController {
   // MARK: - Properties -
   
   var handler: MLGame = MLGame()
+  var questionService: QuestionService = QuestionService()
   var cancellables = Set<AnyCancellable>()
   
   // MARK: - Initializers -
@@ -68,7 +69,8 @@ class GameViewController: UIViewController {
   
   private func addGameTestView() {
     let hostingvc = UIHostingController(rootView: GameView()
-                                          .environmentObject(handler))
+                                          .environmentObject(handler)
+                                          .environmentObject(questionService))
     hostingvc.view.translatesAutoresizingMaskIntoConstraints = false
     addChild(hostingvc)
     view.addSubview(hostingvc.view)

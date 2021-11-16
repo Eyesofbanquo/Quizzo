@@ -12,6 +12,8 @@ struct QuestionViewPlayingBody: View {
   @State private var answerChoices: [Answer] = []
   @State private var submittedAnswer: Bool = false
   
+  @EnvironmentObject var questionService: QuestionService
+  
   var selectedAnswerIDs: [UUID] {
     answerChoices.map { $0.id }
   }
@@ -37,8 +39,8 @@ struct QuestionViewPlayingBody: View {
       }
       Button(action: {
         if handler.isUserTurn {
-          if let question = question {
-            handler.grade(currentQuestion: question, usingAnswerChoices: answerChoices)
+          if let question = question, var player = handler.user {
+            questionService.grade(currentQuestion: question, usingAnswerChoices: answerChoices, forPlayer: &player)
             handler.setState(.result(question: question, answers: answerChoices))
 //            Task {
 //              try await handler.sendData()
