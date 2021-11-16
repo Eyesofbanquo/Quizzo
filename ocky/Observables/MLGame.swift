@@ -11,31 +11,31 @@ import GameKit
 import Combine
 
 class MLGame: NSObject, ObservableObject {
-  var gameData: MLGameData
-  lazy var stateStack: MLGameStateStack = MLGameStateStack()
-  var activeMatch: GKTurnBasedMatch?
   @Published var gameState: MLGameState = .idle
+  
+  lazy private var playerManager = GKPlayerManager()
+  lazy private var stateStack: MLGameStateStack = MLGameStateStack()
+  
+  var gameData: MLGameData
+  var activeMatch: GKTurnBasedMatch?
   var gameStatePasshtrough = PassthroughSubject<MLGameState, Never>()
   
+  /// This represents the current player in turn. Returned as an `MLPlayer` object
   var currentPlayer: MLPlayer? {
-    guard gameData.players.count > 0 else { return nil }
-    if activeMatch?.currentParticipant?.player?.displayName == GKLocalPlayer.local.displayName {
-      return gameData.players.first( where: { $0.displayName == GKLocalPlayer.local.displayName} )
-    } else {
-      return gameData.players.first( where: { $0.displayName == activeMatch?.currentParticipant?.player?.displayName} )
-    }
+    guard let match = activeMatch else { return nil }
+    return playerManager.currentPlayerInTurn(forMatch: match, usingGameData: gameData)
   }
   
+  /// This represents the current user of the app playing the game
   var user: MLPlayer? {
-    return gameData.players.first( where: { $0.displayName == GKLocalPlayer.local.displayName} )
+    playerManager.currentMLPlayer(inGame: gameData)
   }
   
+  /// This returns `true` if the current user of the app is in turn. `false` otherwise
   var isUserTurn: Bool {
-    activeMatch?.currentParticipant?.player?.displayName == GKLocalPlayer.local.displayName
-  }
-  
-  var isCurrentPlayer: Bool {
-    return gameData.players.first( where: { $0.displayName == GKLocalPlayer.local.displayName} ) != nil
+    guard let match = activeMatch else { return false }
+    
+    return playerManager.isCurrentPlayerTurn(forMatch: match)
   }
   
   init(match: GKTurnBasedMatch? = nil) {
@@ -60,10 +60,12 @@ class MLGame: NSObject, ObservableObject {
     }
   }
   
+  /* Place in grader/question service */
   func appendQuestion(question: Question) {
     self.gameData.history.append(question)
   }
   
+  /* Place in grader/question service */
   func isCorrect(currentQuestion question: Question, usingAnswerChoices choices: [Answer]) -> Bool {
     let correctAnswers = Set(question.correctAnswers)
     let userAnswers = Set(choices)
@@ -71,6 +73,7 @@ class MLGame: NSObject, ObservableObject {
     return isCorrect
   }
   
+  /* Place in grader/question service */
   func isCorrect(currentQuestion question: Question, usingAnswerChoices choices: [UUID]) -> Bool {
     let correctAnswers = Set(question.correctAnswers.map { $0.id })
     let userAnswers = Set(choices)
@@ -78,6 +81,7 @@ class MLGame: NSObject, ObservableObject {
     return isCorrect
   }
   
+  /* Place in grader/question service */
   func grade(currentQuestion question: Question, usingAnswerChoices choices: [Answer]) {
     if isCorrect(currentQuestion: question, usingAnswerChoices: choices) {
       let player = gameData.players.first(where: { $0.displayName == GKLocalPlayer.local.displayName })
@@ -92,9 +96,9 @@ class MLGame: NSObject, ObservableObject {
       let match = try await GKTurnBasedMatch.load(withID: matchID)
       self.setActiveMatch(match)
       
+      let isCurrentPlayer = playerManager.isCurrentPlayerTurn(forMatch: match)
       self.setState(.inQuestion(playState: .showQuestion(gameData: gameData,
-                                       isCurrentPlayer: match.currentParticipant?.player?.displayName == GKLocalPlayer.local.displayName)))
-      
+                                                         isCurrentPlayer: isCurrentPlayer)))
     } catch {
       print(error)
     }
@@ -103,12 +107,16 @@ class MLGame: NSObject, ObservableObject {
   @MainActor
   func sendData() async throws {
     do {
-      guard let data = gameData.encode() else { return }
+      guard let data = gameData.encode(),
+      let match = activeMatch
+      else { return }
       // check to make srue the person didnt quit with participant.matchoutcome
-      try await activeMatch?.endTurn(withNextParticipants: activeMatch?.participants.filter { $0.player?.displayName != user?.displayName } ?? [],
-                                     turnTimeout: GKTurnTimeoutDefault,
-                                     match: data)
-      self.setActiveMatch(activeMatch!)
+      let otherParticipants = playerManager.participants(inMatch: match, excludingCurrentPlayer: true)
+      let availableParticipants = otherParticipants.all(excluding: [.quit, .timeExpired, .lost])
+      try await match.endTurn(withNextParticipants: availableParticipants,
+                              turnTimeout: GKTurnTimeoutDefault,
+                              match: data)
+      self.setActiveMatch(match)
       // Take the user to a waiting state
       self.setState(.inQuestion(playState: .showQuestion(gameData: gameData, isCurrentPlayer: false)))
     } catch {
@@ -119,21 +127,27 @@ class MLGame: NSObject, ObservableObject {
   
   @MainActor
   func quitGame() async throws {
-    guard let data = gameData.encode() else { return }
+    guard let data = gameData.encode(),
+    let match = activeMatch
+    else { return }
     do {
-      if activeMatch?.currentParticipant?.player?.displayName == GKLocalPlayer.local.displayName {
+      let isCurrentTurn = playerManager.isCurrentPlayerTurn(forMatch: match)
+      let otherParticipants = playerManager.participants(inMatch: match, excludingCurrentPlayer: true)
+      let availableParticipants = otherParticipants.all(excluding: [.quit, .timeExpired, .lost])
+      if isCurrentTurn {
         // filter out the user info
-        try await activeMatch?.participantQuitInTurn(with: .quit,
-                                                     nextParticipants: activeMatch?.participants ?? [],
-                                                     turnTimeout: GKTurnTimeoutDefault, match: data)
+        try await match.participantQuitInTurn(with: .quit,
+                                              nextParticipants: availableParticipants,
+                                              turnTimeout: GKTurnTimeoutDefault,
+                                              match: data)
       } else {
-        try await activeMatch?.participantQuitOutOfTurn(with: .quit)
+        try await match.participantQuitOutOfTurn(with: .quit)
       }
     } catch {
       print(error.localizedDescription)
       print("failed to quit")
-      activeMatch?.currentParticipant?.matchOutcome = .quit
-      activeMatch?.endMatchInTurn(withMatch: activeMatch?.matchData ?? Data()) { _ in }
+      match.currentParticipant?.matchOutcome = .quit
+      match.endMatchInTurn(withMatch: activeMatch?.matchData ?? Data()) { _ in }
     }
     
     self.setState(.idle)
@@ -148,34 +162,44 @@ class MLGame: NSObject, ObservableObject {
     }
   }
   
-  func setActiveMatch(_ match: GKTurnBasedMatch?, andGameData gameData: MLGameData? = nil) {
+  func setGameData(_ gameData: MLGameData? = nil, fromMatch match: GKTurnBasedMatch? = nil) {
+    
     if let gameData = gameData {
       // Just pass game data through cuz match is in progress
       self.gameData = gameData
     } else if let match = match,
-       let matchData = match.matchData,
-       let gameData = MLGameData.decode(data: matchData) {
+              let matchData = match.matchData,
+              let gameData = MLGameData.decode(data: matchData),
+              gameData.history.isEmpty == false {
       // Same as above. Match is in progress
       self.gameData = gameData
+    } else {
+      self.gameData = MLGameData()
     }
+  }
+  
+  func setActiveMatch(_ match: GKTurnBasedMatch?, andGameData gameData: MLGameData? = nil) {
+    setGameData(gameData, fromMatch: match)
     
-    if !self.gameData.players.contains(where: { $0.displayName == GKLocalPlayer.local.displayName }) {
-      self.gameData.players.append(MLPlayer(displayName: GKLocalPlayer.local.displayName,
-                                            lives: 3,
-                                            correctQuestions: []))
+    let playerExists = playerManager.playerExists(inGame: self.gameData)
+    if !playerExists && match != nil {
+      let newPlayer = MLPlayer(displayName: GKLocalPlayer.local.displayName,
+                               lives: 3,
+                               correctQuestions: [])
+      playerManager.addPlayer(newPlayer, toGame: &self.gameData)
     }
     
     self.activeMatch = match
   }
   
   func clearActiveMatch() {
-    self.activeMatch = nil
-    self.gameData = MLGameData()
+    setActiveMatch(nil, andGameData: nil)
+    setGameData()
   }
   
   @MainActor
   func returnToPreviousState() {
-//    self.setState(self.previousGameState)
+    //    self.setState(self.previousGameState)
     withAnimation {
       self.stateStack.pop()
       if let state = self.stateStack.peek() {

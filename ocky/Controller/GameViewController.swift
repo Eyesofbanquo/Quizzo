@@ -102,44 +102,20 @@ extension GameViewController: GKLocalPlayerListener {
     
     //    match.currentParticipant?.matchOutcome = .lost
     //    match.endMatchInTurn(withMatch: <#T##Data#>, completionHandler: <#T##((Error?) -> Void)?##((Error?) -> Void)?##(Error?) -> Void#>)
-//    
-//    if let matchData = match.matchData,
-//       let gameData = MLGameData.decode(data: matchData),
-//       gameData.history.count == 1 {
-//      let player = MLPlayer(displayName: GKLocalPlayer.local.displayName,
-//                            lives: 3,
-//                            correctQuestions: [])
-//      var newGameData = MLGameData()
-//      newGameData.players.append(contentsOf: gameData.players)
-//      newGameData.players.append(player)
-//      newGameData.history.append(contentsOf: gameData.history)
-//      self.handler.setActiveMatch(match, andGameData: newGameData)
-//    } else if let matchData = match.matchData,
-//              let gameData = MLGameData.decode(data: matchData),
-//              gameData.history.count > 1 {
-//      self.handler.setActiveMatch(match)
-//    } else {
-//      let player = MLPlayer(displayName: GKLocalPlayer.local.displayName, lives: 3, correctQuestions: [])
-//      let gameData = MLGameData(players: [player], history: [])
-//      self.handler.setActiveMatch(match, andGameData: gameData)
-//    }
+    
     ////    self.handler.activeMatch = match
     //    self.handler.setActiveMatch(match)
     
     self.handler.setActiveMatch(match)
-    let isAlreadyInForeground = didBecomeActive
     
-    if handler.gameData.history.last != nil, !isAlreadyInForeground {
+    let isAlreadyInForeground = didBecomeActive == false
+    let questionHasBeenPlayed = handler.gameData.history.last != nil
+    if questionHasBeenPlayed, isAlreadyInForeground {
       let playerName = handler.gameData.history.last?.player ?? "It's your turn"
       let alert = createAlert(playerName: playerName, matchID: match.matchID)
       self.present(alert, animated: true, completion: nil)
       return
     }
-    
-//    if !isAlreadyInForeground && handler.isCurrentPlayer {
-//      self.handler.setState(.inQuestion(playState: .playing))
-//      return
-//    }
     
     self.handler.setState(.inQuestion(playState: .playing))
     
@@ -166,7 +142,6 @@ extension GameViewController: GKLocalPlayerListener {
   func player(_ player: GKPlayer, wantsToQuitMatch match: GKTurnBasedMatch) {
     match.currentParticipant?.matchOutcome = .quit
     match.participantQuitInTurn(with: .quit, nextParticipants: match.participants.filter { $0.player?.displayName != GKLocalPlayer.local.displayName}, turnTimeout: GKTurnTimeoutDefault, match: match.matchData ?? Data(), completionHandler: nil)
-//    match.endMatchInTurn(withMatch: match.matchData ?? Data()) { _ in }
   }
   
   func player(_ player: GKPlayer, matchEnded match: GKTurnBasedMatch) {
