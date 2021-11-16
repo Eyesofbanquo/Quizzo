@@ -10,11 +10,13 @@ import SwiftUI
 struct QuestionResultView: View {
   @EnvironmentObject var handler: MLGame
   
+  @EnvironmentObject var questionService: QuestionService
+  
   var question: Question
   var selectedAnswers: [Answer]
   
   var isCorrect: Bool {
-    handler.isCorrect(currentQuestion: question, usingAnswerChoices: selectedAnswers)
+    questionService.isCorrect(currentQuestion: question, usingAnswerChoices: selectedAnswers)
   }
   
   var resultText: String {

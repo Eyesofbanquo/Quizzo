@@ -9,11 +9,12 @@ import SwiftUI
 
 struct QuestionViewEditingBody: View {
   @EnvironmentObject var handler: MLGame
+  @EnvironmentObject private var questionService: QuestionService
   @State private var selectedCorrectAnswerChoices: [UUID] = []
-  @Binding var questionName: String
   @State private var answerChoices: [Answer] = []
   @State private var hasEnoughAnswerChoices: Bool = true
   @State private var hasEnoughQuestions: Bool = true
+  @Binding var questionName: String
   
   var body: some View {
     VStack {
@@ -64,7 +65,7 @@ struct QuestionViewEditingBody: View {
         }
         
         let question = Question(name: questionName, choices: modifiedAnswerChoices, player: handler.user?.displayName ?? "")
-        handler.appendQuestion(question: question)
+        questionService.appendQuestion(question: question, inGame: &handler.gameData)
         Task {
           if selectedCorrectAnswerChoices.isEmpty  {
             withAnimation {
