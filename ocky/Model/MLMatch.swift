@@ -8,7 +8,7 @@
 import Foundation
 
 /// This type exists to represent a lightweight version of `GKTurnBasedMatch` data. This is mainly used inside of `MatchListView` and `MatchView`.
-struct MLMatch: Identifiable {
+struct MLMatch: Identifiable, Matchable {
   var id: String {
     matchID
   }

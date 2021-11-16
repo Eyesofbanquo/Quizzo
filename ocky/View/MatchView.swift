@@ -9,18 +9,20 @@ import SwiftUI
 import GameKit
 
 struct MatchView: View {
-  private var match: MLMatch
+  private var match: Matchable
   private var imageSize: CGSize = CGSize(width: 16.0, height: 16.0)
+  private var isPlayerInTurn: Bool
   
-  init(match: MLMatch) {
+  init(match: Matchable, isPlayerInTurn: Bool) {
     self.match = match
+    self.isPlayerInTurn = isPlayerInTurn
   }
   
   var matchViewText: String {
     if match.currentParticipant.isEmpty {
       return "Searching for match..."
     } else {
-      return GKLocalPlayer.local.displayName == match.currentParticipant ? "It's your turn now" : "It's \(match.currentParticipant)'s turn"
+      return isPlayerInTurn ? "It's your turn now" : "It's \(match.currentParticipant)'s turn"
     }
     
   }
@@ -41,7 +43,7 @@ struct MatchView: View {
           .padding(.top, 8.0)
           .foregroundColor(Color.white)
         
-        Text("ID #\(match.matchID)")
+        Text("ID #\(match.id)")
           .foregroundColor(Color.white)
           .opacity(0.95)
         
@@ -65,7 +67,7 @@ struct MatchView: View {
 
 struct MatchView_Previews: PreviewProvider {
   static var previews: some View {
-    MatchView(match: .stub)
+    MatchView(match: MLMatch.stub, isPlayerInTurn: true)
       .previewLayout(.sizeThatFits)
   }
 }

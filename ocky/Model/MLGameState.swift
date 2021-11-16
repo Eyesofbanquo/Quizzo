@@ -12,7 +12,7 @@ enum MLGameState {
   case findMatch
   case loadMatches
   case loadMatch(matchID: String)
-  case listMatches(matches: [MLMatch])
+  case listMatches(matches: [Matchable])
   case inQuestion(playState: QuestionViewState)
   case result(question: Question, answers: [Answer])
 }

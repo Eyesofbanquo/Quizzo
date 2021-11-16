@@ -15,6 +15,7 @@ class MLGame: NSObject, ObservableObject {
   
   lazy private var playerManager = GKPlayerManager()
   lazy private var stateStack: MLGameStateStack = MLGameStateStack()
+  lazy private var mlSimpleFactory = MLSimpleFactory()
   
   var gameData: MLGameData
   var activeMatch: GKTurnBasedMatch?
@@ -38,6 +39,13 @@ class MLGame: NSObject, ObservableObject {
     return playerManager.isCurrentPlayerTurn(forMatch: match)
   }
   
+  var availableParticipants: [GKTurnBasedParticipant] {
+    guard let match = activeMatch else { return [] }
+    let otherParticipants = playerManager.participants(inMatch: match, excludingCurrentPlayer: true)
+    
+    return otherParticipants.all(excluding: [.quit, .timeExpired, .lost])
+  }
+  
   init(match: GKTurnBasedMatch? = nil) {
     self.gameData = MLGameData()
     self.activeMatch = match
@@ -48,12 +56,7 @@ class MLGame: NSObject, ObservableObject {
   func loadMatches() async throws {
     do {
       let matches = try await GKTurnBasedMatch.loadMatches()
-      let mlMatches = matches.filter { ($0.status == .open || $0.status == .matching) && $0.currentParticipant?.matchOutcome != .quit}.map { match in
-        MLMatch(matchID: match.matchID,
-                participants: match.participants.compactMap { $0.player?.displayName},
-                currentParticipant: match.currentParticipant?.player?.displayName ?? "",
-                creationDate: match.creationDate)
-      }
+      let mlMatches = mlSimpleFactory.createMatches(fromTurnBasedMatches: matches, excludingStatus: [.open, .matching], excludingOutcomes: [.quit])
       self.setState(.listMatches(matches: mlMatches))
     } catch {
       print(error)
