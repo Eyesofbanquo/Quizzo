@@ -14,6 +14,7 @@ struct LivesView: View {
   
   @State private var currentLife: Int = 0
   @State private var displayContinueButton: Bool = false
+  @State private var displayLostButton: Bool = false
   
   static var totalLives: Int = 3
   
@@ -32,6 +33,15 @@ struct LivesView: View {
             .scaleEffect(0.80 * CGFloat(currentLife) / CGFloat(LivesView.totalLives))
             .animation(.easeInOut(duration: 0.3), value: currentLife))
       Button(action: {
+        handler.setState(.idle)
+        presentationMode.wrappedValue.dismiss()
+      }) {
+        Text("You lost")
+          .questionButton(isHighlighted: false)
+      }
+      .opacity(displayLostButton ? 1.0 : 0.0)
+      .animation(.easeIn(duration: 0.4).delay(0.4), value: displayLostButton)
+      Button(action: {
         handler.setState(.inQuestion(playState: .editing))
         presentationMode.wrappedValue.dismiss()
       }) {
@@ -44,6 +54,9 @@ struct LivesView: View {
     }
     .onAppear {
       currentLife = handler.user?.lives ?? 0
+      if currentLife < 3 {
+        currentLife += 1
+      }
       Task {
         await Task.sleep(1)
         withAnimation {
@@ -52,7 +65,11 @@ struct LivesView: View {
           }
         }
         withAnimation {
-          displayContinueButton = true
+          if currentLife == 0 {
+            displayLostButton = true
+          } else {
+            displayContinueButton = true
+          }
         }
       }
     }

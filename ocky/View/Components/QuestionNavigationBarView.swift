@@ -64,7 +64,7 @@ extension QuestionNavigationBarView {
   private func AttemptsCounter() -> some View {
     HStack(spacing: 4) {
       Image(systemName: "heart.fill")
-      Text("3")
+      Text("\(handler.user?.lives ?? 0)")
     }
     .padding(4)
     .padding(.horizontal, 6)
