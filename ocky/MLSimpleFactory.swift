@@ -24,13 +24,18 @@ class MLSimpleFactory: MLFactoryProtocol {
   func createMatches(fromTurnBasedMatches matches: [GKTurnBasedMatch],
                      excludingStatus statuses: [GKTurnBasedMatch.Status] = [],
                      excludingOutcomes outcomes: [GKTurnBasedMatch.Outcome] = []) -> [Matchable] {
-    return matches.filter { match in
-      if let currentParticipant = match.currentParticipant {
-        return !statuses.contains(match.status) && !outcomes.contains(currentParticipant.matchOutcome)
-      } else {
-        return !statuses.contains(match.status)
+    return matches
+      .filter { match in
+      return statuses.contains(match.status)
       }
-    }.map { match in
+      .filter { match in
+        if let matchOutcome = match.currentParticipant?.matchOutcome {
+          return outcomes.contains(matchOutcome) != true
+        } else {
+          return true
+        }
+      }
+      .map { match in
       MLMatch(matchID: match.matchID,
               participants: match.participants.compactMap { $0.player?.displayName},
               currentParticipant: match.currentParticipant?.player?.displayName ?? "",

@@ -108,6 +108,7 @@ class MLGame: NSObject, ObservableObject {
       let isCurrentTurn = playerManager.isCurrentPlayerTurn(forMatch: match)
       let otherParticipants = playerManager.participants(inMatch: match, excludingCurrentPlayer: true)
       let availableParticipants = otherParticipants.all(excluding: [.quit, .timeExpired, .lost])
+      guard availableParticipants.count > 0 else { return }
       if isCurrentTurn {
         // filter out the user info
         try await match.participantQuitInTurn(with: .quit,
