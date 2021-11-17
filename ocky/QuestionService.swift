@@ -37,6 +37,9 @@ class QuestionService: ObservableObject {
     if isCorrect(currentQuestion: question, usingAnswerChoices: choices) {
 //      let player = gameData.players.first(where: { $0.displayName == GKLocalPlayer.local.displayName })
       player.addCorrectQuestion(id: question.id)
+    } else {
+      guard player.lives > 0 else { return }
+      player.lives -= 1
     }
   }
   

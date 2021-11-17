@@ -29,6 +29,8 @@ class MLGameStateStack {
     switch state {
       case .findMatch, .loadMatch, .loadMatches, .result:
         return
+      case .idle:
+        stack = [.idle]
       default: stack.append(state)
     }
   }

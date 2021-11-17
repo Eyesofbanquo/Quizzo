@@ -129,6 +129,20 @@ class MLGame: NSObject, ObservableObject {
   }
   
   @MainActor
+  func endgame() async throws {
+    guard let match = activeMatch,
+          self.user?.lives == 0,
+          let data = self.gameData.encode() else { return }
+    
+    do {
+      match.currentParticipant?.matchOutcome = .lost
+      try await match.endMatchInTurn(withMatch: data)
+    } catch {
+      print(error.localizedDescription)
+    }
+  }
+  
+  @MainActor
   func setState(_ state: MLGameState) {
     withAnimation {
       self.stateStack.push(state)

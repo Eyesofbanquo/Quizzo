@@ -81,6 +81,7 @@ struct QuestionViewEditingBody: View {
           
           if !questionName.isEmpty && (selectedCorrectAnswerChoices.count > 0 && modifiedAnswerChoices.count > 1) {
             try await handler.sendData()
+            handler.setState(.inQuestion(playState: .showQuestion(gameData: handler.gameData, isCurrentPlayer: false)))
           }
 
         }
