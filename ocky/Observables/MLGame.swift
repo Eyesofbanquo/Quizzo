@@ -178,11 +178,15 @@ class MLGame: NSObject, ObservableObject {
   @MainActor
   func endgame() async throws {
     guard let match = activeMatch,
-          self.user?.lives == 0,
           let data = self.gameData.encode() else { return }
     
     do {
       match.currentParticipant?.matchOutcome = .lost
+      match.participants.forEach { p in
+        if p.player?.displayName != match.currentParticipant?.player?.displayName {
+          p.matchOutcome = .won
+        }
+      }
       try await match.endMatchInTurn(withMatch: data)
     } catch {
       print(error.localizedDescription)

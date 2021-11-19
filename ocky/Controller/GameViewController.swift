@@ -111,7 +111,8 @@ extension GameViewController: GKLocalPlayerListener {
     /* We can check the outcome here */
     
     // If the other player quit
-    if match.participants.contains(where: {$0.matchOutcome == .quit && $0.player?.displayName != GKLocalPlayer.local.displayName}) {
+    if match.participants.contains(where: {($0.matchOutcome == .quit || $0.matchOutcome == .lost)
+      && $0.player?.displayName != GKLocalPlayer.local.displayName}) {
       /* Alert that the player quit */
       /* Show the victory screen */
       /* remove match */

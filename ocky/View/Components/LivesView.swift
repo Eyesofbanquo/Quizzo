@@ -33,14 +33,19 @@ struct LivesView: View {
             .scaleEffect(0.80 * CGFloat(currentLife) / CGFloat(LivesView.totalLives))
             .animation(.easeInOut(duration: 0.3), value: currentLife))
       Button(action: {
-        handler.setState(.idle)
-        presentationMode.wrappedValue.dismiss()
+        Task {
+          try await handler.endgame()
+          handler.setState(.idle)
+          presentationMode.wrappedValue.dismiss()
+        }
       }) {
         Text("You lost")
           .questionButton(isHighlighted: false)
       }
       .opacity(displayLostButton ? 1.0 : 0.0)
       .animation(.easeIn(duration: 0.4).delay(0.4), value: displayLostButton)
+      
+      
       Button(action: {
         handler.setState(.inQuestion(playState: .editing))
         presentationMode.wrappedValue.dismiss()
@@ -54,9 +59,7 @@ struct LivesView: View {
     }
     .onAppear {
       currentLife = handler.user?.lives ?? 0
-      if currentLife < 3 {
-        currentLife += 1
-      }
+
       Task {
         await Task.sleep(1)
         withAnimation {
