@@ -39,8 +39,9 @@ struct QuestionViewPlayingBody: View {
       }
       Button(action: {
         if handler.isUserTurn {
-          if let question = question, var player = handler.user {
-            questionService.grade(currentQuestion: question, usingAnswerChoices: answerChoices, forPlayer: &player)
+          if let question = question, let player = handler.user {
+            /* Updated player info by sending it to the realm on grade */
+            questionService.grade(currentQuestion: question, usingAnswerChoices: answerChoices, forPlayer: player, andGame: handler.activeMatch)
             handler.setState(.result(question: question, answers: answerChoices))
 //            Task {
 //              try await handler.sendData()

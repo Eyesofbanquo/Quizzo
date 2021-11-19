@@ -6,9 +6,10 @@
 //
 
 import SwiftUI
+import RealmSwift
 
 @main
-struct SignsUpApp: App {
+struct SignsUpApp: SwiftUI.App {
   var body: some Scene {
     WindowGroup {
       SplashView()

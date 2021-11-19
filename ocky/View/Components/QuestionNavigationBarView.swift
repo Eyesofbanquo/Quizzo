@@ -37,6 +37,8 @@ struct QuestionNavigationBarView_Previews: PreviewProvider {
 extension QuestionNavigationBarView {
   private func CloseButton() -> some View {
     Button(action: {
+      // save the progress if you're in playing/editing state
+      // handler.saveProgressIfNeeded()
       handler.returnToPreviousState()
     }) {
       Image(systemName: "xmark.circle")
