@@ -7,11 +7,14 @@
 
 import Foundation
 import GameKit
+import RealmSwift
 
 /// An object that details `GKPlayer` objects.
 ///
 /// The responsibility of this object is to be able to give info on both players and participants
-class GKPlayerManager {
+class GKPlayerManager: ObservableObject {
+  
+  let realm = try! Realm()
   
   /// The display name of the user using this app to play the game
   var currentPlayerDisplayName: String {
@@ -95,6 +98,18 @@ class GKPlayerManager {
   
   func addPlayer(_ player: MLPlayer, toGame gameData: inout MLGameData) {
     gameData.players.append(player)
+  }
+  
+  func lives(inGameData gameData: MLGameData, forMatch match: GKTurnBasedMatch?) -> Int {
+    guard let match = match else { return 0 }
+    let noGameExistsInDatabase = realm.objects(PlayerRO.self).filter( { $0.matchID == match.matchID }).isEmpty
+    
+    if noGameExistsInDatabase {
+      return currentMLPlayer(inGame: gameData)?.lives ?? 0
+    } else {
+      let playerRO = realm.objects(PlayerRO.self).filter( { $0.matchID == match.matchID }).first
+      return playerRO?.updatedLives ?? 0
+    }
   }
 }
 
