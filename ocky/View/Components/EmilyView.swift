@@ -25,5 +25,6 @@ struct EmilyView: View {
 struct EmilyView_Previews: PreviewProvider {
   static var previews: some View {
     EmilyView()
+      .previewLayout(.sizeThatFits)
   }
 }

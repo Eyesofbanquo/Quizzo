@@ -9,6 +9,11 @@ import SwiftUI
 
 struct QuestionNavigationBarView: View {
   @EnvironmentObject var handler: MLGame
+  @StateObject private var playerManager = GKPlayerManager()
+  
+  var lives: Int {
+    playerManager.lives(inGameData: handler.gameData, forMatch: handler.activeMatch)
+  }
   
   var body: some View {
     HStack {
@@ -66,7 +71,7 @@ extension QuestionNavigationBarView {
   private func AttemptsCounter() -> some View {
     HStack(spacing: 4) {
       Image(systemName: "heart.fill")
-      Text("\(handler.user?.lives ?? 0)")
+      Text("\(lives)")
     }
     .padding(4)
     .padding(.horizontal, 6)
