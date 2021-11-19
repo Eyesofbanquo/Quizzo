@@ -6,10 +6,15 @@
 //
 
 import SwiftUI
+import GameKit
 
 struct MatchListView: View {
   @EnvironmentObject var handler: MLGame
   let matches: [Matchable]
+  
+  func isUserTurn(forMatch match: Matchable) -> Bool {
+    GKLocalPlayer.local.displayName == match.currentParticipant
+  }
   
   var body: some View {
     ZStack {
@@ -64,7 +69,7 @@ extension MatchListView {
   private func MatchList() -> some View {
     LazyVStack {
       ForEach(matches, id: \.id) { match in
-        MatchView(match: match, isPlayerInTurn: handler.isUserTurn)
+        MatchView(match: match, isPlayerInTurn: isUserTurn(forMatch: match))
           .zIndex(2.0)
           .onTapGesture {
             Task {

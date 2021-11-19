@@ -108,6 +108,18 @@ extension GameViewController: GKLocalPlayerListener {
     ////    self.handler.activeMatch = match
     //    self.handler.setActiveMatch(match)
     
+    /* We can check the outcome here */
+    
+    // If the other player quit
+    if match.participants.contains(where: {$0.matchOutcome == .quit && $0.player?.displayName != GKLocalPlayer.local.displayName}) {
+      /* Alert that the player quit */
+      /* Show the victory screen */
+      /* remove match */
+      match.remove(completionHandler: nil)
+      /* That's all that needs to be done */
+      return
+    }
+    
     self.handler.setActiveMatch(match)
     
     let isAlreadyInForeground = didBecomeActive == false
@@ -142,15 +154,31 @@ extension GameViewController: GKLocalPlayerListener {
   }
   
   func player(_ player: GKPlayer, wantsToQuitMatch match: GKTurnBasedMatch) {
-    match.currentParticipant?.matchOutcome = .quit
+    handler.setActiveMatch(match)
     let availableParticipants = handler.availableParticipants
-    match.participantQuitInTurn(with: .quit,
-                                nextParticipants: availableParticipants,
-                                turnTimeout: GKTurnTimeoutDefault,
-                                match: match.matchData ?? Data(),
-                                completionHandler: nil)
+    
+    if match.currentParticipant?.player?.displayName == GKLocalPlayer.local.displayName  {
+      if availableParticipants.isEmpty {
+        match.currentParticipant?.matchOutcome = .quit
+        match.endMatchInTurn(withMatch: match.matchData!, completionHandler: nil)
+//        match.participantQuitOutOfTurn(with: .quit, withCompletionHandler: nil)
+      } else {
+        match.currentParticipant?.matchOutcome = .quit
+        match.endMatchInTurn(withMatch: match.matchData!, completionHandler: nil)
+//        match.participantQuitInTurn(with: .quit,
+//                                    nextParticipants: availableParticipants,
+//                                    turnTimeout: GKTurnTimeoutDefault,
+//                                    match: match.matchData ?? Data(),
+//                                    completionHandler: nil)
+      }
+    } else {
+      match.participantQuitOutOfTurn(with: .quit, withCompletionHandler: nil)
+    }
+    
+    match.remove(completionHandler: nil)
+    handler.clearActiveMatch()
   }
-  
+    
   func player(_ player: GKPlayer, matchEnded match: GKTurnBasedMatch) {
     print("match ended")
   }

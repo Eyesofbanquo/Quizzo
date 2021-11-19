@@ -24,24 +24,25 @@ class MLGame: NSObject, ObservableObject {
   
   let realm: Realm = try! Realm()
   
-  /// This represents the current player in turn. Returned as an `MLPlayer` object
+  /// This represents the current player in turn. Returned as an `MLPlayer` object. **This can only be used if `activeMatch` is set**
   var currentPlayer: MLPlayer? {
     guard let match = activeMatch else { return nil }
     return playerManager.currentPlayerInTurn(forMatch: match, usingGameData: gameData)
   }
   
-  /// This represents the current user of the app playing the game
+  /// This represents the current user of the app playing the game. **This can only be used if `activeMatch` is set**
   var user: MLPlayer? {
     playerManager.currentMLPlayer(inGame: gameData)
   }
   
-  /// This returns `true` if the current user of the app is in turn. `false` otherwise
+  /// This returns `true` if the current user of the app is in turn. `false` otherwise. **This can only be used if `activeMatch` is set**
   var isUserTurn: Bool {
     guard let match = activeMatch else { return false }
     
     return playerManager.isCurrentPlayerTurn(forMatch: match)
   }
   
+  /// **This can only be used if `activeMatch` is set**
   var availableParticipants: [GKTurnBasedParticipant] {
     guard let match = activeMatch else { return [] }
     let otherParticipants = playerManager.participants(inMatch: match, excludingCurrentPlayer: true)
@@ -147,9 +148,16 @@ class MLGame: NSObject, ObservableObject {
       let isCurrentTurn = playerManager.isCurrentPlayerTurn(forMatch: match)
       let otherParticipants = playerManager.participants(inMatch: match, excludingCurrentPlayer: true)
       let availableParticipants = otherParticipants.all(excluding: [.quit, .timeExpired, .lost])
-      guard availableParticipants.count > 0 else { return }
+      guard availableParticipants.count > 0 else {
+        match.currentParticipant?.matchOutcome = .quit
+        try await match.endMatchInTurn(withMatch: data)
+        self.clearActiveMatch()
+        return
+      }
       if isCurrentTurn {
         // filter out the user info
+//        match.currentParticipant?.matchOutcome = .quit
+//        try await match.endMatchInTurn(withMatch: data)
         try await match.participantQuitInTurn(with: .quit,
                                               nextParticipants: availableParticipants,
                                               turnTimeout: GKTurnTimeoutDefault,
@@ -157,11 +165,11 @@ class MLGame: NSObject, ObservableObject {
       } else {
         try await match.participantQuitOutOfTurn(with: .quit)
       }
+      
+      try await match.remove()
     } catch {
       print(error.localizedDescription)
       print("failed to quit")
-      match.currentParticipant?.matchOutcome = .quit
-      match.endMatchInTurn(withMatch: activeMatch?.matchData ?? Data()) { _ in }
     }
     
     self.setState(.idle)
