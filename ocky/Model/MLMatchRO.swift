@@ -8,43 +8,18 @@
 import Foundation
 import RealmSwift
 
-class MLMatchRO: Object, ObjectKeyIdentifiable {
-  @Persisted(primaryKey: true) var matchID: String
-  @Persisted var resumable: Bool
-  @Persisted var cachedQuestion: QuestionRO?
+class PlayerRO: Object, ObjectKeyIdentifiable {
+  @Persisted(primaryKey: true) var id: ObjectId
+  @Persisted var matchID: String
+  @Persisted var correctQuestionID: String?
+  @Persisted var updatedLives: Int
   
-  init(matchID: String, resumable: Bool) {
-    super.init()
+  convenience init(matchID: String, correctQuestionID: String?, updatedLives: Int) {
+    self.init()
+    
     self.matchID = matchID
-    self.resumable = resumable
+    self.correctQuestionID = correctQuestionID
+    self.updatedLives = updatedLives
   }
 }
 
-class QuestionRO: Object, ObjectKeyIdentifiable {
-  @Persisted(primaryKey: true) var id: String
-  @Persisted var name: String
-  @Persisted var choices: RealmSwift.List<AnswerRO> = RealmSwift.List<AnswerRO>()
-  @Persisted var player: String
-  
-  init(fromQuestion question: Question) {
-    super.init()
-    self.id = question.id.uuidString
-    self.name = question.name
-    self.player = question.player
-    self.choices.append(objectsIn: question.choices.map { AnswerRO(fromAnswer: $0) })
-  }
-}
-
-class AnswerRO: Object, ObjectKeyIdentifiable {
-  @Persisted(primaryKey: true) var id: String
-  @Persisted var isCorrect: Bool
-  @Persisted var text: String
-  
-  init(fromAnswer answer: Answer) {
-    super.init()
-    self.id = answer.id.uuidString
-    self.isCorrect = answer.isCorrect
-    self.text = answer.text
-  }
-  
-}

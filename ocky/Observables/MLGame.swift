@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 import GameKit
 import Combine
+import RealmSwift
 
 class MLGame: NSObject, ObservableObject {
   @Published var gameState: MLGameState = .idle
@@ -20,6 +21,8 @@ class MLGame: NSObject, ObservableObject {
   var gameData: MLGameData
   var activeMatch: GKTurnBasedMatch?
   var gameStatePasshtrough = PassthroughSubject<MLGameState, Never>()
+  
+  let realm: Realm = try! Realm()
   
   /// This represents the current player in turn. Returned as an `MLPlayer` object
   var currentPlayer: MLPlayer? {
@@ -68,11 +71,22 @@ class MLGame: NSObject, ObservableObject {
     do {
       // has the chance overriding data if first game and resumed from loadmatches state
       let match = try await GKTurnBasedMatch.load(withID: matchID)
+      
       self.setActiveMatch(match)
       
-      let isCurrentPlayer = playerManager.isCurrentPlayerTurn(forMatch: match)
-      self.setState(.inQuestion(playState: .showQuestion(gameData: gameData,
-                                                         isCurrentPlayer: isCurrentPlayer)))
+      /* Actually load player, not match */
+      /* load match from realm */
+      let playerRO = realm.objects(PlayerRO.self).filter { $0.matchID == matchID }.first
+      
+      /* if it's found then that means the user should be in the editing stage */
+      if playerRO != nil {
+        self.setState(.inQuestion(playState: .editing))
+      } else {
+        let isCurrentPlayer = playerManager.isCurrentPlayerTurn(forMatch: match)
+        self.setState(.inQuestion(playState: .showQuestion(gameData: gameData,
+                                                           isCurrentPlayer: isCurrentPlayer)))
+      }
+      /* if match is resumable then send user to editing. if not, then send to show */
     } catch {
       print(error)
     }
@@ -80,10 +94,25 @@ class MLGame: NSObject, ObservableObject {
   
   @MainActor
   func sendData() async throws {
+    /* Pull player info from realm. update MLGameData as needed using `QuestionService`. THen send data */
     do {
-      guard let data = gameData.encode(),
-      let match = activeMatch
+      guard let match = activeMatch
       else { return }
+      
+      /* Find the cached player state and add it to game data before send */
+      let cachedPlayerState = realm.objects(PlayerRO.self).filter({ $0.matchID == match.matchID }).first
+      if let gameDataPlayer = self.gameData.players.filter({ $0.displayName == user?.displayName }).first,
+         cachedPlayerState != nil {
+          gameDataPlayer.lives = cachedPlayerState!.updatedLives
+          
+          if let uuidString = cachedPlayerState!.correctQuestionID,
+             let uuid = UUID(uuidString: uuidString) {
+            gameDataPlayer.addCorrectQuestion(id: uuid)
+          }
+      }
+      
+      guard let data = gameData.encode() else { return }
+      
       // check to make srue the person didnt quit with participant.matchoutcome
       let otherParticipants = playerManager.participants(inMatch: match, excludingCurrentPlayer: true)
       let availableParticipants = otherParticipants.all(excluding: [.quit, .timeExpired, .lost])
@@ -91,6 +120,16 @@ class MLGame: NSObject, ObservableObject {
                               turnTimeout: GKTurnTimeoutDefault,
                               match: data)
       self.setActiveMatch(match)
+      
+      /* Delete the cached question */
+      let cachedMatches = realm.objects(PlayerRO.self)
+      let cachedMatch = cachedMatches.filter { $0.matchID == match.matchID }
+      try realm.write {
+        if let deletableMatch = cachedMatch.first {
+          realm.delete(deletableMatch)
+        }
+      }
+      
       // Take the user to a waiting state
       self.setState(.inQuestion(playState: .showQuestion(gameData: gameData, isCurrentPlayer: false)))
     } catch {

@@ -6,8 +6,12 @@
 //
 
 import Foundation
+import RealmSwift
+import GameKit
 
 class QuestionService: ObservableObject {
+  
+  let realm = try! Realm()
   
   /* Place in grader/question service */
   func appendQuestion(question: Question, inGame gameData: inout MLGameData) {
@@ -33,13 +37,32 @@ class QuestionService: ObservableObject {
   /* Place in grader/question service */
   func grade(currentQuestion question: Question,
              usingAnswerChoices choices: [Answer],
-             forPlayer player: inout MLPlayer) {
+             forPlayer player: MLPlayer,
+             andGame game: GKTurnBasedMatch?) {
+    guard let matchID = game?.matchID else { return }
+    
+    let playerRO = realm.objects(PlayerRO.self).filter { $0.matchID == matchID }.first
+    if playerRO == nil {
+      try! realm.write {
+        let pRO = PlayerRO(matchID: matchID, correctQuestionID: nil, updatedLives: player.lives)
+        realm.add(pRO)
+      }
+    }
+      
+    let editablePlayerRO = realm.objects(PlayerRO.self).filter { $0.matchID == matchID }.first
+
+    /* Send player info to realm on grade */
     if isCorrect(currentQuestion: question, usingAnswerChoices: choices) {
-//      let player = gameData.players.first(where: { $0.displayName == GKLocalPlayer.local.displayName })
-      player.addCorrectQuestion(id: question.id)
+      try! realm.write {
+        editablePlayerRO?.matchID = question.id.uuidString
+      }
+//      player.addCorrectQuestion(id: question.id)
     } else {
       guard player.lives > 0 else { return }
-      player.lives -= 1
+      let lives = player.lives - 1
+      try! realm.write {
+        editablePlayerRO?.updatedLives = lives
+      }
     }
   }
   
