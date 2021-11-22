@@ -20,12 +20,29 @@ struct MatchListView: View {
     ZStack {
       VStack {
         Header()
-        ScrollView {
-          MatchList()
-            .zIndex(1.0)
+        if matches.isEmpty {
+          Spacer()
+        }
+        if matches.count > 0 {
+          ScrollView {
+            MatchList()
+              .zIndex(1.0)
+          }
+          Spacer()
+        } else {
+          VStack {
+            Image(systemName: "rectangle.and.pencil.and.ellipsis")
+              .resizable()
+              .aspectRatio(contentMode: .fit)
+              .scaleEffect(0.5)
+            Text("No games in progress...")
+              .font(.largeTitle)
+              .bold()
+            
+          }
+          Spacer()
         }
         
-        Spacer()
       }
       .zIndex(1.0)
       
