@@ -83,11 +83,18 @@ class MLGame: NSObject, ObservableObject {
       if playerRO != nil {
         self.setState(.inQuestion(playState: .editing))
       } else {
-        let isCurrentPlayer = playerManager.isCurrentPlayerTurn(forMatch: match)
-        self.setState(.inQuestion(playState: .showQuestion(gameData: gameData,
-                                                           isCurrentPlayer: isCurrentPlayer)))
+        /* Check to see if user has lives to play */
+        
+        if let user = self.user, user.lives > 0 {
+          let isCurrentPlayer = playerManager.isCurrentPlayerTurn(forMatch: match)
+          self.setState(.inQuestion(playState: .showQuestion(gameData: gameData,
+                                                             isCurrentPlayer: isCurrentPlayer)))
+        } else {
+          // TODO - Send user to appropriate win/loss screen
+        }
+        
+        
       }
-      /* if match is resumable then send user to editing. if not, then send to show */
     } catch {
       print(error)
     }

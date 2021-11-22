@@ -35,11 +35,12 @@ struct LivesView: View {
       Button(action: {
         Task {
           try await handler.endgame()
-          handler.setState(.idle)
+          /* Send user to win/loss screen. pass in lives */
+          handler.setState(.winLoss(won: false))
           presentationMode.wrappedValue.dismiss()
         }
       }) {
-        Text("You lost")
+        Text("Final results")
           .questionButton(isHighlighted: false)
       }
       .opacity(displayLostButton ? 1.0 : 0.0)

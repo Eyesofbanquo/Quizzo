@@ -31,6 +31,7 @@
 		3343D8F12739A70000EFC8CB /* MatchListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3343D8F02739A6FF00EFC8CB /* MatchListView.swift */; };
 		3343D8F3273A1FBF00EFC8CB /* EmilyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3343D8F2273A1FBF00EFC8CB /* EmilyView.swift */; };
 		3352D02127474F0600D31244 /* MLMatchRO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3352D02027474F0600D31244 /* MLMatchRO.swift */; };
+		3352D023274B315F00D31244 /* WinLossView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3352D022274B315F00D31244 /* WinLossView.swift */; };
 		335A0DBC273C92210068379D /* QuestionViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335A0DBB273C92210068379D /* QuestionViewHeader.swift */; };
 		335A0DBE273C984C0068379D /* QuestionViewEditingBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335A0DBD273C984C0068379D /* QuestionViewEditingBody.swift */; };
 		335A0DC0273C9A050068379D /* QuestionViewResultsBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335A0DBF273C9A050068379D /* QuestionViewResultsBody.swift */; };
@@ -81,6 +82,7 @@
 		3343D8F02739A6FF00EFC8CB /* MatchListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchListView.swift; sourceTree = "<group>"; };
 		3343D8F2273A1FBF00EFC8CB /* EmilyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmilyView.swift; sourceTree = "<group>"; };
 		3352D02027474F0600D31244 /* MLMatchRO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLMatchRO.swift; sourceTree = "<group>"; };
+		3352D022274B315F00D31244 /* WinLossView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinLossView.swift; sourceTree = "<group>"; };
 		335A0DBB273C92210068379D /* QuestionViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionViewHeader.swift; sourceTree = "<group>"; };
 		335A0DBD273C984C0068379D /* QuestionViewEditingBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionViewEditingBody.swift; sourceTree = "<group>"; };
 		335A0DBF273C9A050068379D /* QuestionViewResultsBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionViewResultsBody.swift; sourceTree = "<group>"; };
@@ -238,6 +240,7 @@
 			isa = PBXGroup;
 			children = (
 				336263132732EF5A00264C98 /* SplashView.swift */,
+				3352D022274B315F00D31244 /* WinLossView.swift */,
 				336262FB2732562C00264C98 /* ContentView.swift */,
 				3362630D273267CE00264C98 /* TextFieldType.swift */,
 				3343D8EB2738900900EFC8CB /* Components */,
@@ -371,6 +374,7 @@
 				331F727E273C9CA300003CE8 /* QuestionViewPlayingBody.swift in Sources */,
 				3343D8ED2738A02B00EFC8CB /* MatchView.swift in Sources */,
 				33D421E12733B5820058C74F /* CloudManager.swift in Sources */,
+				3352D023274B315F00D31244 /* WinLossView.swift in Sources */,
 				335A0DBE273C984C0068379D /* QuestionViewEditingBody.swift in Sources */,
 				335A0DC0273C9A050068379D /* QuestionViewResultsBody.swift in Sources */,
 				3362630927325F8300264C98 /* InputModifier.swift in Sources */,
