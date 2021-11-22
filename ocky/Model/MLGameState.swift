@@ -15,4 +15,5 @@ enum MLGameState {
   case listMatches(matches: [Matchable])
   case inQuestion(playState: QuestionViewState)
   case result(question: Question, answers: [Answer])
+  case winLoss(won: Bool)
 }

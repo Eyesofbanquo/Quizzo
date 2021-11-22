@@ -118,6 +118,8 @@ extension GameViewController: GKLocalPlayerListener {
       /* remove match */
       match.remove(completionHandler: nil)
       /* That's all that needs to be done */
+      
+      handler.setState(.winLoss(won: true))
       return
     }
     
