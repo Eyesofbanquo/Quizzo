@@ -11,19 +11,13 @@ import SwiftUI
 struct MLGameAuthView: View {
   @State private var receivedAction: MLGameAuthState = .none
   @Binding var authenticated: Bool
-  var actions: CurrentValueSubject<MLGameAuthState, Never>
+  @State var actions: CurrentValueSubject<MLGameAuthState, Never>
   
   var body: some View {
     Group {
       switch receivedAction {
         case .none:
-          VStack {
-            Button(action: {
-              actions.send(.isAuthenticating)
-            }) {
-              Text("Login to Game Center")
-            }
-          }
+          MainView(actions: $actions)
         case .isAuthenticating:
           ProgressView()
             .progressViewStyle(CircularProgressViewStyle())

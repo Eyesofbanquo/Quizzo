@@ -71,14 +71,14 @@ final class MLGameAuthController: UIViewController,
   private func authenticateUser() {
     GKLocalPlayer.local.authenticateHandler = { viewController, error in
       if GKLocalPlayer.local.isAuthenticated {
-        self.gameStatePassthrough.send(.isAuthenticated)
+        self.launchGame()
       } else if let vc = viewController {
         self.present(vc, animated: true)
       }
     }
   }
   
-  private func presentMatchmaker() {
+  private func launchGame() {
     self.gameStarted.wrappedValue = true
   }
 }
