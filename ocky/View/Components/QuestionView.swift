@@ -21,10 +21,10 @@ struct QuestionView: View {
   // MARK: - State: Local -
   @State private var questionName: String = ""
   @State private var displayQuizHistory: Bool = false
+  @State private var question: Question?
   
   // MARK: - Properties -
   var questionNumber: Int
-  var question: Question?
   var questionViewState: QuestionViewState = .playing
   
   // MARK: - Init -

@@ -57,7 +57,7 @@ struct QuestionViewEditingBody: View {
         .font(.subheadline)
         .foregroundColor(.red)
         .fixedSize(horizontal: false, vertical: true)
-        .opacity(hasEnoughAnswerChoices ? 0.0 : 1.0)
+        .opacity(noEmptyAnswerChoices ? 0.0 : 1.0)
       
       if answerChoices.count < 2 {
         Text("Add \(2 - answerChoices.count) more answer choice\(2 - answerChoices.count == 1 ? "" : "s")")

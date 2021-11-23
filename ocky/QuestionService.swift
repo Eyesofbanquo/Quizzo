@@ -15,6 +15,10 @@ class QuestionService: ObservableObject {
   
   /* Place in grader/question service */
   func appendQuestion(question: Question, inGame gameData: inout MLGameData) {
+    guard !gameData.history.contains(where: { $0.id == question.id || $0.name.lowercased() == question.name.lowercased() }) else {
+      /* Should probably throw an error */
+      return
+    }
     gameData.history.append(question)
   }
   
