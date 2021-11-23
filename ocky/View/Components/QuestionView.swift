@@ -12,6 +12,7 @@ enum QuestionViewState {
   case editing
   case playing
   case showQuestion(gameData: MLGameData, isCurrentPlayer: Bool)
+  case history
 }
 
 struct QuestionView: View {
@@ -84,6 +85,7 @@ struct QuestionView: View {
                     QuestionViewResultsBody(choices: question?.choices ?? [])
                   case .playing:
                     QuestionViewPlayingBody(question: question)
+                  default: EmptyView()
                 }
               } //v-stack
               

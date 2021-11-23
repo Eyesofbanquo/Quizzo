@@ -22,11 +22,7 @@ struct QuestionHistorySnippet: View {
   }
   
   private var iconColor: Color {
-    if GKLocalPlayer.local.displayName == player || isCurrentQuestion{
-      return .white
-    } else {
-      return isCorrect ? Color.green : Color.red
-    }
+    .white
   }
   
   // MARK: - Init -
@@ -47,7 +43,7 @@ struct QuestionHistorySnippet: View {
             .frame(width: imageSize.width,
                    height: imageSize.height)
             .overlay(Circle()
-                      .stroke(Color.white, lineWidth: 2.0)
+                      .stroke(iconColor, lineWidth: 2.0)
                       .frame(width: imageSize.width * 2.0, height: imageSize.height * 2.0))
             .offset(x: imageSize.width / 2.0)
             .padding(.bottom, 8.0)

@@ -90,6 +90,7 @@ struct GameView: View {
                 
               case .showQuestion(let gameData, let currentParticipant):
                 QuestionView(questionNumber: gameData.history.count, question: gameData.history.last, state: currentParticipant ? .playing : playState)
+              case .history: EmptyView()
             }
           case .result(question: let question, answers: let answers):
             QuestionResultView(question: question, selectedAnswers: answers)
