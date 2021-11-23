@@ -183,7 +183,17 @@ extension GameViewController: GKLocalPlayerListener {
   }
     
   func player(_ player: GKPlayer, matchEnded match: GKTurnBasedMatch) {
-    print("match ended")
+    if match.participants.contains(where: {($0.matchOutcome == .quit || $0.matchOutcome == .lost)
+      && $0.player?.displayName != GKLocalPlayer.local.displayName}) {
+      /* Alert that the player quit */
+      /* Show the victory screen */
+      /* remove match */
+      match.remove(completionHandler: nil)
+      /* That's all that needs to be done */
+      
+      handler.setState(.winLoss(won: true))
+      return
+    }
   }
   
   func player(_ player: GKPlayer, didAccept invite: GKInvite) {
