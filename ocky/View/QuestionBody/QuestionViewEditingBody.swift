@@ -68,61 +68,68 @@ struct QuestionViewEditingBody: View {
       }
       // MARK: - Error Messages: End -
       
-      Button(action: {
-        answerChoices.append(.empty)
-      }) {
-        Text("Add new answer choice")
-          .foregroundColor(.white)
-          .padding()
-          .background(RoundedRectangle(cornerRadius: 16.0))
-      }
-      Button(action: {
-        let modifiedAnswerChoices = answerChoices.map { choice -> Answer in
-          if selectedCorrectAnswerChoices.contains(choice.id) {
-            return Answer(isCorrect: true, text: choice.text)
-          }
-          return choice
+      VStack {
+        Button(action: {
+          answerChoices.append(.empty)
+        }) {
+          Text("Add new answer choice")
+            .foregroundColor(.white)
+            .frame(maxWidth: .infinity)
+            .padding()
+            .background(RoundedRectangle(cornerRadius: 16.0))
         }
-        
-        /* Return from this action if there are empty answer choices*/
-        if modifiedAnswerChoices.contains(where: { $0.text.isEmpty }) {
-          withAnimation {
-            noEmptyAnswerChoices = false
+        Button(action: {
+          let modifiedAnswerChoices = answerChoices.map { choice -> Answer in
+            if selectedCorrectAnswerChoices.contains(choice.id) {
+              return Answer(isCorrect: true, text: choice.text)
+            }
+            return choice
           }
-        } else {
-          withAnimation {
-            noEmptyAnswerChoices = true
-          }
-        }
-        
-        let question = Question(name: questionName, choices: modifiedAnswerChoices, player: handler.user?.displayName ?? "")
-        
-        questionService.appendQuestion(question: question, inGame: &handler.gameData)
-        Task {
-          if selectedCorrectAnswerChoices.isEmpty  {
+          
+          /* Return from this action if there are empty answer choices*/
+          if modifiedAnswerChoices.contains(where: { $0.text.isEmpty }) {
             withAnimation {
-              hasEnoughAnswerChoices = false
+              noEmptyAnswerChoices = false
+            }
+          } else {
+            withAnimation {
+              noEmptyAnswerChoices = true
             }
           }
           
-          if questionName.isEmpty {
-            withAnimation {
-              hasEnoughQuestions = false
-            }
-          }
+          let question = Question(name: questionName, choices: modifiedAnswerChoices, player: handler.user?.displayName ?? "")
           
-          if !questionName.isEmpty && (selectedCorrectAnswerChoices.count > 0 && modifiedAnswerChoices.count > 1) {
-            try await handler.sendData()
-            handler.setState(.inQuestion(playState: .showQuestion(gameData: handler.gameData, isCurrentPlayer: false)))
+          questionService.appendQuestion(question: question, inGame: &handler.gameData)
+          Task {
+            if selectedCorrectAnswerChoices.isEmpty  {
+              withAnimation {
+                hasEnoughAnswerChoices = false
+              }
+            }
+            
+            if questionName.isEmpty {
+              withAnimation {
+                hasEnoughQuestions = false
+              }
+            }
+            
+            if !questionName.isEmpty && (selectedCorrectAnswerChoices.count > 0 && modifiedAnswerChoices.count > 1) {
+              try await handler.sendData()
+              handler.setState(.inQuestion(playState: .showQuestion(gameData: handler.gameData, isCurrentPlayer: false)))
+            }
+            
           }
-
+        } ) {
+          Text("Submit question")
+            .foregroundColor(.white)
+            .frame(maxWidth: .infinity)
+            .padding()
+            .background(RoundedRectangle(cornerRadius: 16.0))
+            
         }
-      } ) {
-        Text("Submit question")
-          .foregroundColor(.white)
-          .padding()
-          .background(RoundedRectangle(cornerRadius: 16.0))
       }
+      .fixedSize(horizontal: true, vertical: false)
+      
     }
   }
 }
