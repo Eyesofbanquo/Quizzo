@@ -25,16 +25,20 @@ struct QuestionNavigationBarView: View {
     HStack {
       CloseButton()
       Spacer()
-      Spacer()
-      Button(action: {
-        /* Display history sheet */
-        displayQuizHistory.toggle()
-      }) {
-        Text("History")
-          .font(.title2)
-          .bold()
-          .foregroundColor(Color(uiColor: .label))
+      
+      if handler.gameData.history.count > 0 {
+        Spacer()
+        Button(action: {
+          /* Display history sheet */
+          displayQuizHistory.toggle()
+        }) {
+          Text("History")
+            .font(.title2)
+            .bold()
+            .foregroundColor(Color(uiColor: .label))
+        }
       }
+      
       Spacer()
       HStack(spacing: 8.0) {
         Button(action: {

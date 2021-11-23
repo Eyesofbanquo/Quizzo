@@ -13,35 +13,51 @@ struct QuestionHistorySnippet: View {
   var player: String
   var question: Question
   var isCorrect: Bool
+  var isCurrentQuestion: Bool
   
   private var imageSize: CGSize = CGSize(width: 16.0, height: 16.0)
   
   private var snippetColor: Color {
-    question.player == player ? .blue : .gray
+    question.player == GKLocalPlayer.local.displayName ? .blue : .gray
+  }
+  
+  private var iconColor: Color {
+    if GKLocalPlayer.local.displayName == player || isCurrentQuestion{
+      return .white
+    } else {
+      return isCorrect ? Color.green : Color.red
+    }
   }
   
   // MARK: - Init -
-  init(player: String, question: Question, isCorrect: Bool) {
+  init(player: String, question: Question, isCorrect: Bool, isCurrentQuestion: Bool) {
     self.question = question
     self.player = player
     self.isCorrect = isCorrect
+    self.isCurrentQuestion = isCurrentQuestion
   }
   
   var body: some View {
     HStack {
       VStack(alignment: .leading,
              spacing: 8.0) {
-        Image(systemName: "paperplane.fill")
-          .resizable()
-          .frame(width: imageSize.width,
-                 height: imageSize.height)
-          .overlay(Circle()
-                    .stroke(Color.white, lineWidth: 2.0)
-                    .frame(width: imageSize.width * 2.0, height: imageSize.height * 2.0))
-          .offset(x: imageSize.width / 2.0)
-          .padding(.bottom, 8.0)
-          .padding(.top, 8.0)
-          .foregroundColor(isCorrect ? Color.green : Color.red)
+        if !isCurrentQuestion {
+          Image(systemName: "paperplane.fill")
+            .resizable()
+            .frame(width: imageSize.width,
+                   height: imageSize.height)
+            .overlay(Circle()
+                      .stroke(Color.white, lineWidth: 2.0)
+                      .frame(width: imageSize.width * 2.0, height: imageSize.height * 2.0))
+            .offset(x: imageSize.width / 2.0)
+            .padding(.bottom, 8.0)
+            .padding(.top, 8.0)
+            .foregroundColor(iconColor)
+        } else {
+          ProgressView()
+            .progressViewStyle(CircularProgressViewStyle(tint: .white))
+        }
+        
         
         Text("\(question.player)'s Question")
           .foregroundColor(Color.white)
@@ -69,7 +85,8 @@ struct QuestionHistorySnippet_Previews: PreviewProvider {
   static var previews: some View {
     QuestionHistorySnippet(player: "MLShaw",
                            question: .stub,
-                           isCorrect: true)
+                           isCorrect: true,
+                           isCurrentQuestion: false)
       .previewLayout(.sizeThatFits)
   }
 }

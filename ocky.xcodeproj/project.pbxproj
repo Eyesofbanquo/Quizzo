@@ -257,8 +257,6 @@
 				3343D8EC2738A02A00EFC8CB /* MatchView.swift */,
 				3343D8F02739A6FF00EFC8CB /* MatchListView.swift */,
 				3352D024274B350600D31244 /* MainView.swift */,
-				339B9B14274D69BF0036671E /* QuestionHistoryView.swift */,
-				339B9B16274D7AFC0036671E /* QuestionHistoryListView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -276,6 +274,8 @@
 		339B9B18274D7B040036671E /* Question History */ = {
 			isa = PBXGroup;
 			children = (
+				339B9B14274D69BF0036671E /* QuestionHistoryView.swift */,
+				339B9B16274D7AFC0036671E /* QuestionHistoryListView.swift */,
 				339B9B19274D7B0F0036671E /* QuestionHistorySnippet.swift */,
 			);
 			path = "Question History";

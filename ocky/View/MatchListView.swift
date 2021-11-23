@@ -50,8 +50,11 @@ struct MatchListView: View {
         HStack {
           Spacer()
           Text("Your matches")
+            .font(.title2)
+            .bold()
+            .foregroundColor(Color(uiColor: .label))
             .padding()
-            .font(.headline)
+            
           Spacer()
         }
         Spacer()
@@ -76,6 +79,9 @@ extension MatchListView {
         handler.setState(.idle)
       }) {
         Image(systemName: "xmark.circle.fill")
+          .resizable()
+          .frame(width: 32, height: 32)
+          .foregroundColor(Color(uiColor: .label))
           .padding()
       }
       .buttonStyle(PlainButtonStyle())

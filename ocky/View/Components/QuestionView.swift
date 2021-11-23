@@ -32,7 +32,7 @@ struct QuestionView: View {
        question: Question?,
        state: QuestionViewState) {
     self.questionNumber = questionNumber
-    self.question = question
+    self._question = State.init(initialValue: question)
     self.questionViewState = state
   }
   
@@ -97,7 +97,8 @@ struct QuestionView: View {
       }
     }
     .sheet(isPresented: $displayQuizHistory) {
-      Text("Presented history")
+      QuestionHistoryListView()
+        .environmentObject(handler)
     }
   }
 }

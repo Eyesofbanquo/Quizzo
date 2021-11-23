@@ -170,6 +170,7 @@ class MLGame: NSObject, ObservableObject {
                                               turnTimeout: GKTurnTimeoutDefault,
                                               match: data)
       } else {
+        /* Needs to throw that you win screen */
         try await match.participantQuitOutOfTurn(with: .quit)
       }
       
