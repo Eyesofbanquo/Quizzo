@@ -21,10 +21,11 @@ struct QuestionHistoryView: View {
   // MARK: - Layout -
   var body: some View {
     if isCurrentQuestion {
-      VStack {
+      VStack(spacing: 16.0) {
         ProgressView()
           .progressViewStyle(CircularProgressViewStyle())
           .tint(.white)
+          .scaleEffect(1.5)
         Text("Question is currently being played...")
           .font(.title2)
           .bold()
