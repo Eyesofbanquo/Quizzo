@@ -34,7 +34,7 @@ struct QuestionViewHeader: View {
           .font(.headline)
       }
       HStack {
-        Text("Question \(questionNumber + 1)")
+        Text("Question \(questionNumber)")
           .font(.subheadline)
           .foregroundColor(Color.pink)
         Spacer()

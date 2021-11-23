@@ -149,18 +149,15 @@
 		3343D8EB2738900900EFC8CB /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				331F7288273CA6AF00003CE8 /* QuestionResultView.swift */,
 				336263182733929F00264C98 /* QuizListView.swift */,
 				331F7286273CA58700003CE8 /* Data.swift */,
-				335A0DBF273C9A050068379D /* QuestionViewResultsBody.swift */,
-				331F727D273C9CA300003CE8 /* QuestionViewPlayingBody.swift */,
-				331F7288273CA6AF00003CE8 /* QuestionResultView.swift */,
 				33D421D62733A3030058C74F /* QuestionView.swift */,
 				331F7284273C9F4900003CE8 /* QuestionNavigationBarView.swift */,
 				3343D8F2273A1FBF00EFC8CB /* EmilyView.swift */,
 				331F728A273CAA1200003CE8 /* LivesView.swift */,
 				3303AFD5273B5B5A00F0D116 /* CheckboxField.swift */,
 				335A0DBB273C92210068379D /* QuestionViewHeader.swift */,
-				335A0DBD273C984C0068379D /* QuestionViewEditingBody.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -241,6 +238,7 @@
 		3362630F273267D900264C98 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				339B9B13274D5B480036671E /* QuestionBody */,
 				336263132732EF5A00264C98 /* SplashView.swift */,
 				3352D022274B315F00D31244 /* WinLossView.swift */,
 				336262FB2732562C00264C98 /* ContentView.swift */,
@@ -254,6 +252,16 @@
 				3352D024274B350600D31244 /* MainView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		339B9B13274D5B480036671E /* QuestionBody */ = {
+			isa = PBXGroup;
+			children = (
+				335A0DBF273C9A050068379D /* QuestionViewResultsBody.swift */,
+				335A0DBD273C984C0068379D /* QuestionViewEditingBody.swift */,
+				331F727D273C9CA300003CE8 /* QuestionViewPlayingBody.swift */,
+			);
+			path = QuestionBody;
 			sourceTree = "<group>";
 		};
 		33D421DD2733B31D0058C74F /* Frameworks */ = {
@@ -532,6 +540,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ocky/SignsUp.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"ocky/Preview Content\"";
@@ -553,6 +562,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.donderapps.mlquizzo;
 				PRODUCT_NAME = ocky;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -565,6 +575,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ocky/SignsUp.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"ocky/Preview Content\"";
@@ -586,6 +597,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.donderapps.mlquizzo;
 				PRODUCT_NAME = ocky;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
