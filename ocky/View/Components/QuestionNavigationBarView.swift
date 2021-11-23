@@ -8,8 +8,14 @@
 import SwiftUI
 
 struct QuestionNavigationBarView: View {
+  // MARK: - State: Environment -
   @EnvironmentObject var handler: MLGame
+  
+  // MARK: - State: Local -
   @StateObject private var playerManager = GKPlayerManager()
+  
+  // MARK: - State: Injected -
+  @Binding var displayQuizHistory: Bool
   
   var lives: Int {
     playerManager.lives(inGameData: handler.gameData, forMatch: handler.activeMatch)
@@ -19,23 +25,38 @@ struct QuestionNavigationBarView: View {
     HStack {
       CloseButton()
       Spacer()
+      Spacer()
       Button(action: {
-        Task {
-          try await handler.quitGame()
-        }
+        /* Display history sheet */
+        displayQuizHistory.toggle()
       }) {
-        Text("Surrender")
+        Text("History")
+          .font(.title2)
           .bold()
+          .foregroundColor(Color(uiColor: .label))
       }
       Spacer()
-      AttemptsCounter()
+      HStack(spacing: 8.0) {
+        Button(action: {
+          Task {
+            try await handler.quitGame()
+          }
+        }) {
+          Image(systemName: "flag.fill")
+            .font(.title)
+            .foregroundColor(.red)
+        }
+        AttemptsCounter()
+      }
+      
     }
   }
 }
 
 struct QuestionNavigationBarView_Previews: PreviewProvider {
   static var previews: some View {
-    QuestionNavigationBarView()
+    QuestionNavigationBarView(displayQuizHistory: .constant(false))
+      .environmentObject(MLGame())
   }
 }
 
@@ -49,6 +70,7 @@ extension QuestionNavigationBarView {
       Image(systemName: "xmark.circle")
         .resizable()
         .frame(width: 32, height: 32)
+        .foregroundColor(Color(uiColor: .label))
     }
   }
   
@@ -75,6 +97,6 @@ extension QuestionNavigationBarView {
     }
     .padding(4)
     .padding(.horizontal, 6)
-    .overlay(Capsule().stroke(Color.black, lineWidth: 1.0))
+    .overlay(Capsule().stroke(Color(uiColor: .label), lineWidth: 1.0))
   }
 }

@@ -43,8 +43,6 @@ struct QuestionViewEditingBody: View {
                       .font(.headline))
             .disableAutocorrection(true)
             .textFieldStyle(.roundedBorder)
-            .padding()
-            .submitLabel(determineSubmitLabelType(idx: idx))
         }
       } // loop
       
@@ -91,6 +89,7 @@ struct QuestionViewEditingBody: View {
             withAnimation {
               noEmptyAnswerChoices = false
             }
+            return
           } else {
             withAnimation {
               noEmptyAnswerChoices = true
@@ -138,11 +137,5 @@ struct QuestionViewEditingBody_Previews: PreviewProvider {
   static var previews: some View {
     QuestionViewEditingBody(questionName: .constant("MarkiM"))
       .environmentObject(MLGame())
-  }
-}
-
-extension QuestionViewEditingBody {
-  private func determineSubmitLabelType(idx: Int) -> SubmitLabel {
-    idx == answerChoices.count ? .done : .next
   }
 }
