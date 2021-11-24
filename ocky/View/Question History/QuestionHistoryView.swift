@@ -24,7 +24,7 @@ struct QuestionHistoryView: View {
       VStack(spacing: 16.0) {
         ProgressView()
           .progressViewStyle(CircularProgressViewStyle())
-          .tint(.white)
+          .tint(.label)
           .scaleEffect(1.5)
         Text("Question is currently being played...")
           .font(.title2)
@@ -34,7 +34,6 @@ struct QuestionHistoryView: View {
       .padding()
     } else {
       ScrollView {
-//        QuestionViewHeader(matchID: String(matchID.prefix(4)), matchStatus: .open, currentPlayerDisplayName: question.player, questionIndex: questionIdx, questionViewState: .history)
         VStack(alignment: .leading) {
           HStack {
             Text("\(GKLocalPlayer.local.displayName)'s question")

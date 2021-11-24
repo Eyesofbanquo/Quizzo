@@ -20,7 +20,8 @@ struct MLGameAuthView: View {
           MainView(actions: $actions)
         case .isAuthenticating:
           ProgressView()
-            .progressViewStyle(CircularProgressViewStyle())
+            .progressViewStyle(CircularProgressViewStyle(tint: .init(uiColor: .label)))
+            .scaleEffect(2.0)
         case .isAuthenticated:
           Button(action: {
             authenticated = true
