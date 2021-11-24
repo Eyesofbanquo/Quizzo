@@ -24,7 +24,7 @@ struct QuestionHistoryView: View {
       VStack(spacing: 16.0) {
         ProgressView()
           .progressViewStyle(CircularProgressViewStyle())
-          .tint(.label)
+          .tint(.init(uiColor: .label))
           .scaleEffect(1.5)
         Text("Question is currently being played...")
           .font(.title2)
