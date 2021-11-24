@@ -59,7 +59,7 @@ struct MatchView: View {
     .frame(maxWidth: .infinity)
     .padding()
     .background(RoundedRectangle(cornerRadius: 16.0)
-                  .fill(Color.red))
+                  .fill(Theme.LightBlue))
     .padding()
   }
 }

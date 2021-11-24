@@ -18,93 +18,90 @@ struct GameView: View {
   @State private var presentSettingsView: Bool = false
 
   var body: some View {
-    VStack {
-      Group {
-        switch handler.gameState {
-          case .idle:
-            VStack {
-              Spacer()
-              Button(action: {
-                handler.setState(.findMatch)
-              }) {
-                Text("Find match")
-                  .font(.largeTitle)
-                  .bold()
-                  .foregroundColor(.white)
-                  .frame(maxWidth: .infinity, maxHeight: .infinity)
-                  .background(RoundedRectangle(cornerRadius: 16.0).fill(Color.pink))
-                  .padding()
+    ZStack {
+      Theme.BG.ignoresSafeArea()
+      VStack {
+        Group {
+          switch handler.gameState {
+            case .idle:
+              VStack {
+                Spacer()
+                Button(action: {
+                  handler.setState(.findMatch)
+                }) {
+                  Text("Find match")
+                    .font(.largeTitle)
+                    .bold()
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(RoundedRectangle(cornerRadius: 16.0).fill(Theme.DarkBlue))
+                    .padding()
+                }
+                Button(action: {
+                  handler.setState(.loadMatches)
+                }) {
+                  Text("Load matches")
+                    .font(.largeTitle)
+                    .bold()
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(RoundedRectangle(cornerRadius: 16.0).fill(Theme.DarkGreen))
+                    .padding()
+                }
+                Spacer()
               }
-              Button(action: {
-                handler.setState(.loadMatches)
-              }) {
-                Text("Load matches")
-                  .font(.largeTitle)
-                  .bold()
-                  .foregroundColor(.white)
-                  .frame(maxWidth: .infinity, maxHeight: .infinity)
-                  .background(RoundedRectangle(cornerRadius: 16.0).fill(Color.green))
-                  .padding()
+              .padding(.top, 62)
+              .onAppear {
+                GKAccessPoint.shared.location = .topLeading
+                GKAccessPoint.shared.isActive = true
               }
-              Spacer()
-            }
-            .padding(.top, 62)
-            .onAppear {
-              GKAccessPoint.shared.location = .topLeading
-              GKAccessPoint.shared.isActive = true
-            }
-            .onDisappear(perform: {
-              GKAccessPoint.shared.isActive = false
-            })
-          case .listMatches(let mlMatches):
-            MatchListView(matches: mlMatches)
-              .environmentObject(handler)
-          case .inQuestion(let playState):
-            
-            switch playState {
-              case .playing:
-                Group {
-                  if handler.gameData.history.isEmpty {
-                    QuestionView(questionNumber: 0, question: nil, state: .editing)
+              .onDisappear(perform: {
+                GKAccessPoint.shared.isActive = false
+              })
+            case .listMatches(let mlMatches):
+              MatchListView(matches: mlMatches)
+                .environmentObject(handler)
+            case .inQuestion(let playState):
+              
+              switch playState {
+                case .playing:
+                  Group {
+                    if handler.gameData.history.isEmpty {
+                      QuestionView(questionNumber: 0, question: nil, state: .editing)
+                    }
+                    
+                    if let mostRecentQuestion = handler.gameData.history.last {
+                      QuestionView(questionNumber: handler.gameData.history.count, question: mostRecentQuestion, state: playState)
+                    }
+                  }
+                case .editing:
+                  if let gameData = handler.gameData.history {
+                    QuestionView(questionNumber: gameData.count, question: nil, state: playState)
                   }
                   
-                  if let mostRecentQuestion = handler.gameData.history.last {
-                    QuestionView(questionNumber: handler.gameData.history.count, question: mostRecentQuestion, state: playState)
-                  }
-                }
-              case .editing:
-                if let gameData = handler.gameData.history {
-                  QuestionView(questionNumber: gameData.count, question: nil, state: playState)
-                }
-                
-              case .showQuestion(let gameData, let currentParticipant):
-                QuestionView(questionNumber: gameData.history.count, question: gameData.history.last, state: currentParticipant ? .playing : playState)
-              case .history: EmptyView()
-            }
-          case .result(question: let question, answers: let answers):
-            QuestionResultView(question: question, selectedAnswers: answers)
-              .environmentObject(handler)
-          case .winLoss(won: let won):
-            WinLossView(won: won)
-              .environmentObject(handler)
-          case .loadMatches, .loadMatch, .findMatch:
-            ProgressView()
-              .progressViewStyle(CircularProgressViewStyle(tint: .init(uiColor: .label)))
-              .scaleEffect(2.0)
+                case .showQuestion(let gameData, let currentParticipant):
+                  QuestionView(questionNumber: gameData.history.count, question: gameData.history.last, state: currentParticipant ? .playing : playState)
+                case .history: EmptyView()
+              }
+            case .result(question: let question, answers: let answers):
+              QuestionResultView(question: question, selectedAnswers: answers)
+                .environmentObject(handler)
+            case .winLoss(won: let won):
+              WinLossView(won: won)
+                .environmentObject(handler)
+            case .loadMatches, .loadMatch, .findMatch:
+              ProgressView()
+                .progressViewStyle(CircularProgressViewStyle(tint: .init(uiColor: .label)))
+                .scaleEffect(2.0)
+          }
+        }
+      }
+      .sheet(isPresented: $presentSettingsView) {
+        VStack {
+          Text("Hi")
         }
       }
     }
-    .sheet(isPresented: $presentSettingsView) {
-      VStack {
-        Text("Hi")
-      }
-    }
-
-  }
-  
-  
-  private func PlayingView() {
-    
   }
   
 }
