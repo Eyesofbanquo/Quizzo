@@ -13,6 +13,7 @@ struct QuestionNavigationBarView: View {
   
   // MARK: - State: Local -
   @StateObject private var playerManager = GKPlayerManager()
+  @State private var surrender: Bool = false
   
   // MARK: - State: Injected -
   @Binding var displayQuizHistory: Bool
@@ -42,14 +43,21 @@ struct QuestionNavigationBarView: View {
       Spacer()
       HStack(spacing: 8.0) {
         Button(action: {
-          Task {
-            try await handler.quitGame()
-          }
+          surrender.toggle()
         }) {
           Image(systemName: "flag.fill")
             .font(.title)
             .foregroundColor(.red)
         }
+        .alert("Do you want to surrender this game?", isPresented: $surrender) {
+          Button("Yes", role: .destructive) {
+            Task {
+              try await handler.quitGame()
+            }
+          }
+          Button("Cancel", role: .cancel) { }
+        }
+        
         AttemptsCounter()
       }
       

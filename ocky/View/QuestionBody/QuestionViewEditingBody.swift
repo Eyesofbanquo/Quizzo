@@ -18,6 +18,7 @@ struct QuestionViewEditingBody: View {
   @State private var hasEnoughAnswerChoices: Bool = true
   @State private var hasEnoughQuestions: Bool = true
   @State private var noEmptyAnswerChoices: Bool = true
+  @State private var deleteAnswerChoice: Bool = false
   
   // MARK: - State: Injected -
   @Binding var questionName: String
@@ -25,6 +26,7 @@ struct QuestionViewEditingBody: View {
   // MARK: - Layout -
   var body: some View {
     VStack {
+      
       ForEach(0..<answerChoices.count, id: \.self) { idx in
         HStack {
           CheckboxField(id: answerChoices[idx].id) { id, enabled in
@@ -42,22 +44,46 @@ struct QuestionViewEditingBody: View {
                       .foregroundColor(Color.gray)
                       .font(.headline))
             .disableAutocorrection(true)
+            .padding()
             .textFieldStyle(.roundedBorder)
+            
+          
+          Button(action: {
+            /* Handle action. Present alert */
+            deleteAnswerChoice.toggle()
+          }) {
+            Image(systemName: "xmark")
+              .resizable()
+              .aspectRatio(contentMode: .fit)
+              .frame(width: 16, height: 16)
+              .foregroundColor(.red)
+          }
+          .alert("Do you want to delete this answer choice?", isPresented: $deleteAnswerChoice) {
+            Button("Yes", role: .destructive) {
+              withAnimation {
+                answerChoices = answerChoices.filter { $0.id != answerChoices[idx].id }
+              }
+            }
+            Button("Cancel", role: .cancel) { }
+          }
         }
       } // loop
       
       // MARK: - Error Messages: Begin -
-      Text("Press check mark to signal correct answer(s)")
-        .font(.subheadline)
-        .foregroundColor(.red)
-        .fixedSize(horizontal: false, vertical: true)
-        .opacity(hasEnoughAnswerChoices ? 0.0 : 1.0)
+      if !hasEnoughAnswerChoices {
+        Text("Press check mark to signal correct answer(s)")
+          .font(.subheadline)
+          .foregroundColor(.red)
+          .fixedSize(horizontal: false, vertical: true)
+      }
       
-      Text("Make sure each answer choice is not blank")
-        .font(.subheadline)
-        .foregroundColor(.red)
-        .fixedSize(horizontal: false, vertical: true)
-        .opacity(noEmptyAnswerChoices ? 0.0 : 1.0)
+      if !noEmptyAnswerChoices {
+        Text("Make sure each answer choice is not blank")
+          .font(.subheadline)
+          .foregroundColor(.red)
+          .fixedSize(horizontal: false, vertical: true)
+      }
+      
       
       if answerChoices.count < 2 {
         Text("Add \(2 - answerChoices.count) more answer choice\(2 - answerChoices.count == 1 ? "" : "s")")
@@ -68,7 +94,9 @@ struct QuestionViewEditingBody: View {
       
       VStack {
         Button(action: {
-          answerChoices.append(.empty)
+          withAnimation {
+            answerChoices.append(.empty)
+          }
         }) {
           Text("Add new answer choice")
             .foregroundColor(.white)
@@ -128,6 +156,7 @@ struct QuestionViewEditingBody: View {
         }
       }
       .fixedSize(horizontal: true, vertical: false)
+      .padding(.top)
       
     }
   }

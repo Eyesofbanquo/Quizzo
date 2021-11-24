@@ -45,7 +45,7 @@ struct QuestionView: View {
           QuestionNavigationBarView(displayQuizHistory: $displayQuizHistory)
             .environmentObject(handler)
           Spacer()
-          ScrollView {
+          ScrollView(showsIndicators: false) {
             VStack(alignment: .leading) {
               QuestionViewHeader(
                 matchID: String(handler.activeMatch?.matchID.prefix(4) ?? ""),
