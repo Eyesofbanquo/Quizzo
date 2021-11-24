@@ -8,8 +8,15 @@
 import SwiftUI
 
 struct QuestionNavigationBarView: View {
+  // MARK: - State: Environment -
   @EnvironmentObject var handler: MLGame
+  
+  // MARK: - State: Local -
   @StateObject private var playerManager = GKPlayerManager()
+  @State private var surrender: Bool = false
+  
+  // MARK: - State: Injected -
+  @Binding var displayQuizHistory: Bool
   
   var lives: Int {
     playerManager.lives(inGameData: handler.gameData, forMatch: handler.activeMatch)
@@ -19,23 +26,49 @@ struct QuestionNavigationBarView: View {
     HStack {
       CloseButton()
       Spacer()
-      Button(action: {
-        Task {
-          try await handler.quitGame()
+      
+      if handler.gameData.history.count > 0 {
+        Spacer()
+        Button(action: {
+          /* Display history sheet */
+          displayQuizHistory.toggle()
+        }) {
+          Text("History")
+            .font(.title2)
+            .bold()
+            .foregroundColor(Color(uiColor: .label))
         }
-      }) {
-        Text("Surrender")
-          .bold()
       }
+      
       Spacer()
-      AttemptsCounter()
+      HStack(spacing: 8.0) {
+        Button(action: {
+          surrender.toggle()
+        }) {
+          Image(systemName: "flag.fill")
+            .font(.title)
+            .foregroundColor(.red)
+        }
+        .alert("Do you want to surrender this game?", isPresented: $surrender) {
+          Button("Yes", role: .destructive) {
+            Task {
+              try await handler.quitGame()
+            }
+          }
+          Button("Cancel", role: .cancel) { }
+        }
+        
+        AttemptsCounter()
+      }
+      
     }
   }
 }
 
 struct QuestionNavigationBarView_Previews: PreviewProvider {
   static var previews: some View {
-    QuestionNavigationBarView()
+    QuestionNavigationBarView(displayQuizHistory: .constant(false))
+      .environmentObject(MLGame())
   }
 }
 
@@ -49,6 +82,7 @@ extension QuestionNavigationBarView {
       Image(systemName: "xmark.circle")
         .resizable()
         .frame(width: 32, height: 32)
+        .foregroundColor(Color(uiColor: .label))
     }
   }
   
@@ -75,6 +109,6 @@ extension QuestionNavigationBarView {
     }
     .padding(4)
     .padding(.horizontal, 6)
-    .overlay(Capsule().stroke(Color.black, lineWidth: 1.0))
+    .overlay(Capsule().stroke(Color(uiColor: .label), lineWidth: 1.0))
   }
 }

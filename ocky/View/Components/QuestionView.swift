@@ -12,60 +12,68 @@ enum QuestionViewState {
   case editing
   case playing
   case showQuestion(gameData: MLGameData, isCurrentPlayer: Bool)
+  case history
 }
 
 struct QuestionView: View {
+  // MARK: - State: Environment -
   @EnvironmentObject var handler: MLGame
-  @State private var questionName: String = ""
-
-  var questionNumber: Int
-  var question: Question?
-  var questionViewState: QuestionViewState = .playing
-
   
+  // MARK: - State: Local -
+  @State private var questionName: String = ""
+  @State private var displayQuizHistory: Bool = false
+  @State private var question: Question?
+  
+  // MARK: - Properties -
+  var questionNumber: Int
+  var questionViewState: QuestionViewState = .playing
+  
+  // MARK: - Init -
   init(questionNumber: Int,
        question: Question?,
        state: QuestionViewState) {
     self.questionNumber = questionNumber
-    self.question = question
+    self._question = State.init(initialValue: question)
     self.questionViewState = state
   }
   
+  // MARK: - Layout -
   var body: some View {
     GeometryReader { proxy in
       ZStack {
         VStack {
-          QuestionNavigationBarView()
+          QuestionNavigationBarView(displayQuizHistory: $displayQuizHistory)
             .environmentObject(handler)
           Spacer()
-          VStack(alignment: .leading) {
-            QuestionViewHeader(
-              matchID: String(handler.activeMatch?.matchID.prefix(4) ?? ""),
-              matchStatus: handler.activeMatch?.status ?? .ended,
-              currentPlayerDisplayName: handler.currentPlayer?.displayName ?? "",
-              questionIndex: questionNumber,
-              questionViewState: questionViewState)
-            
-            if case .editing = questionViewState {
-              TextField("", text: $questionName, prompt: Text("Enter a question"))
-                .disableAutocorrection(true)
-                .textFieldStyle(.roundedBorder)
-                .font(.largeTitle)
-                .foregroundColor(Color.pink)
-                .fixedSize(horizontal: false, vertical: true)
-                .scaledToFit()
-            } else {
-              Text(question?.name ?? "")
-                .font(.largeTitle)
-                .bold()
-                .foregroundColor(Color.pink)
-                .fixedSize(horizontal: false, vertical: true)
-                .scaledToFit()
+          ScrollView(showsIndicators: false) {
+            VStack(alignment: .leading) {
+              QuestionViewHeader(
+                matchID: String(handler.activeMatch?.matchID.prefix(4) ?? ""),
+                matchStatus: handler.activeMatch?.status ?? .ended,
+                currentPlayerDisplayName: handler.currentPlayer?.displayName ?? "",
+                questionIndex: questionNumber,
+                questionViewState: questionViewState)
+              
+              if case .editing = questionViewState {
+                TextField("", text: $questionName, prompt: Text("Enter a question"))
+                  .disableAutocorrection(true)
+                  .textFieldStyle(.roundedBorder)
+                  .font(.largeTitle)
+                  .foregroundColor(Color.pink)
+                  .fixedSize(horizontal: false, vertical: true)
+                  .scaledToFit()
+              } else {
+                Text(question?.name ?? "")
+                  .font(.largeTitle)
+                  .bold()
+                  .foregroundColor(Color.pink)
+                  .fixedSize(horizontal: false, vertical: true)
+                  .scaledToFit()
+              }
             }
-          }
-          .padding()
-          
-          ScrollView {
+            .padding()
+            
+            
             VStack {
               Spacer()
               VStack {
@@ -77,6 +85,7 @@ struct QuestionView: View {
                     QuestionViewResultsBody(choices: question?.choices ?? [])
                   case .playing:
                     QuestionViewPlayingBody(question: question)
+                  default: EmptyView()
                 }
               } //v-stack
               
@@ -88,6 +97,10 @@ struct QuestionView: View {
         }
         .padding()
       }
+    }
+    .sheet(isPresented: $displayQuizHistory) {
+      QuestionHistoryListView()
+        .environmentObject(handler)
     }
   }
 }

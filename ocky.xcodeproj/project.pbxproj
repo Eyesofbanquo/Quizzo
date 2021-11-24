@@ -47,6 +47,9 @@
 		336263142732EF5A00264C98 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336263132732EF5A00264C98 /* SplashView.swift */; };
 		336263172732EF8F00264C98 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336263162732EF8F00264C98 /* HomeView.swift */; };
 		336263192733929F00264C98 /* QuizListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336263182733929F00264C98 /* QuizListView.swift */; };
+		339B9B15274D69BF0036671E /* QuestionHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339B9B14274D69BF0036671E /* QuestionHistoryView.swift */; };
+		339B9B17274D7AFC0036671E /* QuestionHistoryListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339B9B16274D7AFC0036671E /* QuestionHistoryListView.swift */; };
+		339B9B1A274D7B0F0036671E /* QuestionHistorySnippet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339B9B19274D7B0F0036671E /* QuestionHistorySnippet.swift */; };
 		33D421D72733A3030058C74F /* QuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D421D62733A3030058C74F /* QuestionView.swift */; };
 		33D421D92733AF980058C74F /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D421D82733AF980058C74F /* Question.swift */; };
 		33D421DB2733AF9E0058C74F /* Answer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D421DA2733AF9E0058C74F /* Answer.swift */; };
@@ -100,6 +103,9 @@
 		336263132732EF5A00264C98 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		336263162732EF8F00264C98 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		336263182733929F00264C98 /* QuizListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizListView.swift; sourceTree = "<group>"; };
+		339B9B14274D69BF0036671E /* QuestionHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionHistoryView.swift; sourceTree = "<group>"; };
+		339B9B16274D7AFC0036671E /* QuestionHistoryListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionHistoryListView.swift; sourceTree = "<group>"; };
+		339B9B19274D7B0F0036671E /* QuestionHistorySnippet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionHistorySnippet.swift; sourceTree = "<group>"; };
 		33D421D62733A3030058C74F /* QuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionView.swift; sourceTree = "<group>"; };
 		33D421D82733AF980058C74F /* Question.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
 		33D421DA2733AF9E0058C74F /* Answer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Answer.swift; sourceTree = "<group>"; };
@@ -238,6 +244,7 @@
 		3362630F273267D900264C98 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				339B9B18274D7B040036671E /* Question History */,
 				339B9B13274D5B480036671E /* QuestionBody */,
 				336263132732EF5A00264C98 /* SplashView.swift */,
 				3352D022274B315F00D31244 /* WinLossView.swift */,
@@ -262,6 +269,16 @@
 				331F727D273C9CA300003CE8 /* QuestionViewPlayingBody.swift */,
 			);
 			path = QuestionBody;
+			sourceTree = "<group>";
+		};
+		339B9B18274D7B040036671E /* Question History */ = {
+			isa = PBXGroup;
+			children = (
+				339B9B14274D69BF0036671E /* QuestionHistoryView.swift */,
+				339B9B16274D7AFC0036671E /* QuestionHistoryListView.swift */,
+				339B9B19274D7B0F0036671E /* QuestionHistorySnippet.swift */,
+			);
+			path = "Question History";
 			sourceTree = "<group>";
 		};
 		33D421DD2733B31D0058C74F /* Frameworks */ = {
@@ -371,6 +388,7 @@
 				331F728F27430C8500003CE8 /* MLGameStateStack.swift in Sources */,
 				3343D8F3273A1FBF00EFC8CB /* EmilyView.swift in Sources */,
 				331F729527441F3800003CE8 /* QuestionService.swift in Sources */,
+				339B9B1A274D7B0F0036671E /* QuestionHistorySnippet.swift in Sources */,
 				33D421EA27375BB30058C74F /* MLGameData.swift in Sources */,
 				335A0DBC273C92210068379D /* QuestionViewHeader.swift in Sources */,
 				336263192733929F00264C98 /* QuizListView.swift in Sources */,
@@ -391,7 +409,9 @@
 				3362630927325F8300264C98 /* InputModifier.swift in Sources */,
 				331F7285273C9F4900003CE8 /* QuestionNavigationBarView.swift in Sources */,
 				3362630B273263ED00264C98 /* SignupFormViewModel.swift in Sources */,
+				339B9B17274D7AFC0036671E /* QuestionHistoryListView.swift in Sources */,
 				331F7293274415A500003CE8 /* MLSimpleFactory.swift in Sources */,
+				339B9B15274D69BF0036671E /* QuestionHistoryView.swift in Sources */,
 				3343D8E627388F0C00EFC8CB /* GameViewRepresentable.swift in Sources */,
 				331F728D27430B2C00003CE8 /* MLGameState.swift in Sources */,
 				331F7287273CA58700003CE8 /* Data.swift in Sources */,
@@ -542,7 +562,7 @@
 				CODE_SIGN_ENTITLEMENTS = ocky/SignsUp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"ocky/Preview Content\"";
 				DEVELOPMENT_TEAM = 2W3P634BS8;
 				ENABLE_PREVIEWS = YES;
@@ -577,7 +597,7 @@
 				CODE_SIGN_ENTITLEMENTS = ocky/SignsUp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"ocky/Preview Content\"";
 				DEVELOPMENT_TEAM = 2W3P634BS8;
 				ENABLE_PREVIEWS = YES;

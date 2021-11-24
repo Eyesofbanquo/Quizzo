@@ -48,8 +48,7 @@ struct QuizListView: View {
         .frame(maxWidth: .infinity)
         .padding()
         .background(RoundedRectangle(cornerRadius: 16.0)
-                      .fill(Color.red)
-                      .shadow(color: Color.black.opacity(0.3), radius: 10.0, x: 0, y: 10))
+                      .fill(Color.red))
         .padding()
         .onTapGesture {
           Task {

@@ -18,6 +18,7 @@ struct QuestionViewEditingBody: View {
   @State private var hasEnoughAnswerChoices: Bool = true
   @State private var hasEnoughQuestions: Bool = true
   @State private var noEmptyAnswerChoices: Bool = true
+  @State private var deleteAnswerChoice: Bool = false
   
   // MARK: - State: Injected -
   @Binding var questionName: String
@@ -25,6 +26,7 @@ struct QuestionViewEditingBody: View {
   // MARK: - Layout -
   var body: some View {
     VStack {
+      
       ForEach(0..<answerChoices.count, id: \.self) { idx in
         HStack {
           CheckboxField(id: answerChoices[idx].id) { id, enabled in
@@ -42,24 +44,46 @@ struct QuestionViewEditingBody: View {
                       .foregroundColor(Color.gray)
                       .font(.headline))
             .disableAutocorrection(true)
-            .textFieldStyle(.roundedBorder)
             .padding()
-            .submitLabel(determineSubmitLabelType(idx: idx))
+            .textFieldStyle(.roundedBorder)
+            
+          
+          Button(action: {
+            /* Handle action. Present alert */
+            deleteAnswerChoice.toggle()
+          }) {
+            Image(systemName: "xmark")
+              .resizable()
+              .aspectRatio(contentMode: .fit)
+              .frame(width: 16, height: 16)
+              .foregroundColor(.red)
+          }
+          .alert("Do you want to delete this answer choice?", isPresented: $deleteAnswerChoice) {
+            Button("Yes", role: .destructive) {
+              withAnimation {
+                answerChoices = answerChoices.filter { $0.id != answerChoices[idx].id }
+              }
+            }
+            Button("Cancel", role: .cancel) { }
+          }
         }
       } // loop
       
       // MARK: - Error Messages: Begin -
-      Text("Press check mark to signal correct answer(s)")
-        .font(.subheadline)
-        .foregroundColor(.red)
-        .fixedSize(horizontal: false, vertical: true)
-        .opacity(hasEnoughAnswerChoices ? 0.0 : 1.0)
+      if !hasEnoughAnswerChoices {
+        Text("Press check mark to signal correct answer(s)")
+          .font(.subheadline)
+          .foregroundColor(.red)
+          .fixedSize(horizontal: false, vertical: true)
+      }
       
-      Text("Make sure each answer choice is not blank")
-        .font(.subheadline)
-        .foregroundColor(.red)
-        .fixedSize(horizontal: false, vertical: true)
-        .opacity(hasEnoughAnswerChoices ? 0.0 : 1.0)
+      if !noEmptyAnswerChoices {
+        Text("Make sure each answer choice is not blank")
+          .font(.subheadline)
+          .foregroundColor(.red)
+          .fixedSize(horizontal: false, vertical: true)
+      }
+      
       
       if answerChoices.count < 2 {
         Text("Add \(2 - answerChoices.count) more answer choice\(2 - answerChoices.count == 1 ? "" : "s")")
@@ -68,61 +92,72 @@ struct QuestionViewEditingBody: View {
       }
       // MARK: - Error Messages: End -
       
-      Button(action: {
-        answerChoices.append(.empty)
-      }) {
-        Text("Add new answer choice")
-          .foregroundColor(.white)
-          .padding()
-          .background(RoundedRectangle(cornerRadius: 16.0))
-      }
-      Button(action: {
-        let modifiedAnswerChoices = answerChoices.map { choice -> Answer in
-          if selectedCorrectAnswerChoices.contains(choice.id) {
-            return Answer(isCorrect: true, text: choice.text)
-          }
-          return choice
-        }
-        
-        /* Return from this action if there are empty answer choices*/
-        if modifiedAnswerChoices.contains(where: { $0.text.isEmpty }) {
+      VStack {
+        Button(action: {
           withAnimation {
-            noEmptyAnswerChoices = false
+            answerChoices.append(.empty)
           }
-        } else {
-          withAnimation {
-            noEmptyAnswerChoices = true
-          }
+        }) {
+          Text("Add new answer choice")
+            .foregroundColor(.white)
+            .frame(maxWidth: .infinity)
+            .padding()
+            .background(RoundedRectangle(cornerRadius: 16.0))
         }
-        
-        let question = Question(name: questionName, choices: modifiedAnswerChoices, player: handler.user?.displayName ?? "")
-        
-        questionService.appendQuestion(question: question, inGame: &handler.gameData)
-        Task {
-          if selectedCorrectAnswerChoices.isEmpty  {
+        Button(action: {
+          let modifiedAnswerChoices = answerChoices.map { choice -> Answer in
+            if selectedCorrectAnswerChoices.contains(choice.id) {
+              return Answer(isCorrect: true, text: choice.text)
+            }
+            return choice
+          }
+          
+          /* Return from this action if there are empty answer choices*/
+          if modifiedAnswerChoices.contains(where: { $0.text.isEmpty }) {
             withAnimation {
-              hasEnoughAnswerChoices = false
+              noEmptyAnswerChoices = false
+            }
+            return
+          } else {
+            withAnimation {
+              noEmptyAnswerChoices = true
             }
           }
           
-          if questionName.isEmpty {
-            withAnimation {
-              hasEnoughQuestions = false
-            }
-          }
+          let question = Question(name: questionName, choices: modifiedAnswerChoices, player: handler.user?.displayName ?? "")
           
-          if !questionName.isEmpty && (selectedCorrectAnswerChoices.count > 0 && modifiedAnswerChoices.count > 1) {
-            try await handler.sendData()
-            handler.setState(.inQuestion(playState: .showQuestion(gameData: handler.gameData, isCurrentPlayer: false)))
+          questionService.appendQuestion(question: question, inGame: &handler.gameData)
+          Task {
+            if selectedCorrectAnswerChoices.isEmpty  {
+              withAnimation {
+                hasEnoughAnswerChoices = false
+              }
+            }
+            
+            if questionName.isEmpty {
+              withAnimation {
+                hasEnoughQuestions = false
+              }
+            }
+            
+            if !questionName.isEmpty && (selectedCorrectAnswerChoices.count > 0 && modifiedAnswerChoices.count > 1) {
+              try await handler.sendData()
+              handler.setState(.inQuestion(playState: .showQuestion(gameData: handler.gameData, isCurrentPlayer: false)))
+            }
+            
           }
-
+        } ) {
+          Text("Submit question")
+            .foregroundColor(.white)
+            .frame(maxWidth: .infinity)
+            .padding()
+            .background(RoundedRectangle(cornerRadius: 16.0))
+            
         }
-      } ) {
-        Text("Submit question")
-          .foregroundColor(.white)
-          .padding()
-          .background(RoundedRectangle(cornerRadius: 16.0))
       }
+      .fixedSize(horizontal: true, vertical: false)
+      .padding(.top)
+      
     }
   }
 }
@@ -131,11 +166,5 @@ struct QuestionViewEditingBody_Previews: PreviewProvider {
   static var previews: some View {
     QuestionViewEditingBody(questionName: .constant("MarkiM"))
       .environmentObject(MLGame())
-  }
-}
-
-extension QuestionViewEditingBody {
-  private func determineSubmitLabelType(idx: Int) -> SubmitLabel {
-    idx == answerChoices.count ? .done : .next
   }
 }
