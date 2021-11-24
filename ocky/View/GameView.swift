@@ -19,21 +19,11 @@ struct GameView: View {
 
   var body: some View {
     VStack {
-//      if case .idle = handler.gameState {
-//        HStack {
-//          Spacer()
-//          Button(action: {
-//            presentSettingsView.toggle()
-//          }) {
-//            Text("Settings")
-//          }
-//        }
-//        .padding()
-//      }
       Group {
         switch handler.gameState {
           case .idle:
             VStack {
+              Spacer()
               Button(action: {
                 handler.setState(.findMatch)
               }) {
@@ -42,7 +32,7 @@ struct GameView: View {
                   .bold()
                   .foregroundColor(.white)
                   .frame(maxWidth: .infinity, maxHeight: .infinity)
-                  .background(Color.pink)
+                  .background(RoundedRectangle(cornerRadius: 16.0).fill(Color.pink))
                   .padding()
               }
               Button(action: {
@@ -53,11 +43,12 @@ struct GameView: View {
                   .bold()
                   .foregroundColor(.white)
                   .frame(maxWidth: .infinity, maxHeight: .infinity)
-                  .background(Color.green)
+                  .background(RoundedRectangle(cornerRadius: 16.0).fill(Color.green))
                   .padding()
               }
+              Spacer()
             }
-            .padding(.top, 120)
+            .padding(.top, 62)
             .onAppear {
               GKAccessPoint.shared.location = .topLeading
               GKAccessPoint.shared.isActive = true
@@ -65,11 +56,9 @@ struct GameView: View {
             .onDisappear(perform: {
               GKAccessPoint.shared.isActive = false
             })
-            .transition(.move(edge: .trailing))
           case .listMatches(let mlMatches):
             MatchListView(matches: mlMatches)
               .environmentObject(handler)
-              .transition(.move(edge: .trailing))
           case .inQuestion(let playState):
             
             switch playState {
@@ -100,7 +89,8 @@ struct GameView: View {
               .environmentObject(handler)
           case .loadMatches, .loadMatch, .findMatch:
             ProgressView()
-              .progressViewStyle(CircularProgressViewStyle())
+              .progressViewStyle(CircularProgressViewStyle(tint: .init(uiColor: .label)))
+              .scaleEffect(2.0)
         }
       }
     }

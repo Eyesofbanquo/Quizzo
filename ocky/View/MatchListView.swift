@@ -96,6 +96,7 @@ extension MatchListView {
           .zIndex(2.0)
           .onTapGesture {
             Task {
+              self.handler.setState(.loadMatch(matchID: match.id))
               try await self.handler.loadMatch(matchID: match.id)
             }
           }
