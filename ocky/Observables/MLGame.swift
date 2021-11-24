@@ -70,8 +70,11 @@ class MLGame: NSObject, ObservableObject {
   @MainActor
   func loadMatch(matchID: String) async throws {
     do {
+      
       // has the chance overriding data if first game and resumed from loadmatches state
       let match = try await GKTurnBasedMatch.load(withID: matchID)
+      
+      await Task.sleep(UInt64(1_000_000_000 * 0.5))
       
       self.setActiveMatch(match)
       
