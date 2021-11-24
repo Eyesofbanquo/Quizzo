@@ -71,8 +71,7 @@ struct QuestionHistorySnippet: View {
     .frame(maxWidth: .infinity)
     .padding()
     .background(RoundedRectangle(cornerRadius: 16.0)
-                  .fill(snippetColor)
-                  .shadow(color: Color.black.opacity(0.3), radius: 10.0, x: 0, y: 10))
+                  .fill(snippetColor))
     .padding()
   }
 }
