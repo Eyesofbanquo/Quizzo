@@ -570,7 +570,7 @@
 				CODE_SIGN_ENTITLEMENTS = ocky/SignsUp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_ASSET_PATHS = "\"ocky/Preview Content\"";
 				DEVELOPMENT_TEAM = 2W3P634BS8;
 				ENABLE_PREVIEWS = YES;
@@ -605,7 +605,7 @@
 				CODE_SIGN_ENTITLEMENTS = ocky/SignsUp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_ASSET_PATHS = "\"ocky/Preview Content\"";
 				DEVELOPMENT_TEAM = 2W3P634BS8;
 				ENABLE_PREVIEWS = YES;
