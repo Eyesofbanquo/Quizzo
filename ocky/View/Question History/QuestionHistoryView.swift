@@ -17,48 +17,62 @@ struct QuestionHistoryView: View {
   var question: Question
   var isCurrentQuestion: Bool
   var playedBy: String
+  var correctQuestion: Bool
+  
+  func randomIncorrectEmoji() -> String {
+    let emoji = ["😭", "😪", "😅", "😐", "😴", "😓", "😬"]
+    return emoji.randomElement()!
+  }
   
   // MARK: - Layout -
   var body: some View {
-    if isCurrentQuestion {
-      VStack(spacing: 16.0) {
-        ProgressView()
-          .progressViewStyle(CircularProgressViewStyle())
-          .tint(.init(uiColor: .label))
-          .scaleEffect(1.5)
-        Text("Question is currently being played...")
-          .font(.title2)
-          .bold()
-          .foregroundColor(Color(uiColor: .label))
-      }
-      .padding()
-    } else {
-      ScrollView {
-        VStack(alignment: .leading) {
-          HStack {
-            Text("\(GKLocalPlayer.local.displayName)'s question")
-              .font(.title)
-              .bold()
-            Spacer()
+    ZStack {
+      Theme.BG.ignoresSafeArea()
+      
+      if isCurrentQuestion {
+        VStack(spacing: 16.0) {
+          ProgressView()
+            .progressViewStyle(CircularProgressViewStyle())
+            .tint(Theme.Light)
+            .scaleEffect(1.5)
+          Text("Question is currently being played...")
+            .font(.title2)
+            .bold()
+            .foregroundColor(Theme.Light)
+        }
+        .padding()
+      } else {
+        ScrollView {
+          VStack(alignment: .leading) {
+            HStack {
+              Text("\(GKLocalPlayer.local.displayName)'s question")
+                .font(.title)
+                .bold()
+                .foregroundColor(Theme.Light)
+              Spacer()
+            }
+            Text("\(correctQuestion ? "Correct! 👏" : "Incorrect \(randomIncorrectEmoji())") Played by \(playedBy)")
+              .font(.headline)
+              .foregroundColor(Theme.Light)
+            HStack {
+              Text("Question \(questionIdx + 1)")
+                .font(.subheadline)
+                .foregroundColor(Theme.Light)
+              Spacer()
+            }
           }
-          Text("Played by \(playedBy)")
-            .font(.headline)
-          HStack {
-            Text("Question \(questionIdx + 1)")
-              .font(.subheadline)
-              .foregroundColor(Color.pink)
-            Spacer()
+          LazyVStack {
+            ForEach(question.choices) { choice in
+              VStack {
+                Text(choice.text)
+                  .questionButton(isHighlighted: choice.isCorrect, defaultBackgroundColor: Theme.LightBlue, highlightedColor: Theme.LightGreen)
+              }
+            }
           }
         }
-        LazyVStack {
-          ForEach(question.choices) { choice in
-            Text(choice.text)
-              .questionButton(isHighlighted: choice.isCorrect)
-          }
-        }
+        .navigationTitle("Game # \(String(matchID.prefix(4)))")
+        .padding()
       }
-      .navigationTitle("Game # \(String(matchID.prefix(4)))")
-      .padding()
     }
   }
 }
@@ -69,6 +83,6 @@ struct QuestionHistoryViewView_Previews: PreviewProvider {
                         questionIdx: 1,
                         question: Question.stub,
                         isCurrentQuestion: false,
-                        playedBy: "Kyrinne")
+                        playedBy: "Kyrinne", correctQuestion: false)
   }
 }

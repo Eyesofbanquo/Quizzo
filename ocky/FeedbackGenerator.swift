@@ -33,4 +33,9 @@ final class FeedbackGenerator: ObservableObject {
   func error() {
     impact(.error)
   }
+  
+  func light() {
+    let generator = UIImpactFeedbackGenerator(style: .light)
+    generator.impactOccurred()
+  }
 }

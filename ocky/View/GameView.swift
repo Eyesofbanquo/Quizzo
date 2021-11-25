@@ -91,7 +91,7 @@ struct GameView: View {
                 .environmentObject(handler)
             case .loadMatches, .loadMatch, .findMatch:
               ProgressView()
-                .progressViewStyle(CircularProgressViewStyle(tint: .init(uiColor: .label)))
+                .progressViewStyle(CircularProgressViewStyle(tint: Theme.Light))
                 .scaleEffect(2.0)
           }
         }

@@ -23,23 +23,51 @@ struct QuestionHistoryListView: View {
     handler.gameData.players.first(where: { $0.displayName != question.player })?.displayName ?? "unknonw"
   }
   
+  func correctAnswerUUID(question: Question) -> [UUID] {
+    let otherPlayer = handler.gameData.players.first(where: { $0.displayName != question.player })
+    
+    if let playerChoices = otherPlayer?.correctQuestions {
+      let setOfPlayerChoices = Set(playerChoices)
+      let setOfCorrectChoices = Set(question.correctAnswers.map { $0.id })
+      
+      let intersection = setOfPlayerChoices.intersection(setOfCorrectChoices)
+      return Array(intersection)
+    }
+    return []
+  }
+  
+  func correctAnswer(question: Question) -> Bool {
+    guard let otherPlayer = handler.gameData.players.first(where: { $0.displayName != question.player }) else { return false }
+    
+    return otherPlayer.correctQuestions.contains(question.id)
+  }
+  
   var body: some View {
     NavigationView {
-      ScrollView {
-        LazyVStack {
-          ForEach(handler.gameData.history.reversed()) { question in
-            NavigationLink(destination: QuestionHistoryView(matchID: handler.activeMatch?.matchID ?? "",
-                                                            questionIdx: idx(forQuestion: question), question: question, isCurrentQuestion: isCurrent(question: question), playedBy: playedBy(question: question))) {
-              QuestionHistorySnippet(player: question.player,
-                                     question: question,
-                                     isCorrect: isCorrect(forQuestion: question, givenPlayer: question.player),
-                                     isCurrentQuestion: isCurrent(question: question)
-              )
+      ZStack {
+        Theme.BG
+          .ignoresSafeArea()
+        ScrollView {
+          LazyVStack {
+            ForEach(handler.gameData.history.reversed()) { question in
+              NavigationLink(destination: QuestionHistoryView(matchID: handler.activeMatch?.matchID ?? "",
+                                                              questionIdx: idx(forQuestion: question), question: question, isCurrentQuestion: isCurrent(question: question), playedBy: playedBy(question: question),
+                                                             correctQuestion: correctAnswer(question: question))) {
+                QuestionHistorySnippet(player: question.player,
+                                       question: question,
+                                       isCorrect: isCorrect(forQuestion: question, givenPlayer: question.player),
+                                       isCurrentQuestion: isCurrent(question: question)
+                )
+              }
             }
           }
         }
+        .navigationTitle(Text("Game History"))
       }
-      .navigationTitle(Text("Game History"))
+      
+    }.onAppear {
+      UINavigationBar.appearance().largeTitleTextAttributes = [
+        .foregroundColor: UIColor.white]
     }
   }
   

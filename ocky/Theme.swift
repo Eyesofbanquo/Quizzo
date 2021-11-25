@@ -15,7 +15,6 @@ enum Theme {
   static var DarkGreen: Color {
     Color(uiColor: .init(named: "dark-green")!)
   }
-  
   static var LightGreen: Color {
     Color(uiColor: .init(named: "light-green")!)
   }
@@ -30,5 +29,8 @@ enum Theme {
   }
   static var Red: Color {
     Color(uiColor: .init(named: "red")!)
+  }
+  static var Light: Color {
+    Color.white
   }
 }

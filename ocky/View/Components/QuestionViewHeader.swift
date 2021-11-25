@@ -15,6 +15,7 @@ struct QuestionViewHeader: View {
   var currentPlayerDisplayName: String
   var questionIndex: Int
   var questionViewState: QuestionViewState
+  var isMultipleChoice: Bool
   
   var questionNumber: Int {
     questionIndex + 1
@@ -34,12 +35,18 @@ struct QuestionViewHeader: View {
           .font(.headline)
       }
       HStack {
+        Image(systemName: isMultipleChoice ? "die.face.1.fill" : "die.face.6.fill")
+          .resizable()
+          .aspectRatio(contentMode: .fit)
+          .frame(width: 24, height: 24)
+          .foregroundColor(Theme.Light)
         Text("Question \(questionNumber)")
           .font(.subheadline)
-          .foregroundColor(Color.pink)
+          .foregroundColor(Theme.Light)
         Spacer()
       }
     }
+    .foregroundColor(Theme.Light)
   }
 }
 
@@ -50,7 +57,8 @@ struct QuestionViewHeader_Previews: PreviewProvider {
       matchStatus: .open,
       currentPlayerDisplayName: "Markim",
       questionIndex: 1,
-      questionViewState: .playing)
+      questionViewState: .playing,
+      isMultipleChoice: false)
       .previewLayout(.sizeThatFits)
   }
 }

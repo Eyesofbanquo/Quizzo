@@ -19,7 +19,7 @@ struct CheckboxField: View {
   init(
     id: UUID,
     size: CGFloat = 10,
-    color: Color = Color(uiColor: .label).opacity(0.68),
+    color: Color = Theme.Light,
     textSize: Int = 14,
     callback: @escaping (UUID, Bool) -> ()
   ) {
@@ -41,9 +41,7 @@ struct CheckboxField: View {
           .resizable()
           .aspectRatio(contentMode: .fit)
           .frame(width: 20, height: 20)
-          .foregroundColor(colorScheme == .dark ?
-                           Color.white :
-                              .black)
+          .foregroundColor(color)
     }
     .buttonStyle(PlainButtonStyle())
     .fixedSize()

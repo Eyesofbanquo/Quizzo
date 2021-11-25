@@ -14,7 +14,7 @@ struct QuestionViewResultsBody: View {
     VStack(alignment: .leading) {
       ForEach(choices) { choice in
         Text(choice.text)
-          .questionButton(isHighlighted: false)
+          .questionButton(isHighlighted: false, defaultBackgroundColor: Theme.LightBlue)
       }
       HStack(spacing: 8.0) {
         ProgressView()
@@ -22,11 +22,11 @@ struct QuestionViewResultsBody: View {
           .foregroundColor(.white)
         Text("Waiting on other player")
       }
-      .foregroundColor(Color.white)
+      .foregroundColor(Theme.Light)
       .frame(maxWidth: .infinity)
       .padding()
       .background(RoundedRectangle(cornerRadius: 16.0)
-                    .fill(Color.green))
+                    .fill(Theme.LightGreen))
       .padding()
     }
   }
