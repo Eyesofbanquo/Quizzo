@@ -21,7 +21,6 @@ struct QuestionViewHeader: View {
     questionIndex + 1
   }
   
-  
   var body: some View {
     VStack(alignment: .leading) {
       HStack {
@@ -35,7 +34,7 @@ struct QuestionViewHeader: View {
           .font(.headline)
       }
       HStack {
-        Image(systemName: isMultipleChoice ? "die.face.1.fill" : "die.face.6.fill")
+        Image(systemName: isMultipleChoice ? "die.face.6.fill" : "die.face.1.fill")
           .resizable()
           .aspectRatio(contentMode: .fit)
           .frame(width: 24, height: 24)
