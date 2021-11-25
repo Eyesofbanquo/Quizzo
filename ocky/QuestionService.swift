@@ -58,9 +58,8 @@ class QuestionService: ObservableObject {
     /* Send player info to realm on grade */
     if isCorrect(currentQuestion: question, usingAnswerChoices: choices) {
       try! realm.write {
-        editablePlayerRO?.matchID = question.id.uuidString
+        editablePlayerRO?.correctQuestionID = question.id.uuidString
       }
-//      player.addCorrectQuestion(id: question.id)
     } else {
       guard player.lives > 0 else { return }
       let lives = player.lives - 1

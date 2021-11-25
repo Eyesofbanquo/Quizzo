@@ -36,7 +36,6 @@ struct QuestionNavigationBarView: View {
           Text("History")
             .font(.title2)
             .bold()
-            .foregroundColor(Color(uiColor: .label))
         }
       }
       
@@ -47,7 +46,7 @@ struct QuestionNavigationBarView: View {
         }) {
           Image(systemName: "flag.fill")
             .font(.title)
-            .foregroundColor(.red)
+            .foregroundColor(Theme.Red)
         }
         .alert("Do you want to surrender this game?", isPresented: $surrender) {
           Button("Yes", role: .destructive) {
@@ -62,6 +61,7 @@ struct QuestionNavigationBarView: View {
       }
       
     }
+    .foregroundColor(Theme.Light)
   }
 }
 
@@ -82,7 +82,6 @@ extension QuestionNavigationBarView {
       Image(systemName: "xmark.circle")
         .resizable()
         .frame(width: 32, height: 32)
-        .foregroundColor(Color(uiColor: .label))
     }
   }
   
@@ -109,6 +108,6 @@ extension QuestionNavigationBarView {
     }
     .padding(4)
     .padding(.horizontal, 6)
-    .overlay(Capsule().stroke(Color(uiColor: .label), lineWidth: 1.0))
+    .overlay(Capsule().stroke(Theme.Light, lineWidth: 1.0))
   }
 }

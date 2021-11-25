@@ -12,7 +12,7 @@ import RealmSwift
 struct SignsUpApp: SwiftUI.App {
   var body: some Scene {
     WindowGroup {
-      SplashView()
+      Entrypoint()
     }
   }
 }

@@ -11,33 +11,47 @@ struct WinLossView: View {
   
   // MARK: - State -
   @EnvironmentObject var handler: MLGame
+  @EnvironmentObject var feedbackGen: FeedbackGenerator
   
   var won: Bool
   
   var body: some View {
-    VStack {
-      if won {
-         Image(systemName: "hands.clap.fill")
-          .resizable()
-          .aspectRatio(contentMode: .fit)
-          .padding()
-        Text("You won")
-          .font(.largeTitle)
-      } else {
-        Image(systemName: "repeat.circle.fill")
-          .resizable()
-          .aspectRatio(contentMode: .fit)
-          .padding()
-        Text("You lost")
-          .font(.largeTitle)
-      }
-      Button(action: {
-        handler.setState(.idle)
-      }) {
-        Text("Continue")
-          .questionButton(isHighlighted: false)
+    ZStack {
+      Theme.BG
+        .ignoresSafeArea()
+      
+      VStack {
+        if won {
+          Image(systemName: "hands.clap.fill")
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .padding()
+            .foregroundColor(Theme.LightBlue)
+          Text("You won")
+            .font(.largeTitle)
+            .foregroundColor(Theme.Light)
+        } else {
+          Image(systemName: "repeat.circle.fill")
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .padding()
+            .foregroundColor(Theme.LightBlue)
+          Text("You lost")
+            .font(.largeTitle)
+            .foregroundColor(.pink)
+        }
+        Button(action: {
+          handler.setState(.idle)
+        }) {
+          Text("Continue")
+            .questionButton(isHighlighted: false, defaultBackgroundColor: Theme.Yellow)
+        }
       }
     }
+    .onAppear {
+      feedbackGen.light()
+    }
+    
   }
 }
 

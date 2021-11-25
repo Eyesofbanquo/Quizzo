@@ -52,25 +52,28 @@ struct QuestionView: View {
                 matchStatus: handler.activeMatch?.status ?? .ended,
                 currentPlayerDisplayName: handler.currentPlayer?.displayName ?? "",
                 questionIndex: questionNumber,
-                questionViewState: questionViewState)
+                questionViewState: questionViewState,
+                isMultipleChoice: question?.isMultipleChoice ?? false)
               
-              if case .editing = questionViewState {
-                TextField("", text: $questionName, prompt: Text("Enter a question"))
-                  .disableAutocorrection(true)
-                  .textFieldStyle(.roundedBorder)
-                  .font(.largeTitle)
-                  .foregroundColor(Color.pink)
-                  .fixedSize(horizontal: false, vertical: true)
-                  .scaledToFit()
-              } else {
-                Text(question?.name ?? "")
-                  .font(.largeTitle)
-                  .bold()
-                  .foregroundColor(Color.pink)
-                  .fixedSize(horizontal: false, vertical: true)
-                  .scaledToFit()
+              VStack(alignment: .leading) {
+                if case .editing = questionViewState {
+                  TextField("", text: $questionName, prompt: Text("Enter a question"))
+                    .disableAutocorrection(true)
+                    .textFieldStyle(.roundedBorder)
+                    .font(.largeTitle)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .scaledToFit()
+                } else {
+                  Text(question?.name ?? "")
+                    .font(.largeTitle)
+                    .bold()
+                    .fixedSize(horizontal: false, vertical: true)
+                    .scaledToFit()
+                    .foregroundColor(Theme.Yellow)
+                }
               }
             }
+            
             .padding()
             
             

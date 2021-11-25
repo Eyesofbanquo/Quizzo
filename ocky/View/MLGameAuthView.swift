@@ -14,26 +14,31 @@ struct MLGameAuthView: View {
   @State var actions: CurrentValueSubject<MLGameAuthState, Never>
   
   var body: some View {
-    Group {
-      switch receivedAction {
-        case .none:
-          MainView(actions: $actions)
-        case .isAuthenticating:
-          ProgressView()
-            .progressViewStyle(CircularProgressViewStyle(tint: .init(uiColor: .label)))
-            .scaleEffect(2.0)
-        case .isAuthenticated:
-          Button(action: {
-            authenticated = true
-          }) {
-            Text("Start game")
-          }
+    ZStack {
+      Theme.BG
+        .ignoresSafeArea()
+      Group {
+        switch receivedAction {
+          case .none:
+            MainView(actions: $actions)
+          case .isAuthenticating:
+            ProgressView()
+              .progressViewStyle(CircularProgressViewStyle(tint: Theme.Light))
+              .scaleEffect(2.0)
+          case .isAuthenticated:
+            Button(action: {
+              authenticated = true
+            }) {
+              Text("Start game")
+            }
+        }
+      }
+      .onReceive(actions) { output in
+        self.receivedAction = output
+        print("Received from SwiftUI")
       }
     }
-    .onReceive(actions) { output in
-      self.receivedAction = output
-      print("Received from SwiftUI")
-    }
+    
   }
 }
 

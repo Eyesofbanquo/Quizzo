@@ -44,7 +44,7 @@
 		3362630B273263ED00264C98 /* SignupFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3362630A273263ED00264C98 /* SignupFormViewModel.swift */; };
 		3362630E273267CE00264C98 /* TextFieldType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3362630D273267CE00264C98 /* TextFieldType.swift */; };
 		3362631227329F1E00264C98 /* InvalidTextModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3362631127329F1E00264C98 /* InvalidTextModifier.swift */; };
-		336263142732EF5A00264C98 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336263132732EF5A00264C98 /* SplashView.swift */; };
+		336263142732EF5A00264C98 /* Entrypoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336263132732EF5A00264C98 /* Entrypoint.swift */; };
 		336263172732EF8F00264C98 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336263162732EF8F00264C98 /* HomeView.swift */; };
 		336263192733929F00264C98 /* QuizListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336263182733929F00264C98 /* QuizListView.swift */; };
 		339B9B15274D69BF0036671E /* QuestionHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339B9B14274D69BF0036671E /* QuestionHistoryView.swift */; };
@@ -61,6 +61,8 @@
 		33D421EC27375BD40058C74F /* MLPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D421EB27375BD40058C74F /* MLPlayer.swift */; };
 		33D421EE27375F220058C74F /* MLGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D421ED27375F220058C74F /* MLGame.swift */; };
 		33D421F12737730D0058C74F /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D421F02737730D0058C74F /* GameViewController.swift */; };
+		33FB5CEB274EBF6200B68D63 /* FeedbackGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FB5CEA274EBF6200B68D63 /* FeedbackGenerator.swift */; };
+		33FB5CED274ED27500B68D63 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FB5CEC274ED27500B68D63 /* Theme.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -100,7 +102,7 @@
 		3362630A273263ED00264C98 /* SignupFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupFormViewModel.swift; sourceTree = "<group>"; };
 		3362630D273267CE00264C98 /* TextFieldType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldType.swift; sourceTree = "<group>"; };
 		3362631127329F1E00264C98 /* InvalidTextModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvalidTextModifier.swift; sourceTree = "<group>"; };
-		336263132732EF5A00264C98 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
+		336263132732EF5A00264C98 /* Entrypoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entrypoint.swift; sourceTree = "<group>"; };
 		336263162732EF8F00264C98 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		336263182733929F00264C98 /* QuizListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizListView.swift; sourceTree = "<group>"; };
 		339B9B14274D69BF0036671E /* QuestionHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionHistoryView.swift; sourceTree = "<group>"; };
@@ -118,6 +120,8 @@
 		33D421EB27375BD40058C74F /* MLPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLPlayer.swift; sourceTree = "<group>"; };
 		33D421ED27375F220058C74F /* MLGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLGame.swift; sourceTree = "<group>"; };
 		33D421F02737730D0058C74F /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
+		33FB5CEA274EBF6200B68D63 /* FeedbackGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackGenerator.swift; sourceTree = "<group>"; };
+		33FB5CEC274ED27500B68D63 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -205,6 +209,8 @@
 				331F729027430FC600003CE8 /* GKPlayerManager.swift */,
 				331F7292274415A500003CE8 /* MLSimpleFactory.swift */,
 				331F729427441F3800003CE8 /* QuestionService.swift */,
+				33FB5CEA274EBF6200B68D63 /* FeedbackGenerator.swift */,
+				33FB5CEC274ED27500B68D63 /* Theme.swift */,
 			);
 			path = ocky;
 			sourceTree = "<group>";
@@ -232,6 +238,7 @@
 			children = (
 				33D421D82733AF980058C74F /* Question.swift */,
 				33D421DA2733AF9E0058C74F /* Answer.swift */,
+				3362630D273267CE00264C98 /* TextFieldType.swift */,
 				331F728C27430B2C00003CE8 /* MLGameState.swift */,
 				33D421E927375BB30058C74F /* MLGameData.swift */,
 				3343D8EE2738A0EB00EFC8CB /* MLMatch.swift */,
@@ -246,10 +253,9 @@
 			children = (
 				339B9B18274D7B040036671E /* Question History */,
 				339B9B13274D5B480036671E /* QuestionBody */,
-				336263132732EF5A00264C98 /* SplashView.swift */,
+				336263132732EF5A00264C98 /* Entrypoint.swift */,
 				3352D022274B315F00D31244 /* WinLossView.swift */,
 				336262FB2732562C00264C98 /* ContentView.swift */,
-				3362630D273267CE00264C98 /* TextFieldType.swift */,
 				3343D8EB2738900900EFC8CB /* Components */,
 				336263162732EF8F00264C98 /* HomeView.swift */,
 				3343D8E727388F8000EFC8CB /* MLGameAuthView.swift */,
@@ -394,11 +400,12 @@
 				336263192733929F00264C98 /* QuizListView.swift in Sources */,
 				33D421EE27375F220058C74F /* MLGame.swift in Sources */,
 				3343D8F12739A70000EFC8CB /* MatchListView.swift in Sources */,
-				336263142732EF5A00264C98 /* SplashView.swift in Sources */,
+				336263142732EF5A00264C98 /* Entrypoint.swift in Sources */,
 				331F728B273CAA1200003CE8 /* LivesView.swift in Sources */,
 				33D421DB2733AF9E0058C74F /* Answer.swift in Sources */,
 				3362631227329F1E00264C98 /* InvalidTextModifier.swift in Sources */,
 				3303AFD6273B5B5A00F0D116 /* CheckboxField.swift in Sources */,
+				33FB5CEB274EBF6200B68D63 /* FeedbackGenerator.swift in Sources */,
 				3343D8E427388EED00EFC8CB /* MLGameAuthViewRepresentable.swift in Sources */,
 				331F727E273C9CA300003CE8 /* QuestionViewPlayingBody.swift in Sources */,
 				3343D8ED2738A02B00EFC8CB /* MatchView.swift in Sources */,
@@ -420,6 +427,7 @@
 				33D421F12737730D0058C74F /* GameViewController.swift in Sources */,
 				33D421E6273707B50058C74F /* MLGameAuthController.swift in Sources */,
 				331F7281273C9EEC00003CE8 /* Text+.swift in Sources */,
+				33FB5CED274ED27500B68D63 /* Theme.swift in Sources */,
 				336263172732EF8F00264C98 /* HomeView.swift in Sources */,
 				3343D8E827388F8000EFC8CB /* MLGameAuthView.swift in Sources */,
 				3343D8EA27388FBC00EFC8CB /* GameView.swift in Sources */,
@@ -562,14 +570,14 @@
 				CODE_SIGN_ENTITLEMENTS = ocky/SignsUp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_ASSET_PATHS = "\"ocky/Preview Content\"";
 				DEVELOPMENT_TEAM = 2W3P634BS8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ocky/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIRequiredDeviceCapabilities = gamekit;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -597,14 +605,14 @@
 				CODE_SIGN_ENTITLEMENTS = ocky/SignsUp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_ASSET_PATHS = "\"ocky/Preview Content\"";
 				DEVELOPMENT_TEAM = 2W3P634BS8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ocky/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIRequiredDeviceCapabilities = gamekit;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

@@ -18,11 +18,11 @@ struct QuestionHistorySnippet: View {
   private var imageSize: CGSize = CGSize(width: 16.0, height: 16.0)
   
   private var snippetColor: Color {
-    question.player == GKLocalPlayer.local.displayName ? .blue : .gray
+    question.player == GKLocalPlayer.local.displayName ? Theme.LightBlue : .gray
   }
   
   private var iconColor: Color {
-    .white
+    Theme.Light
   }
   
   // MARK: - Init -

@@ -9,17 +9,29 @@ import Foundation
 import SwiftUI
 
 extension Text {
-  func questionButton(isHighlighted: Bool) -> some View {
+  func questionButton(isHighlighted: Bool,
+                      defaultBackgroundColor: Color = .pink,
+                      defaultForegroundColor: Color = .white,
+                      highlightedColor: Color = Theme.LightGreen) -> some View {
     self
-      .modifier(QuestionViewAnswerButtonModifier(isHighlighted: isHighlighted))
+      .modifier(QuestionViewAnswerButtonModifier(isHighlighted: isHighlighted,
+                                                 defaultBackgroundColor: defaultBackgroundColor,
+                                                 defaultForegroundColor: defaultForegroundColor,
+                                                 highlightedColor: highlightedColor))
   }
   
-  func questionButtonWithLoading(isHighlighted: Bool) -> some View {
+  func questionButtonWithLoading(isHighlighted: Bool,
+                                 defaultBackgroundColor: Color = .pink,
+                                 defaultForegroundColor: Color = .white,
+                                 highlightedColor: Color = Theme.LightGreen) -> some View {
     HStack {
       ProgressView()
         .progressViewStyle(CircularProgressViewStyle())
       self
-        .modifier(QuestionViewAnswerButtonModifier(isHighlighted: isHighlighted))
+        .modifier(QuestionViewAnswerButtonModifier(isHighlighted: isHighlighted,
+                                                   defaultBackgroundColor: defaultBackgroundColor,
+                                                   defaultForegroundColor: defaultForegroundColor,
+                                                   highlightedColor: highlightedColor))
     }
   }
 }

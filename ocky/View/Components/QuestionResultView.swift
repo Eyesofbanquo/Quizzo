@@ -37,22 +37,30 @@ struct QuestionResultView: View {
   
   var body: some View {
     NavigationView {
-      VStack {
-        Spacer()
-        resultImage
-          .resizable()
-          .aspectRatio(contentMode: .fit)
-          .scaleEffect(0.80)
-          .foregroundColor(isCorrect ? .green : .pink)
-        Text(resultText)
-          .font(.largeTitle)
-        NavigationLink(destination: LivesView(correctQuestion: isCorrect)) {
-          Text("Continue")
-            .questionButton(isHighlighted: false)
+      ZStack {
+        Theme.BG.ignoresSafeArea()
+        VStack {
+          Spacer()
+          resultImage
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .scaleEffect(0.80)
+            .foregroundColor(isCorrect ? Theme.LightGreen : .pink)
+          Text(resultText)
+            .font(.largeTitle)
+            .foregroundColor(Theme.Light)
+          NavigationLink(destination: LivesView(correctQuestion: isCorrect)) {
+            Text("Continue")
+              .questionButton(isHighlighted: false, defaultBackgroundColor: Theme.Yellow)
+          }
+          .navigationTitle(Text("Results"))
+          Spacer()
         }
-        .navigationTitle(Text("Results"))
-        Spacer()
       }
+      
+    }.onAppear {
+      UINavigationBar.appearance().largeTitleTextAttributes = [
+        .foregroundColor: UIColor.white]
     }
   }
 }

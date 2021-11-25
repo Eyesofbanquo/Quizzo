@@ -35,9 +35,11 @@ struct MatchListView: View {
               .resizable()
               .aspectRatio(contentMode: .fit)
               .scaleEffect(0.5)
+              .foregroundColor(Theme.DarkBlue)
             Text("No games in progress...")
               .font(.largeTitle)
               .bold()
+              .foregroundColor(Theme.Light)
             
           }
           Spacer()
@@ -52,7 +54,7 @@ struct MatchListView: View {
           Text("Your matches")
             .font(.title2)
             .bold()
-            .foregroundColor(Color(uiColor: .label))
+            .foregroundColor(Theme.Light)
             .padding()
             
           Spacer()
@@ -81,12 +83,12 @@ extension MatchListView {
         Image(systemName: "xmark.circle.fill")
           .resizable()
           .frame(width: 32, height: 32)
-          .foregroundColor(Color(uiColor: .label))
           .padding()
       }
       .buttonStyle(PlainButtonStyle())
       Spacer()
     }
+    .foregroundColor(Theme.Light)
   }
   
   private func MatchList() -> some View {
