@@ -17,10 +17,15 @@ final class MLGameAuthController: UIViewController {
   var gameStatePassthrough = CurrentValueSubject<MLGameAuthState, Never>(.none)
   var cancellables = Set<AnyCancellable>()
   
+  // MARK: - Services -
+  var authService: AuthService
+  
   // MARK: - Init -
   
-  init(gameStarted: Binding<Bool>) {
+  init(gameStarted: Binding<Bool>,
+       authService: AuthService = GameCenterAuthService()) {
     self.gameStarted = gameStarted
+    self.authService = authService
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -39,7 +44,9 @@ final class MLGameAuthController: UIViewController {
       print("Received: \(nextState)")
       switch nextState {
         case .isAuthenticating:
-          self.authenticateUser()
+          Task {
+            await self.authenticateUser()
+          }
         default: break
       }
     }
@@ -61,13 +68,17 @@ final class MLGameAuthController: UIViewController {
     hostingvc.didMove(toParent: self)
   }
   
-  private func authenticateUser() {
-    GKLocalPlayer.local.authenticateHandler = { viewController, error in
-      if GKLocalPlayer.local.isAuthenticated {
-        self.launchGame()
-      } else if let vc = viewController {
-        self.present(vc, animated: true)
-      }
+  @MainActor
+  private func authenticateUser() async {
+    let authStatus = await authService.authenticate()
+    
+    if case .isAuthenticated = authStatus {
+      self.launchGame()
+    }
+    
+    if case .needsAuthentication(let controller) = authStatus,
+       let gameCenterController = controller {
+      self.present(gameCenterController, animated: true)
     }
   }
   

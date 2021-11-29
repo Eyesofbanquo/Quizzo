@@ -52,6 +52,9 @@
 		339B9B1A274D7B0F0036671E /* QuestionHistorySnippet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339B9B19274D7B0F0036671E /* QuestionHistorySnippet.swift */; };
 		33B1852027555427005B89C9 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 33B1851F27555427005B89C9 /* README.md */; };
 		33B1852327555581005B89C9 /* MLGameAuthState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B1852227555581005B89C9 /* MLGameAuthState.swift */; };
+		33B18525275565B2005B89C9 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B18524275565B2005B89C9 /* AuthService.swift */; };
+		33B18527275567A6005B89C9 /* GameCenterAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B18526275567A6005B89C9 /* GameCenterAuthService.swift */; };
+		33B1852C27556D83005B89C9 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 33B1852B27556D83005B89C9 /* README.md */; };
 		33D421D72733A3030058C74F /* QuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D421D62733A3030058C74F /* QuestionView.swift */; };
 		33D421D92733AF980058C74F /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D421D82733AF980058C74F /* Question.swift */; };
 		33D421DB2733AF9E0058C74F /* Answer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D421DA2733AF9E0058C74F /* Answer.swift */; };
@@ -112,6 +115,9 @@
 		339B9B19274D7B0F0036671E /* QuestionHistorySnippet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionHistorySnippet.swift; sourceTree = "<group>"; };
 		33B1851F27555427005B89C9 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		33B1852227555581005B89C9 /* MLGameAuthState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLGameAuthState.swift; sourceTree = "<group>"; };
+		33B18524275565B2005B89C9 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		33B18526275567A6005B89C9 /* GameCenterAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCenterAuthService.swift; sourceTree = "<group>"; };
+		33B1852B27556D83005B89C9 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		33D421D62733A3030058C74F /* QuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionView.swift; sourceTree = "<group>"; };
 		33D421D82733AF980058C74F /* Question.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
 		33D421DA2733AF9E0058C74F /* Answer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Answer.swift; sourceTree = "<group>"; };
@@ -203,6 +209,7 @@
 				3362630727325F5F00264C98 /* Modifiers */,
 				33D421EF27375FA90058C74F /* Observables */,
 				3343D8E227388EE300EFC8CB /* Representables */,
+				33B1852827556D58005B89C9 /* Services */,
 				33B1852127555573005B89C9 /* State */,
 				3362630F273267D900264C98 /* View */,
 				3362630A273263ED00264C98 /* SignupFormViewModel.swift */,
@@ -210,11 +217,6 @@
 				336262FD2732562E00264C98 /* Assets.xcassets */,
 				336262FF2732562E00264C98 /* Preview Content */,
 				33D421E02733B5820058C74F /* CloudManager.swift */,
-				331F728E27430C8500003CE8 /* MLGameStateStack.swift */,
-				331F729027430FC600003CE8 /* GKPlayerManager.swift */,
-				331F7292274415A500003CE8 /* MLSimpleFactory.swift */,
-				331F729427441F3800003CE8 /* QuestionService.swift */,
-				33FB5CEA274EBF6200B68D63 /* FeedbackGenerator.swift */,
 				33FB5CEC274ED27500B68D63 /* Theme.swift */,
 			);
 			path = ocky;
@@ -299,6 +301,37 @@
 				33B1852227555581005B89C9 /* MLGameAuthState.swift */,
 			);
 			path = State;
+			sourceTree = "<group>";
+		};
+		33B1852827556D58005B89C9 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				33B1852927556D6A005B89C9 /* Abstract */,
+				33B1852A27556D6F005B89C9 /* Concrete */,
+				33B1852B27556D83005B89C9 /* README.md */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		33B1852927556D6A005B89C9 /* Abstract */ = {
+			isa = PBXGroup;
+			children = (
+				33B18524275565B2005B89C9 /* AuthService.swift */,
+			);
+			path = Abstract;
+			sourceTree = "<group>";
+		};
+		33B1852A27556D6F005B89C9 /* Concrete */ = {
+			isa = PBXGroup;
+			children = (
+				331F729027430FC600003CE8 /* GKPlayerManager.swift */,
+				331F7292274415A500003CE8 /* MLSimpleFactory.swift */,
+				331F728E27430C8500003CE8 /* MLGameStateStack.swift */,
+				331F729427441F3800003CE8 /* QuestionService.swift */,
+				33FB5CEA274EBF6200B68D63 /* FeedbackGenerator.swift */,
+				33B18526275567A6005B89C9 /* GameCenterAuthService.swift */,
+			);
+			path = Concrete;
 			sourceTree = "<group>";
 		};
 		33D421DD2733B31D0058C74F /* Frameworks */ = {
@@ -394,6 +427,7 @@
 			files = (
 				33B1852027555427005B89C9 /* README.md in Resources */,
 				336263012732562E00264C98 /* Preview Assets.xcassets in Resources */,
+				33B1852C27556D83005B89C9 /* README.md in Resources */,
 				336262FE2732562E00264C98 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -420,10 +454,12 @@
 				33D421DB2733AF9E0058C74F /* Answer.swift in Sources */,
 				3362631227329F1E00264C98 /* InvalidTextModifier.swift in Sources */,
 				3303AFD6273B5B5A00F0D116 /* CheckboxField.swift in Sources */,
+				33B18527275567A6005B89C9 /* GameCenterAuthService.swift in Sources */,
 				33FB5CEB274EBF6200B68D63 /* FeedbackGenerator.swift in Sources */,
 				3343D8E427388EED00EFC8CB /* MLGameAuthViewRepresentable.swift in Sources */,
 				331F727E273C9CA300003CE8 /* QuestionViewPlayingBody.swift in Sources */,
 				3343D8ED2738A02B00EFC8CB /* MatchView.swift in Sources */,
+				33B18525275565B2005B89C9 /* AuthService.swift in Sources */,
 				33D421E12733B5820058C74F /* CloudManager.swift in Sources */,
 				3352D023274B315F00D31244 /* WinLossView.swift in Sources */,
 				335A0DBE273C984C0068379D /* QuestionViewEditingBody.swift in Sources */,
