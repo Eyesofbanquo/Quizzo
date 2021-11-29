@@ -8,13 +8,6 @@
 import SwiftUI
 import GameKit
 
-enum QuestionViewState {
-  case editing
-  case playing
-  case showQuestion(gameData: MLGameData, isCurrentPlayer: Bool)
-  case history
-}
-
 struct QuestionView: View {
   // MARK: - State: Environment -
   @EnvironmentObject var handler: MLGame
@@ -25,14 +18,21 @@ struct QuestionView: View {
   @State private var question: Question?
   
   // MARK: - Properties -
-  var questionNumber: Int
   var questionViewState: QuestionViewState = .playing
   
+  var questionNumber: Int {
+    handler.gameData.history.count
+  }
+  
+  var questionNameBinding: Binding<String> {
+    Binding<String>(get: {
+      question?.name ?? ""
+    }, set: { _ in })
+  }
+  
   // MARK: - Init -
-  init(questionNumber: Int,
-       question: Question?,
+  init(question: Question?,
        state: QuestionViewState) {
-    self.questionNumber = questionNumber
     self._question = State.init(initialValue: question)
     self.questionViewState = state
   }
@@ -47,7 +47,7 @@ struct QuestionView: View {
           Spacer()
           ScrollView(showsIndicators: false) {
             VStack(alignment: .leading) {
-              QuestionViewHeader(
+              QuestionViewStaticHeader(
                 matchID: String(handler.activeMatch?.matchID.prefix(4) ?? ""),
                 matchStatus: handler.activeMatch?.status ?? .ended,
                 currentPlayerDisplayName: handler.currentPlayer?.displayName ?? "",
@@ -55,25 +55,14 @@ struct QuestionView: View {
                 questionViewState: questionViewState,
                 isMultipleChoice: question?.isMultipleChoice ?? false)
               
-              VStack(alignment: .leading) {
-                if case .editing = questionViewState {
-                  TextField("", text: $questionName, prompt: Text("Enter a question"))
-                    .disableAutocorrection(true)
-                    .textFieldStyle(.roundedBorder)
-                    .font(.largeTitle)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .scaledToFit()
-                } else {
-                  Text(question?.name ?? "")
-                    .font(.largeTitle)
-                    .bold()
-                    .fixedSize(horizontal: false, vertical: true)
-                    .scaledToFit()
-                    .foregroundColor(Theme.Yellow)
-                }
+              if case .editing = questionViewState {
+                QuestionViewDynamicHeader(questionName: $questionName,
+                                          questionViewState: questionViewState)
+              } else {
+                QuestionViewDynamicHeader(questionName: questionNameBinding,
+                                          questionViewState: questionViewState)
               }
             }
-            
             .padding()
             
             
@@ -111,16 +100,13 @@ struct QuestionView: View {
 struct QuizView_Previews: PreviewProvider {
   static var previews: some View {
     Group {
-      QuestionView(questionNumber: 1,
-                   question: .stub,
+      QuestionView(question: .stub,
                    state: .playing)
         .environmentObject(MLGame())
-      QuestionView(questionNumber: 1,
-                   question: .stub,
+      QuestionView(question: .stub,
                    state: .editing)
         .environmentObject(MLGame())
-      QuestionView(questionNumber: 1,
-                   question: .stub,
+      QuestionView(question: .stub,
                    state: .showQuestion(gameData: MLGameData(), isCurrentPlayer: true))
         .environmentObject(MLGame())
     }

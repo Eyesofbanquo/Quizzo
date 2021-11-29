@@ -33,7 +33,7 @@
 		3352D02127474F0600D31244 /* MLMatchRO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3352D02027474F0600D31244 /* MLMatchRO.swift */; };
 		3352D023274B315F00D31244 /* WinLossView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3352D022274B315F00D31244 /* WinLossView.swift */; };
 		3352D025274B350600D31244 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3352D024274B350600D31244 /* MainView.swift */; };
-		335A0DBC273C92210068379D /* QuestionViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335A0DBB273C92210068379D /* QuestionViewHeader.swift */; };
+		335A0DBC273C92210068379D /* QuestionViewStaticHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335A0DBB273C92210068379D /* QuestionViewStaticHeader.swift */; };
 		335A0DBE273C984C0068379D /* QuestionViewEditingBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335A0DBD273C984C0068379D /* QuestionViewEditingBody.swift */; };
 		335A0DC0273C9A050068379D /* QuestionViewResultsBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335A0DBF273C9A050068379D /* QuestionViewResultsBody.swift */; };
 		336262FA2732562C00264C98 /* SignsUpApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336262F92732562C00264C98 /* SignsUpApp.swift */; };
@@ -55,6 +55,9 @@
 		33B18527275567A6005B89C9 /* GameCenterAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B18526275567A6005B89C9 /* GameCenterAuthService.swift */; };
 		33CA1FBB2755714700E30EE6 /* MultiplayerMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CA1FBA2755714700E30EE6 /* MultiplayerMainView.swift */; };
 		33CA1FBE2755731E00E30EE6 /* GKAccessPointModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CA1FBD2755731E00E30EE6 /* GKAccessPointModifier.swift */; };
+		33CA1FC1275576CD00E30EE6 /* QuestionViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CA1FC0275576CD00E30EE6 /* QuestionViewCoordinator.swift */; };
+		33CA1FC827557A8700E30EE6 /* QuestionViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CA1FC727557A8700E30EE6 /* QuestionViewState.swift */; };
+		33CA1FCA27557D9900E30EE6 /* QuestionViewDynamicHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CA1FC927557D9900E30EE6 /* QuestionViewDynamicHeader.swift */; };
 		33D421D72733A3030058C74F /* QuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D421D62733A3030058C74F /* QuestionView.swift */; };
 		33D421D92733AF980058C74F /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D421D82733AF980058C74F /* Question.swift */; };
 		33D421DB2733AF9E0058C74F /* Answer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D421DA2733AF9E0058C74F /* Answer.swift */; };
@@ -95,7 +98,7 @@
 		3352D02027474F0600D31244 /* MLMatchRO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLMatchRO.swift; sourceTree = "<group>"; };
 		3352D022274B315F00D31244 /* WinLossView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinLossView.swift; sourceTree = "<group>"; };
 		3352D024274B350600D31244 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
-		335A0DBB273C92210068379D /* QuestionViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionViewHeader.swift; sourceTree = "<group>"; };
+		335A0DBB273C92210068379D /* QuestionViewStaticHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionViewStaticHeader.swift; sourceTree = "<group>"; };
 		335A0DBD273C984C0068379D /* QuestionViewEditingBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionViewEditingBody.swift; sourceTree = "<group>"; };
 		335A0DBF273C9A050068379D /* QuestionViewResultsBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionViewResultsBody.swift; sourceTree = "<group>"; };
 		336262F62732562C00264C98 /* ocky.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ocky.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -120,6 +123,11 @@
 		33B1852B27556D83005B89C9 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		33CA1FBA2755714700E30EE6 /* MultiplayerMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiplayerMainView.swift; sourceTree = "<group>"; };
 		33CA1FBD2755731E00E30EE6 /* GKAccessPointModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GKAccessPointModifier.swift; sourceTree = "<group>"; };
+		33CA1FC0275576CD00E30EE6 /* QuestionViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionViewCoordinator.swift; sourceTree = "<group>"; };
+		33CA1FC32755787800E30EE6 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		33CA1FC527557A2800E30EE6 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		33CA1FC727557A8700E30EE6 /* QuestionViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionViewState.swift; sourceTree = "<group>"; };
+		33CA1FC927557D9900E30EE6 /* QuestionViewDynamicHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionViewDynamicHeader.swift; sourceTree = "<group>"; };
 		33D421D62733A3030058C74F /* QuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionView.swift; sourceTree = "<group>"; };
 		33D421D82733AF980058C74F /* Question.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
 		33D421DA2733AF9E0058C74F /* Answer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Answer.swift; sourceTree = "<group>"; };
@@ -171,15 +179,8 @@
 		3343D8EB2738900900EFC8CB /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				331F7288273CA6AF00003CE8 /* QuestionResultView.swift */,
-				336263182733929F00264C98 /* QuizListView.swift */,
-				331F7286273CA58700003CE8 /* Data.swift */,
-				33D421D62733A3030058C74F /* QuestionView.swift */,
 				331F7284273C9F4900003CE8 /* QuestionNavigationBarView.swift */,
-				3343D8F2273A1FBF00EFC8CB /* EmilyView.swift */,
-				331F728A273CAA1200003CE8 /* LivesView.swift */,
 				3303AFD5273B5B5A00F0D116 /* CheckboxField.swift */,
-				335A0DBB273C92210068379D /* QuestionViewHeader.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -260,17 +261,12 @@
 		3362630F273267D900264C98 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				33CA1FC22755785800E30EE6 /* Question */,
+				3343D8EB2738900900EFC8CB /* Components */,
 				33CA1FBC275572A100E30EE6 /* Multiplayer */,
 				339B9B18274D7B040036671E /* Question History */,
-				339B9B13274D5B480036671E /* QuestionBody */,
 				336263132732EF5A00264C98 /* Entrypoint.swift */,
-				3352D022274B315F00D31244 /* WinLossView.swift */,
-				3343D8EB2738900900EFC8CB /* Components */,
-				336263162732EF8F00264C98 /* HomeView.swift */,
 				3343D8E727388F8000EFC8CB /* MLGameAuthView.swift */,
-				3343D8E927388FBC00EFC8CB /* GameView.swift */,
-				3343D8EC2738A02A00EFC8CB /* MatchView.swift */,
-				3343D8F02739A6FF00EFC8CB /* MatchListView.swift */,
 				3352D024274B350600D31244 /* MainView.swift */,
 				33B1851F27555427005B89C9 /* README.md */,
 			);
@@ -301,6 +297,7 @@
 			isa = PBXGroup;
 			children = (
 				33B1852227555581005B89C9 /* MLGameAuthState.swift */,
+				33CA1FC727557A8700E30EE6 /* QuestionViewState.swift */,
 			);
 			path = State;
 			sourceTree = "<group>";
@@ -339,7 +336,12 @@
 		33CA1FBC275572A100E30EE6 /* Multiplayer */ = {
 			isa = PBXGroup;
 			children = (
+				33CA1FCC2755803D00E30EE6 /* Matches */,
+				3343D8E927388FBC00EFC8CB /* GameView.swift */,
 				33CA1FBA2755714700E30EE6 /* MultiplayerMainView.swift */,
+				3352D022274B315F00D31244 /* WinLossView.swift */,
+				331F728A273CAA1200003CE8 /* LivesView.swift */,
+				33CA1FC527557A2800E30EE6 /* README.md */,
 			);
 			path = Multiplayer;
 			sourceTree = "<group>";
@@ -347,11 +349,46 @@
 		33CA1FBF2755750700E30EE6 /* Legacy */ = {
 			isa = PBXGroup;
 			children = (
+				336263182733929F00264C98 /* QuizListView.swift */,
+				331F7286273CA58700003CE8 /* Data.swift */,
+				336263162732EF8F00264C98 /* HomeView.swift */,
 				3362630A273263ED00264C98 /* SignupFormViewModel.swift */,
+				3343D8F2273A1FBF00EFC8CB /* EmilyView.swift */,
 				33D421E02733B5820058C74F /* CloudManager.swift */,
 				336262FB2732562C00264C98 /* ContentView.swift */,
 			);
 			path = Legacy;
+			sourceTree = "<group>";
+		};
+		33CA1FC22755785800E30EE6 /* Question */ = {
+			isa = PBXGroup;
+			children = (
+				33CA1FCB27557FC900E30EE6 /* QuestionHeaders */,
+				339B9B13274D5B480036671E /* QuestionBody */,
+				33CA1FC0275576CD00E30EE6 /* QuestionViewCoordinator.swift */,
+				33D421D62733A3030058C74F /* QuestionView.swift */,
+				331F7288273CA6AF00003CE8 /* QuestionResultView.swift */,
+				33CA1FC32755787800E30EE6 /* README.md */,
+			);
+			path = Question;
+			sourceTree = "<group>";
+		};
+		33CA1FCB27557FC900E30EE6 /* QuestionHeaders */ = {
+			isa = PBXGroup;
+			children = (
+				335A0DBB273C92210068379D /* QuestionViewStaticHeader.swift */,
+				33CA1FC927557D9900E30EE6 /* QuestionViewDynamicHeader.swift */,
+			);
+			path = QuestionHeaders;
+			sourceTree = "<group>";
+		};
+		33CA1FCC2755803D00E30EE6 /* Matches */ = {
+			isa = PBXGroup;
+			children = (
+				3343D8EC2738A02A00EFC8CB /* MatchView.swift */,
+				3343D8F02739A6FF00EFC8CB /* MatchListView.swift */,
+			);
+			path = Matches;
 			sourceTree = "<group>";
 		};
 		33D421DD2733B31D0058C74F /* Frameworks */ = {
@@ -459,11 +496,13 @@
 			files = (
 				336262FC2732562C00264C98 /* ContentView.swift in Sources */,
 				331F728F27430C8500003CE8 /* MLGameStateStack.swift in Sources */,
+				33CA1FC827557A8700E30EE6 /* QuestionViewState.swift in Sources */,
 				3343D8F3273A1FBF00EFC8CB /* EmilyView.swift in Sources */,
 				331F729527441F3800003CE8 /* QuestionService.swift in Sources */,
+				33CA1FCA27557D9900E30EE6 /* QuestionViewDynamicHeader.swift in Sources */,
 				339B9B1A274D7B0F0036671E /* QuestionHistorySnippet.swift in Sources */,
 				33D421EA27375BB30058C74F /* MLGameData.swift in Sources */,
-				335A0DBC273C92210068379D /* QuestionViewHeader.swift in Sources */,
+				335A0DBC273C92210068379D /* QuestionViewStaticHeader.swift in Sources */,
 				33CA1FBE2755731E00E30EE6 /* GKAccessPointModifier.swift in Sources */,
 				336263192733929F00264C98 /* QuizListView.swift in Sources */,
 				33D421EE27375F220058C74F /* MLGame.swift in Sources */,
@@ -488,6 +527,7 @@
 				3362630B273263ED00264C98 /* SignupFormViewModel.swift in Sources */,
 				339B9B17274D7AFC0036671E /* QuestionHistoryListView.swift in Sources */,
 				331F7293274415A500003CE8 /* MLSimpleFactory.swift in Sources */,
+				33CA1FC1275576CD00E30EE6 /* QuestionViewCoordinator.swift in Sources */,
 				339B9B15274D69BF0036671E /* QuestionHistoryView.swift in Sources */,
 				3343D8E627388F0C00EFC8CB /* GameViewRepresentable.swift in Sources */,
 				331F728D27430B2C00003CE8 /* MLGameState.swift in Sources */,

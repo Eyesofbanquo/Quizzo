@@ -29,3 +29,7 @@ This file contains the logic for the view once you reach the screen containing. 
 ## MultiplayerMainView.swift
 
 This is the view that corresponds with the `.idle` state for the `MLGameState` 
+
+## Question views
+
+- Check out the `Question` directory to see the documentation for these views.
