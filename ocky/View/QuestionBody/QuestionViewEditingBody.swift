@@ -64,6 +64,7 @@ struct QuestionViewEditingBody: View {
           }), prompt: Text("Enter an answer choice")
                       .foregroundColor(Color.gray)
                       .font(.headline))
+            .foregroundColor(Theme.Light)
             .disableAutocorrection(false)
             .textFieldStyle(MLRoundedTextFieldStyle(color: isSelectedAnswerChoice(answerChoices[idx].id) ? Theme.Yellow : Theme.Light))
             .padding(4.0)
