@@ -12,6 +12,7 @@ struct Entrypoint: View {
   // MARK: - State -
   
   @AppStorage("signup") private var signup: Bool = false
+  @AppStorage("firstLaunch") private var firstLaunch: Bool = true
   
   @State private var authenticated: Bool = false
   
