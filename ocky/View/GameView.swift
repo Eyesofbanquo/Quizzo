@@ -14,7 +14,10 @@ import GameKit
 // if you go into a match and aren't active player then make it showing
 
 struct GameView: View {
+  // MARK: - State: Env -
   @EnvironmentObject var handler: MLGame
+  
+  // MARK: - State: Local -
   @State private var presentSettingsView: Bool = false
 
   var body: some View {
@@ -24,45 +27,12 @@ struct GameView: View {
         Group {
           switch handler.gameState {
             case .idle:
-              VStack {
-                Spacer()
-                Button(action: {
-                  handler.setState(.findMatch)
-                }) {
-                  Text("Find match")
-                    .font(.largeTitle)
-                    .bold()
-                    .foregroundColor(.white)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .background(RoundedRectangle(cornerRadius: 16.0).fill(Theme.DarkBlue))
-                    .padding()
-                }
-                Button(action: {
-                  handler.setState(.loadMatches)
-                }) {
-                  Text("Load matches")
-                    .font(.largeTitle)
-                    .bold()
-                    .foregroundColor(.white)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .background(RoundedRectangle(cornerRadius: 16.0).fill(Theme.DarkGreen))
-                    .padding()
-                }
-                Spacer()
-              }
-              .padding(.top, 62)
-              .onAppear {
-                GKAccessPoint.shared.location = .topLeading
-                GKAccessPoint.shared.isActive = true
-              }
-              .onDisappear(perform: {
-                GKAccessPoint.shared.isActive = false
-              })
+              MultiplayerMainView()
+                .environmentObject(handler)
             case .listMatches(let mlMatches):
               MatchListView(matches: mlMatches)
                 .environmentObject(handler)
             case .inQuestion(let playState):
-              
               switch playState {
                 case .playing:
                   Group {

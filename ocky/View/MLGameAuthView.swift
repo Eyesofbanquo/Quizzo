@@ -20,17 +20,13 @@ struct MLGameAuthView: View {
       Group {
         switch receivedAction {
           case .none:
+            /* True entry view point of the app. This MainView could have the option to play either solo or multiplayer. */
             MainView(actions: $actions)
           case .isAuthenticating:
             ProgressView()
               .progressViewStyle(CircularProgressViewStyle(tint: Theme.Light))
               .scaleEffect(2.0)
-          case .isAuthenticated:
-            Button(action: {
-              authenticated = true
-            }) {
-              Text("Start game")
-            }
+          default: EmptyView()
         }
       }
       .onReceive(actions) { output in
