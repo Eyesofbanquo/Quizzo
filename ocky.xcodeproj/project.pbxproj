@@ -50,6 +50,7 @@
 		339B9B15274D69BF0036671E /* QuestionHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339B9B14274D69BF0036671E /* QuestionHistoryView.swift */; };
 		339B9B17274D7AFC0036671E /* QuestionHistoryListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339B9B16274D7AFC0036671E /* QuestionHistoryListView.swift */; };
 		339B9B1A274D7B0F0036671E /* QuestionHistorySnippet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339B9B19274D7B0F0036671E /* QuestionHistorySnippet.swift */; };
+		33B1852027555427005B89C9 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 33B1851F27555427005B89C9 /* README.md */; };
 		33D421D72733A3030058C74F /* QuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D421D62733A3030058C74F /* QuestionView.swift */; };
 		33D421D92733AF980058C74F /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D421D82733AF980058C74F /* Question.swift */; };
 		33D421DB2733AF9E0058C74F /* Answer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D421DA2733AF9E0058C74F /* Answer.swift */; };
@@ -108,6 +109,7 @@
 		339B9B14274D69BF0036671E /* QuestionHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionHistoryView.swift; sourceTree = "<group>"; };
 		339B9B16274D7AFC0036671E /* QuestionHistoryListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionHistoryListView.swift; sourceTree = "<group>"; };
 		339B9B19274D7B0F0036671E /* QuestionHistorySnippet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionHistorySnippet.swift; sourceTree = "<group>"; };
+		33B1851F27555427005B89C9 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		33D421D62733A3030058C74F /* QuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionView.swift; sourceTree = "<group>"; };
 		33D421D82733AF980058C74F /* Question.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
 		33D421DA2733AF9E0058C74F /* Answer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Answer.swift; sourceTree = "<group>"; };
@@ -263,6 +265,7 @@
 				3343D8EC2738A02A00EFC8CB /* MatchView.swift */,
 				3343D8F02739A6FF00EFC8CB /* MatchListView.swift */,
 				3352D024274B350600D31244 /* MainView.swift */,
+				33B1851F27555427005B89C9 /* README.md */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -378,6 +381,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				33B1852027555427005B89C9 /* README.md in Resources */,
 				336263012732562E00264C98 /* Preview Assets.xcassets in Resources */,
 				336262FE2732562E00264C98 /* Assets.xcassets in Resources */,
 			);
