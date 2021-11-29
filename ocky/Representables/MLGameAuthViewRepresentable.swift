@@ -12,11 +12,9 @@ import GameKit
 struct MLGameAuthViewRepresentable: UIViewControllerRepresentable {
   
   @Binding var authenticated: Bool
-  @Binding var match: GKTurnBasedMatch?
   
   func makeUIViewController(context: Context) -> MLGameAuthController {
-    let controller = MLGameAuthController(gameStarted: $authenticated,
-                                          match: $match)
+    let controller = MLGameAuthController(gameStarted: $authenticated)
     
     return controller
   }

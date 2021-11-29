@@ -10,25 +10,17 @@ import GameKit
 import SwiftUI
 import Combine
 
-enum MLGameAuthState: CaseIterable {
-  case isAuthenticating, isAuthenticated, none
-}
-
-final class MLGameAuthController: UIViewController,
-                              GKLocalPlayerListener {
+final class MLGameAuthController: UIViewController {
   
   // MARK: - State -
   var gameStarted: Binding<Bool>
-  var match: Binding<GKTurnBasedMatch?>
   var gameStatePassthrough = CurrentValueSubject<MLGameAuthState, Never>(.none)
   var cancellables = Set<AnyCancellable>()
   
   // MARK: - Init -
   
-  init(gameStarted: Binding<Bool>,
-       match: Binding<GKTurnBasedMatch?>) {
+  init(gameStarted: Binding<Bool>) {
     self.gameStarted = gameStarted
-    self.match = match
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -54,6 +46,7 @@ final class MLGameAuthController: UIViewController,
     .store(in: &cancellables)
   }
   
+  /// Use Autolayout to add the `MLGameAuthView`.
   private func addMLGameView() {
     let hostingvc = UIHostingController(rootView: MLGameAuthView(authenticated: gameStarted,
                                                                  actions: gameStatePassthrough))
@@ -78,29 +71,8 @@ final class MLGameAuthController: UIViewController,
     }
   }
   
+  /// Changes `authenticated` status from `Entrypoint` from **False** to **True** which will present the `GameView`.
   private func launchGame() {
     self.gameStarted.wrappedValue = true
-  }
-}
-
-extension MLGameAuthController: GKTurnBasedMatchmakerViewControllerDelegate  {
-  func turnBasedMatchmakerViewControllerWasCancelled(_ viewController: GKTurnBasedMatchmakerViewController) {
-    self.dismiss(animated: true, completion: {
-      self.gameStatePassthrough.send(.isAuthenticated)
-    })
-  }
-  
-  func turnBasedMatchmakerViewController(_ viewController: GKTurnBasedMatchmakerViewController, didFailWithError error: Error) {
-    print(error)
-  }
-  
-  func player(_ player: GKPlayer, receivedTurnEventFor match: GKTurnBasedMatch, didBecomeActive: Bool) {
-    self.match.wrappedValue = match
-    self.dismiss(animated: true, completion: nil)
-   print("haha")
-  }
-  
-  func player(_ player: GKPlayer, receivedExchangeCancellation exchange: GKTurnBasedExchange, for match: GKTurnBasedMatch) {
-    print("called?")
   }
 }

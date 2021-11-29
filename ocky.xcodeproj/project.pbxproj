@@ -51,6 +51,7 @@
 		339B9B17274D7AFC0036671E /* QuestionHistoryListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339B9B16274D7AFC0036671E /* QuestionHistoryListView.swift */; };
 		339B9B1A274D7B0F0036671E /* QuestionHistorySnippet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339B9B19274D7B0F0036671E /* QuestionHistorySnippet.swift */; };
 		33B1852027555427005B89C9 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 33B1851F27555427005B89C9 /* README.md */; };
+		33B1852327555581005B89C9 /* MLGameAuthState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B1852227555581005B89C9 /* MLGameAuthState.swift */; };
 		33D421D72733A3030058C74F /* QuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D421D62733A3030058C74F /* QuestionView.swift */; };
 		33D421D92733AF980058C74F /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D421D82733AF980058C74F /* Question.swift */; };
 		33D421DB2733AF9E0058C74F /* Answer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D421DA2733AF9E0058C74F /* Answer.swift */; };
@@ -110,6 +111,7 @@
 		339B9B16274D7AFC0036671E /* QuestionHistoryListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionHistoryListView.swift; sourceTree = "<group>"; };
 		339B9B19274D7B0F0036671E /* QuestionHistorySnippet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionHistorySnippet.swift; sourceTree = "<group>"; };
 		33B1851F27555427005B89C9 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		33B1852227555581005B89C9 /* MLGameAuthState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLGameAuthState.swift; sourceTree = "<group>"; };
 		33D421D62733A3030058C74F /* QuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionView.swift; sourceTree = "<group>"; };
 		33D421D82733AF980058C74F /* Question.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
 		33D421DA2733AF9E0058C74F /* Answer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Answer.swift; sourceTree = "<group>"; };
@@ -194,14 +196,15 @@
 		336262F82732562C00264C98 /* ocky */ = {
 			isa = PBXGroup;
 			children = (
-				331F727F273C9EDB00003CE8 /* Extensions */,
-				3343D8E227388EE300EFC8CB /* Representables */,
-				33D421EF27375FA90058C74F /* Observables */,
 				33D421E82737193D0058C74F /* SignsUp.entitlements */,
 				33D421E42737077E0058C74F /* Controller */,
-				3362630F273267D900264C98 /* View */,
+				331F727F273C9EDB00003CE8 /* Extensions */,
 				3362630C273267C200264C98 /* Model */,
 				3362630727325F5F00264C98 /* Modifiers */,
+				33D421EF27375FA90058C74F /* Observables */,
+				3343D8E227388EE300EFC8CB /* Representables */,
+				33B1852127555573005B89C9 /* State */,
+				3362630F273267D900264C98 /* View */,
 				3362630A273263ED00264C98 /* SignupFormViewModel.swift */,
 				336262F92732562C00264C98 /* SignsUpApp.swift */,
 				336262FD2732562E00264C98 /* Assets.xcassets */,
@@ -288,6 +291,14 @@
 				339B9B19274D7B0F0036671E /* QuestionHistorySnippet.swift */,
 			);
 			path = "Question History";
+			sourceTree = "<group>";
+		};
+		33B1852127555573005B89C9 /* State */ = {
+			isa = PBXGroup;
+			children = (
+				33B1852227555581005B89C9 /* MLGameAuthState.swift */,
+			);
+			path = State;
 			sourceTree = "<group>";
 		};
 		33D421DD2733B31D0058C74F /* Frameworks */ = {
@@ -444,6 +455,7 @@
 				3343D8EF2738A0EB00EFC8CB /* MLMatch.swift in Sources */,
 				33D421EC27375BD40058C74F /* MLPlayer.swift in Sources */,
 				3352D02127474F0600D31244 /* MLMatchRO.swift in Sources */,
+				33B1852327555581005B89C9 /* MLGameAuthState.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

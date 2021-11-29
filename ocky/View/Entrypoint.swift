@@ -16,31 +16,38 @@ struct Entrypoint: View {
   
   @State private var authenticated: Bool = false
   
-  @State private var match: GKTurnBasedMatch? = nil
-  
   @StateObject private var feedbackGen: FeedbackGenerator = FeedbackGenerator()
   
   var body: some View {
     ZStack {
       Theme.BG.ignoresSafeArea()
       
-      if !authenticated {
-        MLGameAuthViewRepresentable(authenticated: $authenticated,
-                                    match: $match)
-          .environmentObject(feedbackGen)
-      }
+      displayAuthViewIfNeeded(!authenticated)
       
-      if authenticated {
-        GameViewRepresentable()
-          .environmentObject(feedbackGen)
-      }
+      displayGameViewIfNeeded(authenticated)
     }
-    
   }
 }
 
 struct Entrypoint_Previews: PreviewProvider {
   static var previews: some View {
     Entrypoint()
+  }
+}
+
+extension Entrypoint {
+  /// Displays the `MLGameAuthViewRepresentable` view which represents
+  /// the `Game Center` login process in view form
+  func displayAuthViewIfNeeded(_ condition: Bool) -> some View {
+    guard condition else { return AnyView(EmptyView()) }
+    
+    return AnyView(MLGameAuthViewRepresentable(authenticated: $authenticated)
+      .environmentObject(feedbackGen))
+  }
+  
+  func displayGameViewIfNeeded(_ condition: Bool) -> some View {
+    guard condition else { return AnyView(EmptyView()) }
+      return AnyView(GameViewRepresentable()
+        .environmentObject(feedbackGen))
   }
 }
