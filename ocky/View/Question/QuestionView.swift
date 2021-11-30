@@ -13,10 +13,10 @@ struct QuestionView: View {
   @EnvironmentObject var handler: MLGame
   
   // MARK: - State: Local -
-  @StateObject private var playerManager = GKPlayerManager()
-  @State private var questionName: String = ""
-  @State private var displayQuizHistory: Bool = false
-  @State private var question: Question?
+  @StateObject fileprivate var playerManager = GKPlayerManager()
+  @State fileprivate var questionName: String = ""
+  @State fileprivate var displayQuizHistory: Bool = false
+  @State fileprivate var question: Question?
   
   // MARK: - Properties -
   var questionViewState: QuestionViewState = .playing
@@ -43,19 +43,8 @@ struct QuestionView: View {
     GeometryReader { proxy in
       ZStack {
         VStack {
-          QuestionNavigationBarView(displayQuizHistory: $displayQuizHistory,
-                                    
-                                    lives:  playerManager.lives(inGameData: handler.gameData, forMatch: handler.activeMatch),
-                                    
-                                    displayHistoryButton: handler.gameData.history.count > 0,
-                                    
-                                    closeButtonAction: handler.returnToPreviousState,
-                                    
-                                    surrenderButtonAction: {
-            Task {
-              try await handler.quitGame()
-            }
-          })
+          QuestionNavigationBarView(input: QuestionNavigationBarViewInput.generate(fromView: self))
+          
           Spacer()
           ScrollView(showsIndicators: false) {
             VStack(alignment: .leading) {
@@ -121,6 +110,39 @@ struct QuizView_Previews: PreviewProvider {
       QuestionView(question: .stub,
                    state: .showQuestion(gameData: MLGameData(), isCurrentPlayer: true))
         .environmentObject(MLGame())
+    }
+  }
+}
+protocol NavigationBarViewInput {
+  var displayQuizHistory: Binding<Bool> { get set }
+  var lives: Int { get set  }
+  var displayHistoryButton: Bool { get set }
+  var closeButtonAction:  () -> Void { get set }
+  var surrenderButtonAction: () -> Void { get set }
+}
+
+extension QuestionView {
+  
+  struct QuestionNavigationBarViewInput: NavigationBarViewInput {
+    var displayQuizHistory: Binding<Bool>
+    var lives: Int
+    var displayHistoryButton: Bool
+    var closeButtonAction:  () -> Void
+    var surrenderButtonAction: () -> Void
+    
+    static func generate(fromView view: QuestionView) -> NavigationBarViewInput {
+      return QuestionNavigationBarViewInput(displayQuizHistory: view.$displayQuizHistory,
+                                            lives: view.playerManager.lives(inGameData: view.handler.gameData,
+                                                                            
+                                                                            forMatch: view.handler.activeMatch),
+                                            
+                                            displayHistoryButton: view.handler.gameData.history.count > 0,
+                                            
+                                            closeButtonAction: view.handler.returnToPreviousState) {
+        Task {
+          try await view.handler.quitGame()
+        }
+      }
     }
   }
 }

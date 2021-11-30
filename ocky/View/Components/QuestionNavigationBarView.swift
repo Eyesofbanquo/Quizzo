@@ -35,6 +35,10 @@ struct QuestionNavigationBarView: View {
     self.surrenderButtonAction = surrenderButtonAction
   }
   
+  init(input: NavigationBarViewInput) {
+    self.init(displayQuizHistory: input.displayQuizHistory, lives: input.lives, displayHistoryButton: input.displayHistoryButton, closeButtonAction: input.closeButtonAction, surrenderButtonAction: input.surrenderButtonAction)
+  }
+  
   var body: some View {
     HStack {
       CloseButton()
@@ -119,4 +123,8 @@ extension QuestionNavigationBarView {
     .padding(.horizontal, 6)
     .overlay(Capsule().stroke(Theme.Light, lineWidth: 1.0))
   }
+}
+
+extension QuestionNavigationBarView {
+  
 }
