@@ -10,12 +10,16 @@ import GameKit
 
 /// Concrete class for `MLGameAuthController` that authenticates `Game Center`.
 class GameCenterAuthService: AuthService {
+  var authenticatedCompletion: ((Result<AuthServiceState, Never>) -> CheckedContinuation<AuthServiceState, Never>)? 
+  
   func authenticateCompletion(_ completion: @escaping (Result<AuthServiceState, Never>) -> Void) {
     GKLocalPlayer.local.authenticateHandler = { viewController, error in
       if GKLocalPlayer.local.isAuthenticated {
         completion(.success(.isAuthenticated))
       } else if viewController != nil {
         completion(.success(.needsAuthentication(context: viewController)))
+      } else {
+        completion(.success(.unsuccessfulAuthentication))
       }
     }
   }

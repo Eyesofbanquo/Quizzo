@@ -21,4 +21,5 @@ protocol AuthService {
   /// - Returns: Returns an auth state.
   func authenticate() async -> AuthServiceState
   func authenticateCompletion(_ completion: @escaping  (Result<AuthServiceState, Never>) -> Void)
+  
 }

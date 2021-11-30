@@ -39,14 +39,12 @@ final class MLGameAuthController: UIViewController {
     super.viewDidLoad()
     
     addMLGameView()
-
+    
     gameStatePassthrough.sink { nextState in
       print("Received: \(nextState)")
       switch nextState {
         case .isAuthenticating:
-          Task {
-            await self.authenticateUser()
-          }
+          self.authenticateUser()
         default: break
       }
     }
@@ -68,17 +66,19 @@ final class MLGameAuthController: UIViewController {
     hostingvc.didMove(toParent: self)
   }
   
-  @MainActor
-  private func authenticateUser() async {
-    let authStatus = await authService.authenticate()
-    
-    if case .isAuthenticated = authStatus {
-      self.launchGame()
-    }
-    
-    if case .needsAuthentication(let controller) = authStatus,
-       let gameCenterController = controller {
-      self.present(gameCenterController, animated: true)
+  private func authenticateUser() {
+    authService.authenticateCompletion { result in
+      switch result {
+        case .success(let success):
+          switch success {
+            case .isAuthenticated: self.launchGame()
+            case .needsAuthentication(context: let controller):
+              if let gameCenterController = controller {
+                self.present(gameCenterController, animated: true)
+              }
+            default: break
+          }
+      }
     }
   }
   

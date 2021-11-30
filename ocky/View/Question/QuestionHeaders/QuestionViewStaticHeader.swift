@@ -9,13 +9,14 @@ import SwiftUI
 import GameKit
 
 struct QuestionViewStaticHeader: View {
+  
+  @Binding var isMultipleChoice: Bool
 
   var matchID: String
   var matchStatus: GKTurnBasedMatch.Status
   var currentPlayerDisplayName: String
   var questionIndex: Int
   var questionViewState: QuestionViewState
-  var isMultipleChoice: Bool
   
   var questionNumber: Int {
     questionIndex + 1
@@ -52,12 +53,12 @@ struct QuestionViewStaticHeader: View {
 struct QuestionViewStaticHeader_Previews: PreviewProvider {
   static var previews: some View {
     QuestionViewStaticHeader(
+      isMultipleChoice: .constant(false),
       matchID: "123",
       matchStatus: .open,
       currentPlayerDisplayName: "Markim",
       questionIndex: 1,
-      questionViewState: .playing,
-      isMultipleChoice: false)
+      questionViewState: .playing)
       .previewLayout(.sizeThatFits)
   }
 }

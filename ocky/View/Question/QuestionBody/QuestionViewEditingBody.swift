@@ -20,6 +20,7 @@ struct MLRoundedTextFieldStyle: TextFieldStyle {
 }
 
 struct QuestionViewEditingBody: View {
+  @Environment(\.colorScheme) var colorScheme
   // MARK: - State: Environment -
   @EnvironmentObject var feedbackGen: FeedbackGenerator
 
@@ -39,6 +40,8 @@ struct QuestionViewEditingBody: View {
   var addQuestionToHistory: (Question) -> Void
   var endTurn: () -> Void
   
+  @Binding var isMultipleChoiceBinding: Bool
+  
   func isSelectedAnswerChoice(_ id: UUID) -> Bool {
     selectedCorrectAnswerChoices.contains(id)
   }
@@ -46,15 +49,17 @@ struct QuestionViewEditingBody: View {
   init(questionName: Binding<String>,
        currentPlayer: String,
        addQuestionToHistory: @escaping (Question) -> Void,
-       endTurn: @escaping () -> Void) {
+       endTurn: @escaping () -> Void,
+       isMultipleChoiceBinding: Binding<Bool>) {
     self.currentPlayer = currentPlayer
     self._questionName = questionName
     self.addQuestionToHistory = addQuestionToHistory
     self.endTurn = endTurn
+    self._isMultipleChoiceBinding = isMultipleChoiceBinding
   }
   
   init<T: EditingBodyInput>(input: T) {
-    self.init(questionName: input.questionName, currentPlayer: input.currentPlayer, addQuestionToHistory: input.addQuestionToHistory, endTurn: input.endTurn)
+    self.init(questionName: input.questionName, currentPlayer: input.currentPlayer, addQuestionToHistory: input.addQuestionToHistory, endTurn: input.endTurn, isMultipleChoiceBinding: input.isMultipleChoiceBinding)
   }
   
   // MARK: - Layout -
@@ -71,6 +76,10 @@ struct QuestionViewEditingBody: View {
               selectedCorrectAnswerChoices.append(id)
             } else {
               selectedCorrectAnswerChoices = selectedCorrectAnswerChoices.filter { $0 != id}
+            }
+            
+            withAnimation {
+              isMultipleChoiceBinding = selectedCorrectAnswerChoices.count > 1
             }
           }
           TextField(answerChoices[idx].text, text: Binding<String>(get: {
@@ -211,7 +220,7 @@ struct QuestionViewEditingBody_Previews: PreviewProvider {
     QuestionViewEditingBody(questionName: .constant("MarkiM"),
                             currentPlayer: "MarkiM",
                             addQuestionToHistory: {_ in },
-                            endTurn: {})
+                            endTurn: {}, isMultipleChoiceBinding: .constant(true))
       .environmentObject(FeedbackGenerator())
   }
 }

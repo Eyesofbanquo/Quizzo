@@ -18,9 +18,11 @@ struct QuestionView: View {
   @State fileprivate var questionName: String = ""
   @State fileprivate var displayQuizHistory: Bool = false
   @State fileprivate var question: Question?
+  @State var isMultipleChoice: Bool = false
   
   // MARK: - Properties -
   var questionViewState: QuestionViewState = .playing
+  
   
   var questionNumber: Int {
     handler.gameData.history.count
@@ -30,6 +32,20 @@ struct QuestionView: View {
     Binding<String>(get: {
       question?.name ?? ""
     }, set: { _ in })
+  }
+  
+  var isMultipleChoiceBinding: Binding<Bool> {
+    Binding<Bool> {
+      if let question = question {
+        return question.isMultipleChoice
+      } else {
+        return isMultipleChoice
+      }
+    } set: { condition in
+      if question == nil {
+        isMultipleChoice = condition
+      }
+    }
   }
   
   // MARK: - Init -
@@ -50,12 +66,12 @@ struct QuestionView: View {
           ScrollView(showsIndicators: false) {
             VStack(alignment: .leading) {
               QuestionViewStaticHeader(
+                isMultipleChoice: isMultipleChoiceBinding,
                 matchID: String(handler.activeMatch?.matchID.prefix(4) ?? ""),
                 matchStatus: handler.activeMatch?.status ?? .ended,
                 currentPlayerDisplayName: handler.currentPlayer?.displayName ?? "",
                 questionIndex: questionNumber,
-                questionViewState: questionViewState,
-                isMultipleChoice: question?.isMultipleChoice ?? false)
+                questionViewState: questionViewState)
               
               if case .editing = questionViewState {
                 QuestionViewDynamicHeader(questionName: $questionName,
@@ -129,6 +145,7 @@ protocol EditingBodyInput {
   var currentPlayer: String { get set }
   var addQuestionToHistory: (Question) -> Void { get set }
   var endTurn: () -> Void { get set }
+  var isMultipleChoiceBinding: Binding<Bool> { get set }
   
   static func generate(fromView view: T) -> U
 }
@@ -162,6 +179,7 @@ extension QuestionView {
     var currentPlayer: String
     var addQuestionToHistory: (Question) -> Void
     var endTurn: () -> Void
+    var isMultipleChoiceBinding: Binding<Bool>
     
     static func generate(fromView view: QuestionView) -> QuestionViewEditingBodyInput {
       return QuestionViewEditingBodyInput(questionName: view.$questionName, currentPlayer: view.handler.user?.displayName ?? "", addQuestionToHistory: { question in
@@ -171,7 +189,7 @@ extension QuestionView {
           try await view.handler.sendData()
           await view.handler.setState(.inQuestion(playState: .showQuestion(gameData: view.handler.gameData, isCurrentPlayer: false)))
         }
-      })
+      }, isMultipleChoiceBinding: view.isMultipleChoiceBinding)
     }
   }
 }
