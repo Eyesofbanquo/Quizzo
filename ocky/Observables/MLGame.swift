@@ -248,7 +248,6 @@ class MLGame: NSObject, ObservableObject {
     setGameData()
   }
   
-  @MainActor
   func returnToPreviousState() {
     //    self.setState(self.previousGameState)
     withAnimation {

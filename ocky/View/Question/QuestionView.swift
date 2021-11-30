@@ -13,6 +13,7 @@ struct QuestionView: View {
   @EnvironmentObject var handler: MLGame
   
   // MARK: - State: Local -
+  @StateObject private var playerManager = GKPlayerManager()
   @State private var questionName: String = ""
   @State private var displayQuizHistory: Bool = false
   @State private var question: Question?
@@ -42,8 +43,19 @@ struct QuestionView: View {
     GeometryReader { proxy in
       ZStack {
         VStack {
-          QuestionNavigationBarView(displayQuizHistory: $displayQuizHistory)
-            .environmentObject(handler)
+          QuestionNavigationBarView(displayQuizHistory: $displayQuizHistory,
+                                    
+                                    lives:  playerManager.lives(inGameData: handler.gameData, forMatch: handler.activeMatch),
+                                    
+                                    displayHistoryButton: handler.gameData.history.count > 0,
+                                    
+                                    closeButtonAction: handler.returnToPreviousState,
+                                    
+                                    surrenderButtonAction: {
+            Task {
+              try await handler.quitGame()
+            }
+          })
           Spacer()
           ScrollView(showsIndicators: false) {
             VStack(alignment: .leading) {
