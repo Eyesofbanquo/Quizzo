@@ -11,6 +11,7 @@ import GameKit
 struct QuestionView: View {
   // MARK: - State: Environment -
   @EnvironmentObject var handler: MLGame
+  @EnvironmentObject var questionService: QuestionService
   
   // MARK: - State: Local -
   @StateObject fileprivate var playerManager = GKPlayerManager()
@@ -72,8 +73,7 @@ struct QuestionView: View {
               VStack {
                 switch questionViewState {
                   case .editing:
-                    QuestionViewEditingBody(questionName: $questionName)
-                      .environmentObject(handler)
+                    QuestionViewEditingBody(input: QuestionViewEditingBodyInput.generate(fromView: self))
                   case .showQuestion:
                     QuestionViewResultsBody(choices: question?.choices ?? [])
                   case .playing:
@@ -111,6 +111,7 @@ struct QuizView_Previews: PreviewProvider {
                    state: .showQuestion(gameData: MLGameData(), isCurrentPlayer: true))
         .environmentObject(MLGame())
     }
+    .environmentObject(QuestionService())
   }
 }
 protocol NavigationBarViewInput {
@@ -121,8 +122,18 @@ protocol NavigationBarViewInput {
   var surrenderButtonAction: () -> Void { get set }
 }
 
-extension QuestionView {
+protocol EditingBodyInput {
+  associatedtype T = View
+  associatedtype U = Self
+  var questionName: Binding<String> { get set }
+  var currentPlayer: String { get set }
+  var addQuestionToHistory: (Question) -> Void { get set }
+  var endTurn: () -> Void { get set }
   
+  static func generate(fromView view: T) -> U
+}
+
+extension QuestionView {
   struct QuestionNavigationBarViewInput: NavigationBarViewInput {
     var displayQuizHistory: Binding<Bool>
     var lives: Int
@@ -143,6 +154,24 @@ extension QuestionView {
           try await view.handler.quitGame()
         }
       }
+    }
+  }
+  
+  struct QuestionViewEditingBodyInput: EditingBodyInput {
+    var questionName: Binding<String>
+    var currentPlayer: String
+    var addQuestionToHistory: (Question) -> Void
+    var endTurn: () -> Void
+    
+    static func generate(fromView view: QuestionView) -> QuestionViewEditingBodyInput {
+      return QuestionViewEditingBodyInput(questionName: view.$questionName, currentPlayer: view.handler.user?.displayName ?? "", addQuestionToHistory: { question in
+        view.questionService.appendQuestion(question: question, inGame: &view.handler.gameData)
+      }, endTurn: {
+        Task {
+          try await view.handler.sendData()
+          await view.handler.setState(.inQuestion(playState: .showQuestion(gameData: view.handler.gameData, isCurrentPlayer: false)))
+        }
+      })
     }
   }
 }

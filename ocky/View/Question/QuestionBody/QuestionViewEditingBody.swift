@@ -19,12 +19,9 @@ struct MLRoundedTextFieldStyle: TextFieldStyle {
   }
 }
 
-
 struct QuestionViewEditingBody: View {
   // MARK: - State: Environment -
-  @EnvironmentObject var handler: MLGame
   @EnvironmentObject var feedbackGen: FeedbackGenerator
-  @EnvironmentObject private var questionService: QuestionService
 
   // MARK: - State: Local -
   @State private var selectedCorrectAnswerChoices: [UUID] = []
@@ -36,9 +33,28 @@ struct QuestionViewEditingBody: View {
   
   // MARK: - State: Injected -
   @Binding var questionName: String
+  var currentPlayer: String
+  
+  // MARK: - Actions -
+  var addQuestionToHistory: (Question) -> Void
+  var endTurn: () -> Void
   
   func isSelectedAnswerChoice(_ id: UUID) -> Bool {
     selectedCorrectAnswerChoices.contains(id)
+  }
+  
+  init(questionName: Binding<String>,
+       currentPlayer: String,
+       addQuestionToHistory: @escaping (Question) -> Void,
+       endTurn: @escaping () -> Void) {
+    self.currentPlayer = currentPlayer
+    self._questionName = questionName
+    self.addQuestionToHistory = addQuestionToHistory
+    self.endTurn = endTurn
+  }
+  
+  init<T: EditingBodyInput>(input: T) {
+    self.init(questionName: input.questionName, currentPlayer: input.currentPlayer, addQuestionToHistory: input.addQuestionToHistory, endTurn: input.endTurn)
   }
   
   // MARK: - Layout -
@@ -148,9 +164,10 @@ struct QuestionViewEditingBody: View {
             }
           }
           
-          let question = Question(name: questionName, choices: modifiedAnswerChoices, player: handler.user?.displayName ?? "")
+          let question = Question(name: questionName, choices: modifiedAnswerChoices, player: currentPlayer)
           
-          questionService.appendQuestion(question: question, inGame: &handler.gameData)
+          addQuestionToHistory(question)
+          
           Task {
             if selectedCorrectAnswerChoices.isEmpty  {
               withAnimation {
@@ -166,8 +183,7 @@ struct QuestionViewEditingBody: View {
             
             if !questionName.isEmpty && (selectedCorrectAnswerChoices.count > 0 && modifiedAnswerChoices.count > 1) {
               feedbackGen.light()
-              try await handler.sendData()
-              handler.setState(.inQuestion(playState: .showQuestion(gameData: handler.gameData, isCurrentPlayer: false)))
+              endTurn()
             }
             
           }
@@ -192,8 +208,10 @@ struct QuestionViewEditingBody: View {
 
 struct QuestionViewEditingBody_Previews: PreviewProvider {
   static var previews: some View {
-    QuestionViewEditingBody(questionName: .constant("MarkiM"))
-      .environmentObject(MLGame())
+    QuestionViewEditingBody(questionName: .constant("MarkiM"),
+                            currentPlayer: "MarkiM",
+                            addQuestionToHistory: {_ in },
+                            endTurn: {})
       .environmentObject(FeedbackGenerator())
   }
 }
