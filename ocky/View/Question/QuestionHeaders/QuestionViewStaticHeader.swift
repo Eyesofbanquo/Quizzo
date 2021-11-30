@@ -8,7 +8,7 @@
 import SwiftUI
 import GameKit
 
-struct QuestionViewHeader: View {
+struct QuestionViewStaticHeader: View {
 
   var matchID: String
   var matchStatus: GKTurnBasedMatch.Status
@@ -49,9 +49,9 @@ struct QuestionViewHeader: View {
   }
 }
 
-struct QuestionViewHeader_Previews: PreviewProvider {
+struct QuestionViewStaticHeader_Previews: PreviewProvider {
   static var previews: some View {
-    QuestionViewHeader(
+    QuestionViewStaticHeader(
       matchID: "123",
       matchStatus: .open,
       currentPlayerDisplayName: "Markim",
