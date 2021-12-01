@@ -8,6 +8,11 @@
 import SwiftUI
 import GameKit
 
+protocol AbstractQuestionHeader {
+  init(input: NavigationBarViewInput)
+  var anyBody: AnyView { get  }
+}
+
 struct QuestionViewStaticHeader: View {
   
   @Binding var isMultipleChoice: Bool

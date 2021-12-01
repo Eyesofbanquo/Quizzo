@@ -69,6 +69,7 @@
 		33D421EC27375BD40058C74F /* MLPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D421EB27375BD40058C74F /* MLPlayer.swift */; };
 		33D421EE27375F220058C74F /* MLGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D421ED27375F220058C74F /* MLGame.swift */; };
 		33D421F12737730D0058C74F /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D421F02737730D0058C74F /* GameViewController.swift */; };
+		33F45A4F2757CE6E0092005D /* NewQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F45A4E2757CE6E0092005D /* NewQuestionView.swift */; };
 		33FB5CEB274EBF6200B68D63 /* FeedbackGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FB5CEA274EBF6200B68D63 /* FeedbackGenerator.swift */; };
 		33FB5CED274ED27500B68D63 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FB5CEC274ED27500B68D63 /* Theme.swift */; };
 /* End PBXBuildFile section */
@@ -140,6 +141,7 @@
 		33D421EB27375BD40058C74F /* MLPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLPlayer.swift; sourceTree = "<group>"; };
 		33D421ED27375F220058C74F /* MLGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLGame.swift; sourceTree = "<group>"; };
 		33D421F02737730D0058C74F /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
+		33F45A4E2757CE6E0092005D /* NewQuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewQuestionView.swift; sourceTree = "<group>"; };
 		33FB5CEA274EBF6200B68D63 /* FeedbackGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackGenerator.swift; sourceTree = "<group>"; };
 		33FB5CEC274ED27500B68D63 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -367,6 +369,7 @@
 				339B9B13274D5B480036671E /* QuestionBody */,
 				33CA1FC0275576CD00E30EE6 /* QuestionViewCoordinator.swift */,
 				33D421D62733A3030058C74F /* QuestionView.swift */,
+				33F45A4E2757CE6E0092005D /* NewQuestionView.swift */,
 				331F7288273CA6AF00003CE8 /* QuestionResultView.swift */,
 				33CA1FC32755787800E30EE6 /* README.md */,
 			);
@@ -537,6 +540,7 @@
 				33D421F12737730D0058C74F /* GameViewController.swift in Sources */,
 				33D421E6273707B50058C74F /* MLGameAuthController.swift in Sources */,
 				331F7281273C9EEC00003CE8 /* Text+.swift in Sources */,
+				33F45A4F2757CE6E0092005D /* NewQuestionView.swift in Sources */,
 				33FB5CED274ED27500B68D63 /* Theme.swift in Sources */,
 				336263172732EF8F00264C98 /* HomeView.swift in Sources */,
 				3343D8E827388F8000EFC8CB /* MLGameAuthView.swift in Sources */,

@@ -7,8 +7,18 @@
 
 import SwiftUI
 
-struct QuestionNavigationBarView: View {
+protocol AbstractNavigationBarVew {
+  init(input: NavigationBarViewInput)
+  var anyBody: AnyView { get  }
+}
+
+struct QuestionNavigationBarView: View, AbstractNavigationBarVew {
   // MARK: - State: Env -
+  
+  var anyBody: AnyView {
+    AnyView(body)
+  }
+  
   @EnvironmentObject var feedbackGen: FeedbackGenerator
   
   // MARK: - State: Local -
