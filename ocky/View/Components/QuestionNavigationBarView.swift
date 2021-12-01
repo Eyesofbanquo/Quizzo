@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct QuestionNavigationBarView: View {
+  // MARK: - State: Env -
+  @EnvironmentObject var feedbackGen: FeedbackGenerator
   
   // MARK: - State: Local -
   @State private var surrender: Bool = false
@@ -53,6 +55,8 @@ struct QuestionNavigationBarView: View {
           Text("History")
             .font(.title2)
             .bold()
+            .padding(.horizontal)
+            .background(RoundedRectangle(cornerRadius: 8.0).stroke(Theme.Light, lineWidth: 2.0))
         }
       }
       
@@ -86,6 +90,7 @@ struct QuestionNavigationBarView_Previews: PreviewProvider {
                               lives: 3,
     displayHistoryButton: true,
                               closeButtonAction: {}, surrenderButtonAction: {})
+      .environmentObject(FeedbackGenerator())
   }
 }
 
@@ -121,10 +126,6 @@ extension QuestionNavigationBarView {
     }
     .padding(4)
     .padding(.horizontal, 6)
-    .overlay(Capsule().stroke(Theme.Light, lineWidth: 1.0))
+    .overlay(Capsule().stroke(Theme.Light, lineWidth: 2.0))
   }
-}
-
-extension QuestionNavigationBarView {
-  
 }
