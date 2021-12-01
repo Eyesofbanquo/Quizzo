@@ -10,7 +10,7 @@ import GameKit
 
 /// Concrete class for `MLGameAuthController` that authenticates `Game Center`.
 class GameCenterAuthService: AuthService {
-  var authenticatedCompletion: ((Result<AuthServiceState, Never>) -> CheckedContinuation<AuthServiceState, Never>)? 
+  var authenticatedCompletion: ((Result<AuthServiceState, Never>) -> CheckedContinuation<AuthServiceState, Never>)?
   
   func authenticateCompletion(_ completion: @escaping (Result<AuthServiceState, Never>) -> Void) {
     GKLocalPlayer.local.authenticateHandler = { viewController, error in
@@ -24,6 +24,8 @@ class GameCenterAuthService: AuthService {
     }
   }
   
+
+  @available(*, unavailable, message: "Game Center closure doesn't retain checked continuation so it will error since it's calling on a continuation from an async/await that only exists when `authenticate` is called and not just its retained closure.")
   func authenticate() async -> AuthServiceState {
     await withCheckedContinuation { continuation in
       authenticateCompletion { result in

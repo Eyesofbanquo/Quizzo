@@ -31,6 +31,7 @@ struct QuestionViewEditingBody: View {
   @State private var hasEnoughQuestions: Bool = true
   @State private var noEmptyAnswerChoices: Bool = true
   @State private var deleteAnswerChoice: Bool = false
+  @State private var submittedAnswerChoice: Bool = false
   
   // MARK: - State: Injected -
   @Binding var questionName: String
@@ -191,19 +192,30 @@ struct QuestionViewEditingBody: View {
             }
             
             if !questionName.isEmpty && (selectedCorrectAnswerChoices.count > 0 && modifiedAnswerChoices.count > 1) {
+              withAnimation {
+                submittedAnswerChoice.toggle()
+              }
               feedbackGen.light()
               endTurn()
             }
             
           }
         } ) {
-          Text("Submit question")
-            .foregroundColor(.white)
-            .frame(maxWidth: .infinity)
-            .padding()
-            .background(RoundedRectangle(cornerRadius: 16.0)
-                          .fill(Theme.LightGreen))
-            
+          
+          HStack(spacing: 8.0) {
+            if submittedAnswerChoice {
+              ProgressView()
+                .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                .foregroundColor(.white)
+            }
+            Text("Submit question")
+          }
+          .foregroundColor(Theme.Light)
+          .frame(maxWidth: .infinity)
+          .padding()
+          .background(RoundedRectangle(cornerRadius: 16.0)
+                        .fill(Theme.LightGreen))
+          .padding()
         }
       }
       .fixedSize(horizontal: true, vertical: false)

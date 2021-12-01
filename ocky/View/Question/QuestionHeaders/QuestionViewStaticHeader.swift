@@ -35,11 +35,21 @@ struct QuestionViewStaticHeader: View {
           .font(.headline)
       }
       HStack {
-        Image(systemName: isMultipleChoice ? "die.face.6.fill" : "die.face.1.fill")
-          .resizable()
-          .aspectRatio(contentMode: .fit)
-          .frame(width: 24, height: 24)
-          .foregroundColor(Theme.Light)
+        Group {
+          if isMultipleChoice {
+            Image(systemName: "die.face.6.fill")
+              .resizable()
+              .aspectRatio(contentMode: .fit)
+          } else {
+            Image(systemName: "die.face.1.fill")
+              .resizable()
+              .aspectRatio(contentMode: .fit)
+          }
+        }
+        .animation(.easeInOut(duration: 0.2), value: isMultipleChoice)
+        .frame(width: 24, height: 24)
+        .foregroundColor(Theme.Light)
+          
         Text("Question \(questionNumber)")
           .font(.subheadline)
           .foregroundColor(Theme.Light)

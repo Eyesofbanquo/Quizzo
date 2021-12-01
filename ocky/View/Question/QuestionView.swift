@@ -30,8 +30,16 @@ struct QuestionView: View {
   
   var questionNameBinding: Binding<String> {
     Binding<String>(get: {
-      question?.name ?? ""
-    }, set: { _ in })
+      if let question = question {
+        return question.name
+      } else {
+        return questionName
+      }
+    }, set: { newName in
+      if question == nil {
+        questionName = newName
+      }
+    })
   }
   
   var isMultipleChoiceBinding: Binding<Bool> {
@@ -93,7 +101,7 @@ struct QuestionView: View {
                   case .showQuestion:
                     QuestionViewResultsBody(choices: question?.choices ?? [])
                   case .playing:
-                    QuestionViewPlayingBody(question: question)
+                    QuestionViewPlayingBody(input: QuestionViewPlayingBodyInput.generate(fromView: self))
                   default: EmptyView()
                 }
               } //v-stack
@@ -150,6 +158,16 @@ protocol EditingBodyInput {
   static func generate(fromView view: T) -> U
 }
 
+protocol PlayingBodyInput {
+  associatedtype T = View
+  associatedtype U = Self
+  
+  var question: Question? { get set }
+  var playTurnAction: (Question?, [Answer]) -> Void { get set }
+  
+  static func generate(fromView view: T) -> U
+}
+
 extension QuestionView {
   struct QuestionNavigationBarViewInput: NavigationBarViewInput {
     var displayQuizHistory: Binding<Bool>
@@ -166,11 +184,18 @@ extension QuestionView {
                                             
                                             displayHistoryButton: view.handler.gameData.history.count > 0,
                                             
-                                            closeButtonAction: view.handler.returnToPreviousState) {
+                                            closeButtonAction: {
+        if view.handler.gameData.history.isEmpty {
+          view.questionService.saveStateOf(game: view.handler.activeMatch, forPlayer: view.handler.currentPlayer)
+        }
+        view.handler.returnToPreviousState()
+      },
+                                            
+                                            surrenderButtonAction: {
         Task {
           try await view.handler.quitGame()
         }
-      }
+      })
     }
   }
   
@@ -190,6 +215,23 @@ extension QuestionView {
           await view.handler.setState(.inQuestion(playState: .showQuestion(gameData: view.handler.gameData, isCurrentPlayer: false)))
         }
       }, isMultipleChoiceBinding: view.isMultipleChoiceBinding)
+    }
+  }
+  
+  struct QuestionViewPlayingBodyInput: PlayingBodyInput {
+    var question: Question?
+    var playTurnAction: (Question?, [Answer]) -> Void
+    
+    static func generate(fromView view: QuestionView) -> QuestionViewPlayingBodyInput {
+      return QuestionViewPlayingBodyInput(question: view.question, playTurnAction: { question, answerChoices in
+        if view.handler.isUserTurn {
+          if let question = question, let player = view.handler.user {
+            /* Updated player info by sending it to the realm on grade */
+            view.questionService.grade(currentQuestion: question, usingAnswerChoices: answerChoices, forPlayer: player, andGame: view.handler.activeMatch)
+            view.handler.setState(.result(question: question, answers: answerChoices))
+          }
+        }
+      })
     }
   }
 }

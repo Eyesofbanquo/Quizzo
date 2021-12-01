@@ -130,6 +130,9 @@ class MLGame: NSObject, ObservableObject {
       try await match.endTurn(withNextParticipants: availableParticipants,
                               turnTimeout: GKTurnTimeoutDefault,
                               match: data)
+      
+      await Task.sleep(UInt64(1_000_000_000 * 0.5))
+      
       self.setActiveMatch(match)
       
       /* Delete the cached question */
@@ -204,12 +207,13 @@ class MLGame: NSObject, ObservableObject {
     }
   }
   
-  @MainActor
   func setState(_ state: MLGameState) {
-    withAnimation {
-      self.stateStack.push(state)
-      self.gameState = state
-      self.gameStatePasshtrough.send(state)
+    DispatchQueue.main.async {
+      withAnimation {
+        self.stateStack.push(state)
+        self.gameState = state
+        self.gameStatePasshtrough.send(state)
+      }
     }
   }
   
