@@ -15,8 +15,8 @@ protocol AbstractQuestionHeader {
 
 struct QuestionViewStaticHeader: View {
   
-  @Binding var isMultipleChoice: Bool
-
+  @Binding var questionType: QuestionType
+  
   var matchID: String
   var matchStatus: GKTurnBasedMatch.Status
   var currentPlayerDisplayName: String
@@ -41,20 +41,14 @@ struct QuestionViewStaticHeader: View {
       }
       HStack {
         Group {
-          if isMultipleChoice {
-            Image(systemName: "die.face.6.fill")
-              .resizable()
-              .aspectRatio(contentMode: .fit)
-          } else {
-            Image(systemName: "die.face.1.fill")
-              .resizable()
-              .aspectRatio(contentMode: .fit)
-          }
+          Image(systemName: questionType.imageName)
+            .resizable()
+            .aspectRatio(contentMode: .fit)
         }
-        .animation(.easeInOut(duration: 0.2), value: isMultipleChoice)
+        .animation(.easeInOut(duration: 0.2), value: questionType)
         .frame(width: 24, height: 24)
         .foregroundColor(Theme.Light)
-          
+        
         Text("Question \(questionNumber)")
           .font(.subheadline)
           .foregroundColor(Theme.Light)
@@ -68,7 +62,7 @@ struct QuestionViewStaticHeader: View {
 struct QuestionViewStaticHeader_Previews: PreviewProvider {
   static var previews: some View {
     QuestionViewStaticHeader(
-      isMultipleChoice: .constant(false),
+      questionType: .constant(.multipleChoice),
       matchID: "123",
       matchStatus: .open,
       currentPlayerDisplayName: "Markim",

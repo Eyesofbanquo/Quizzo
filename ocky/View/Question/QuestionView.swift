@@ -18,11 +18,10 @@ struct QuestionView: View {
   @State fileprivate var questionName: String = ""
   @State fileprivate var displayQuizHistory: Bool = false
   @State fileprivate var question: Question?
-  @State var isMultipleChoice: Bool = false
+  @State var questionType: QuestionType = .multipleChoice
   
   // MARK: - Properties -
   var questionViewState: QuestionViewState = .playing
-  
   
   var questionNumber: Int {
     handler.gameData.history.count
@@ -36,31 +35,24 @@ struct QuestionView: View {
         return questionName
       }
     }, set: { newName in
-      if question == nil {
+      if case .editing = questionViewState {
         questionName = newName
       }
     })
   }
   
-  var isMultipleChoiceBinding: Binding<Bool> {
-    Binding<Bool> {
-      if let question = question {
-        return question.isMultipleChoice
-      } else {
-        return isMultipleChoice
-      }
-    } set: { condition in
-      if question == nil {
-        isMultipleChoice = condition
-      }
-    }
-  }
-  
   // MARK: - Init -
-  init(question: Question?,
+  init(question: Question? = nil,
+       questionType: QuestionType? = nil,
        state: QuestionViewState) {
     self._question = State.init(initialValue: question)
     self.questionViewState = state
+    
+    if let question = question {
+      self._questionType = State(initialValue: question.questionType)
+    } else if let questionType = questionType {
+      self._questionType = State(initialValue: questionType)
+    }
   }
   
   // MARK: - Layout -
@@ -74,7 +66,7 @@ struct QuestionView: View {
           ScrollView(showsIndicators: false) {
             VStack(alignment: .leading) {
               QuestionViewStaticHeader(
-                isMultipleChoice: isMultipleChoiceBinding,
+                questionType: $questionType,
                 matchID: String(handler.activeMatch?.matchID.prefix(4) ?? ""),
                 matchStatus: handler.activeMatch?.status ?? .ended,
                 currentPlayerDisplayName: handler.currentPlayer?.displayName ?? "",
@@ -128,8 +120,7 @@ struct QuizView_Previews: PreviewProvider {
       QuestionView(question: .stub,
                    state: .playing)
         .environmentObject(MLGame())
-      QuestionView(question: .stub,
-                   state: .editing)
+      QuestionView(question: .stub, state: .editing)
         .environmentObject(MLGame())
       QuestionView(question: .stub,
                    state: .showQuestion(gameData: MLGameData(), isCurrentPlayer: true))
@@ -153,7 +144,7 @@ protocol EditingBodyInput {
   var currentPlayer: String { get set }
   var addQuestionToHistory: (Question) -> Void { get set }
   var endTurn: () -> Void { get set }
-  var isMultipleChoiceBinding: Binding<Bool> { get set }
+  var questionType: Binding<QuestionType> { get set }
   
   static func generate(fromView view: T) -> U
 }
@@ -204,7 +195,7 @@ extension QuestionView {
     var currentPlayer: String
     var addQuestionToHistory: (Question) -> Void
     var endTurn: () -> Void
-    var isMultipleChoiceBinding: Binding<Bool>
+    var questionType: Binding<QuestionType>
     
     static func generate(fromView view: QuestionView) -> QuestionViewEditingBodyInput {
       return QuestionViewEditingBodyInput(questionName: view.$questionName, currentPlayer: view.handler.user?.displayName ?? "", addQuestionToHistory: { question in
@@ -214,7 +205,7 @@ extension QuestionView {
           try await view.handler.sendData()
           await view.handler.setState(.inQuestion(playState: .showQuestion(gameData: view.handler.gameData, isCurrentPlayer: false)))
         }
-      }, isMultipleChoiceBinding: view.isMultipleChoiceBinding)
+      }, questionType: view.$questionType)
     }
   }
   

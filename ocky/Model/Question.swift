@@ -12,11 +12,13 @@ struct Question: Codable, Identifiable {
   var name: String
   var choices: [Answer]
   var player: String
+  var questionType: QuestionType
   
-  init(name: String, choices: [Answer], player: String) {
+  init(name: String, choices: [Answer], player: String, questionType: QuestionType) {
     self.name = name
     self.choices = choices
     self.player = player
+    self.questionType = questionType
     id = UUID()
   }
   
@@ -35,6 +37,11 @@ extension Question {
              choices: [
              Answer(isCorrect: false, text: "Markim"),
              Answer(isCorrect: true, text: "Shaw")],
-             player: "MLShaw")
+             player: "MLShaw",
+             questionType: .multipleChoice)
+  }
+  
+  static var editing: Question {
+    Question(name: "", choices: [], player: "", questionType: .editing)
   }
 }
