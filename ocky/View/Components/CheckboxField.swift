@@ -14,6 +14,7 @@ struct CheckboxField: View {
   let size: CGFloat
   let color: Color
   let textSize: Int
+  let isMarkedOverride: Bool?
   let callback: (UUID, Bool) -> ()
   
   init(
@@ -21,6 +22,7 @@ struct CheckboxField: View {
     size: CGFloat = 10,
     color: Color = Theme.Light,
     textSize: Int = 14,
+    isMarkedOverride: Bool? = nil,
     callback: @escaping (UUID, Bool) -> ()
   ) {
     self.id = id
@@ -28,20 +30,31 @@ struct CheckboxField: View {
     self.color = color
     self.textSize = textSize
     self.callback = callback
+    self.isMarkedOverride = isMarkedOverride
   }
   
-  @State var isMarked:Bool = false
+  @State var isMarked: Bool = false
+  
+  func chooseIsMarked() -> Bool {
+    if let overridden = isMarkedOverride {
+      return overridden
+    } else {
+      return isMarked
+    }
+  }
   
   var body: some View {
     Button(action:{
       self.isMarked.toggle()
       self.callback(self.id, self.isMarked)
     }) {
-        Image(systemName: self.isMarked ? "checkmark.square" : "square")
+      VStack {
+        Image(systemName: chooseIsMarked() ? "checkmark.square" : "square")
           .resizable()
           .aspectRatio(contentMode: .fit)
           .frame(width: 20, height: 20)
           .foregroundColor(color)
+      }
     }
     .buttonStyle(PlainButtonStyle())
     .fixedSize()

@@ -14,7 +14,9 @@ class QuestionService: ObservableObject {
   let realm = try! Realm()
   
   /* Place in grader/question service */
-  func appendQuestion(question: Question, inGame gameData: inout MLGameData) {
+  func appendQuestion(question: Question?, inGame gameData: inout MLGameData) {
+    guard let question = question else { return }
+    
     guard !gameData.history.contains(where: { $0.id == question.id || $0.name.lowercased() == question.name.lowercased() }) else {
       /* Should probably throw an error */
       return
@@ -38,12 +40,8 @@ class QuestionService: ObservableObject {
     return isCorrect
   }
   
-  /* Place in grader/question service */
-  func grade(currentQuestion question: Question,
-             usingAnswerChoices choices: [Answer],
-             forPlayer player: MLPlayer,
-             andGame game: GKTurnBasedMatch?) {
-    guard let matchID = game?.matchID else { return }
+  func saveStateOf(game: GKTurnBasedMatch?, forPlayer player: MLPlayer?) {
+    guard let matchID = game?.matchID, let player = player else { return }
     
     let playerRO = realm.objects(PlayerRO.self).filter { $0.matchID == matchID }.first
     if playerRO == nil {
@@ -52,6 +50,16 @@ class QuestionService: ObservableObject {
         realm.add(pRO)
       }
     }
+  }
+  
+  /* Place in grader/question service */
+  func grade(currentQuestion question: Question,
+             usingAnswerChoices choices: [Answer],
+             forPlayer player: MLPlayer,
+             andGame game: GKTurnBasedMatch?) {
+    guard let matchID = game?.matchID else { return }
+    
+    saveStateOf(game: game, forPlayer: player)
       
     let editablePlayerRO = realm.objects(PlayerRO.self).filter { $0.matchID == matchID }.first
 

@@ -8,14 +8,20 @@
 import SwiftUI
 import GameKit
 
-struct QuestionViewStaticHeader: View {
+protocol AbstractQuestionHeader {
+  init(input: NavigationBarViewInput)
+  var anyBody: AnyView { get  }
+}
 
+struct QuestionViewStaticHeader: View {
+  
+  @Binding var questionType: QuestionType
+  
   var matchID: String
   var matchStatus: GKTurnBasedMatch.Status
   var currentPlayerDisplayName: String
   var questionIndex: Int
   var questionViewState: QuestionViewState
-  var isMultipleChoice: Bool
   
   var questionNumber: Int {
     questionIndex + 1
@@ -34,11 +40,15 @@ struct QuestionViewStaticHeader: View {
           .font(.headline)
       }
       HStack {
-        Image(systemName: isMultipleChoice ? "die.face.6.fill" : "die.face.1.fill")
-          .resizable()
-          .aspectRatio(contentMode: .fit)
-          .frame(width: 24, height: 24)
-          .foregroundColor(Theme.Light)
+        Group {
+          Image(systemName: questionType.imageName)
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+        }
+        .animation(.easeInOut(duration: 0.2), value: questionType)
+        .frame(width: 24, height: 24)
+        .foregroundColor(Theme.Light)
+        
         Text("Question \(questionNumber)")
           .font(.subheadline)
           .foregroundColor(Theme.Light)
@@ -52,12 +62,12 @@ struct QuestionViewStaticHeader: View {
 struct QuestionViewStaticHeader_Previews: PreviewProvider {
   static var previews: some View {
     QuestionViewStaticHeader(
+      questionType: .constant(.multipleChoice),
       matchID: "123",
       matchStatus: .open,
       currentPlayerDisplayName: "Markim",
       questionIndex: 1,
-      questionViewState: .playing,
-      isMultipleChoice: false)
+      questionViewState: .playing)
       .previewLayout(.sizeThatFits)
   }
 }

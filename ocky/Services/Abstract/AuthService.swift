@@ -19,6 +19,7 @@ enum AuthServiceState {
 protocol AuthService {
   /// This function is simply the async version of `authenticateCompletion`.
   /// - Returns: Returns an auth state.
-  func authenticate() async -> AuthServiceState
+//  func authenticate() async -> AuthServiceState
   func authenticateCompletion(_ completion: @escaping  (Result<AuthServiceState, Never>) -> Void)
+  
 }

@@ -22,11 +22,11 @@ struct QuestionViewCoordinator: View {
             if let mostRecentQuestion = handler.gameData.history.last {
               QuestionView(question: mostRecentQuestion, state: questionViewState)
             } else {
-              QuestionView(question: nil, state: .editing)
+              QuestionEditorModeView()
             }
           }
         case .editing:
-          QuestionView(question: nil, state: questionViewState)
+          QuestionEditorModeView()
         case .showQuestion(let gameData, let currentParticipant):
           QuestionView(question: gameData.history.last, state: currentParticipant ? .playing : questionViewState)
         case .history: EmptyView()
@@ -35,6 +35,7 @@ struct QuestionViewCoordinator: View {
     
   }
 }
+
 
 struct QuestionViewCoordinator_Previews: PreviewProvider {
   static var previews: some View {

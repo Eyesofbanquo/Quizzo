@@ -8,18 +8,34 @@
 import SwiftUI
 
 struct QuestionViewPlayingBody: View {
+  // MARK: -  State: Env -
   @EnvironmentObject var handler: MLGame
   @EnvironmentObject var feedbackGen: FeedbackGenerator
+  @EnvironmentObject var questionService: QuestionService
+  
+  // MARK: - State: Local
   @State private var answerChoices: [Answer] = []
   @State private var submittedAnswer: Bool = false
   
-  @EnvironmentObject var questionService: QuestionService
+  // MARK: - Props -
+  var question: Question?
+  
+  // MARK: - Actions -
+  var playTurnAction: (_ question: Question?, _ answerChoices: [Answer]) -> Void
   
   var selectedAnswerIDs: [UUID] {
     answerChoices.map { $0.id }
   }
   
-  var question: Question?
+  init(question: Question?, playTurnAction: @escaping (Question?, [Answer]) -> Void) {
+    self.question = question
+    self.playTurnAction = playTurnAction
+  }
+  
+  init<T: PlayingBodyInput>(input: T) {
+    self.question = input.question
+    self.playTurnAction = input.playTurnAction
+  }
   
   var body: some View {
     VStack(alignment: .center) {
@@ -40,13 +56,7 @@ struct QuestionViewPlayingBody: View {
         }
       }
       Button(action: {
-        if handler.isUserTurn {
-          if let question = question, let player = handler.user {
-            /* Updated player info by sending it to the realm on grade */
-            questionService.grade(currentQuestion: question, usingAnswerChoices: answerChoices, forPlayer: player, andGame: handler.activeMatch)
-            handler.setState(.result(question: question, answers: answerChoices))
-          }
-        }
+        playTurnAction(question, answerChoices)
       }) {
         Text("Play turn")
           .foregroundColor(Theme.Light)
@@ -63,7 +73,7 @@ struct QuestionViewPlayingBody: View {
 
 struct QuestionViewPlayingBody_Previews: PreviewProvider {
   static var previews: some View {
-    QuestionViewPlayingBody(question: .stub)
+    QuestionViewPlayingBody(question: .stub, playTurnAction: { _, _ in })
       .environmentObject(MLGame())
       .environmentObject(FeedbackGenerator())
   }

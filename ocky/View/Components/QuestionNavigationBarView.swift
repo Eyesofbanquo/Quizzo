@@ -7,19 +7,48 @@
 
 import SwiftUI
 
-struct QuestionNavigationBarView: View {
-  // MARK: - State: Environment -
-  @EnvironmentObject var handler: MLGame
+protocol AbstractNavigationBarVew {
+  init(input: NavigationBarViewInput)
+  var anyBody: AnyView { get  }
+}
+
+struct QuestionNavigationBarView: View, AbstractNavigationBarVew {
+  // MARK: - State: Env -
+  
+  var anyBody: AnyView {
+    AnyView(body)
+  }
+  
+  @EnvironmentObject var feedbackGen: FeedbackGenerator
   
   // MARK: - State: Local -
-  @StateObject private var playerManager = GKPlayerManager()
   @State private var surrender: Bool = false
   
   // MARK: - State: Injected -
   @Binding var displayQuizHistory: Bool
   
-  var lives: Int {
-    playerManager.lives(inGameData: handler.gameData, forMatch: handler.activeMatch)
+  // MARK: - Props -
+  var lives: Int
+  var displayHistoryButton: Bool
+  var closeButtonAction:  () -> Void
+  var surrenderButtonAction: () -> Void
+  
+  // MARK: - Init -
+  
+  init(displayQuizHistory: Binding<Bool>,
+       lives: Int,
+       displayHistoryButton: Bool,
+       closeButtonAction:  @escaping () -> Void,
+       surrenderButtonAction: @escaping () -> Void) {
+    self._displayQuizHistory = displayQuizHistory
+    self.lives = lives
+    self.displayHistoryButton = displayHistoryButton
+    self.closeButtonAction = closeButtonAction
+    self.surrenderButtonAction = surrenderButtonAction
+  }
+  
+  init(input: NavigationBarViewInput) {
+    self.init(displayQuizHistory: input.displayQuizHistory, lives: input.lives, displayHistoryButton: input.displayHistoryButton, closeButtonAction: input.closeButtonAction, surrenderButtonAction: input.surrenderButtonAction)
   }
   
   var body: some View {
@@ -27,7 +56,7 @@ struct QuestionNavigationBarView: View {
       CloseButton()
       Spacer()
       
-      if handler.gameData.history.count > 0 {
+      if displayHistoryButton {
         Spacer()
         Button(action: {
           /* Display history sheet */
@@ -36,6 +65,8 @@ struct QuestionNavigationBarView: View {
           Text("History")
             .font(.title2)
             .bold()
+            .padding(.horizontal)
+            .background(RoundedRectangle(cornerRadius: 8.0).stroke(Theme.Light, lineWidth: 2.0))
         }
       }
       
@@ -50,9 +81,7 @@ struct QuestionNavigationBarView: View {
         }
         .alert("Do you want to surrender this game?", isPresented: $surrender) {
           Button("Yes", role: .destructive) {
-            Task {
-              try await handler.quitGame()
-            }
+            surrenderButtonAction()
           }
           Button("Cancel", role: .cancel) { }
         }
@@ -67,18 +96,17 @@ struct QuestionNavigationBarView: View {
 
 struct QuestionNavigationBarView_Previews: PreviewProvider {
   static var previews: some View {
-    QuestionNavigationBarView(displayQuizHistory: .constant(false))
-      .environmentObject(MLGame())
+    QuestionNavigationBarView(displayQuizHistory: .constant(false),
+                              lives: 3,
+    displayHistoryButton: true,
+                              closeButtonAction: {}, surrenderButtonAction: {})
+      .environmentObject(FeedbackGenerator())
   }
 }
 
 extension QuestionNavigationBarView {
   private func CloseButton() -> some View {
-    Button(action: {
-      // save the progress if you're in playing/editing state
-      // handler.saveProgressIfNeeded()
-      handler.returnToPreviousState()
-    }) {
+    Button(action: closeButtonAction) {
       Image(systemName: "xmark.circle")
         .resizable()
         .frame(width: 32, height: 32)
@@ -108,6 +136,6 @@ extension QuestionNavigationBarView {
     }
     .padding(4)
     .padding(.horizontal, 6)
-    .overlay(Capsule().stroke(Theme.Light, lineWidth: 1.0))
+    .overlay(Capsule().stroke(Theme.Light, lineWidth: 2.0))
   }
 }
