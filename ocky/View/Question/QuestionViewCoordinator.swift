@@ -22,7 +22,7 @@ struct QuestionViewCoordinator: View {
             if let mostRecentQuestion = handler.gameData.history.last {
               QuestionView(question: mostRecentQuestion, state: questionViewState)
             } else {
-              QuestionView(state: .editing)
+              QuestionEditorModeView()
             }
           }
         case .editing:

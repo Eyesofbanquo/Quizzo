@@ -72,11 +72,11 @@ struct QuestionViewEditingBody: View {
   }
   
   func CheckBoxViews(idx: Int) -> some View {
-    CheckboxField(id: answerChoices[idx].id, color: isSelectedAnswerChoice(answerChoices[idx].id) ? Theme.Yellow : Theme.Light, isMarkedOverride: questionType == .trueOrFalse ? isSelectedAnswerChoice(answerChoices[idx].id) : nil) { id, enabled in
+    CheckboxField(id: answerChoices[idx].id, color: isSelectedAnswerChoice(answerChoices[idx].id) ? Theme.Yellow : Theme.Light, isMarkedOverride: (questionType == .trueOrFalse || questionType == .singleChoice) ? isSelectedAnswerChoice(answerChoices[idx].id) : nil) { id, enabled in
       
       feedbackGen.light()
       
-      if questionType == .trueOrFalse {
+      if questionType == .trueOrFalse || questionType == .singleChoice {
         selectedCorrectAnswerChoices = []
         selectedCorrectAnswerChoices.append(id)
       } else {
