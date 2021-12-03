@@ -25,10 +25,6 @@ struct Question: Codable, Identifiable {
   var correctAnswers: [Answer] {
     choices.filter { $0.isCorrect }
   }
-  
-  var isMultipleChoice: Bool {
-    correctAnswers.count > 1
-  }
 }
 
 extension Question {

@@ -19,11 +19,19 @@ struct MLRoundedTextFieldStyle: TextFieldStyle {
   }
 }
 
+struct CheckboxPreference: PreferenceKey {
+  static func reduce(value: inout UUID, nextValue: () -> UUID) {
+    value = nextValue()
+  }
+  
+  static var defaultValue: UUID = UUID()
+}
+
 struct QuestionViewEditingBody: View {
   @Environment(\.colorScheme) var colorScheme
   // MARK: - State: Environment -
   @EnvironmentObject var feedbackGen: FeedbackGenerator
-
+  
   // MARK: - State: Local -
   @State private var selectedCorrectAnswerChoices: [UUID] = []
   @State private var answerChoices: [Answer] = []
@@ -63,54 +71,78 @@ struct QuestionViewEditingBody: View {
     self.init(questionName: input.questionName, currentPlayer: input.currentPlayer, addQuestionToHistory: input.addQuestionToHistory, endTurn: input.endTurn, questionType: input.questionType)
   }
   
+  func CheckBoxViews(idx: Int) -> some View {
+    CheckboxField(id: answerChoices[idx].id, color: isSelectedAnswerChoice(answerChoices[idx].id) ? Theme.Yellow : Theme.Light, isMarkedOverride: questionType == .trueOrFalse ? isSelectedAnswerChoice(answerChoices[idx].id) : nil) { id, enabled in
+      
+      feedbackGen.light()
+      
+      if questionType == .trueOrFalse {
+        selectedCorrectAnswerChoices = []
+        selectedCorrectAnswerChoices.append(id)
+      } else {
+        if enabled {
+          selectedCorrectAnswerChoices.append(id)
+        } else {
+          selectedCorrectAnswerChoices = selectedCorrectAnswerChoices.filter { $0 != id}
+        }
+      }
+    }
+  }
+  
   // MARK: - Layout -
   var body: some View {
     VStack {
       
       ForEach(0..<answerChoices.count, id: \.self) { idx in
         HStack {
-          CheckboxField(id: answerChoices[idx].id, color: isSelectedAnswerChoice(answerChoices[idx].id) ? Theme.Yellow : Theme.Light) { id, enabled in
-            
-            feedbackGen.light()
-            
-            if enabled {
-              selectedCorrectAnswerChoices.append(id)
-            } else {
-              selectedCorrectAnswerChoices = selectedCorrectAnswerChoices.filter { $0 != id}
-            }
-          }
-          TextField(answerChoices[idx].text, text: Binding<String>(get: {
-            answerChoices[idx].text
-          }, set: { val in
-            answerChoices[idx].text = val
-          }), prompt: Text("Enter an answer choice")
-                      .foregroundColor(Color.gray)
-                      .font(.headline))
-            .foregroundColor(Theme.Light)
-            .disableAutocorrection(false)
-            .textFieldStyle(MLRoundedTextFieldStyle(color: isSelectedAnswerChoice(answerChoices[idx].id) ? Theme.Yellow : Theme.Light))
-            .padding(4.0)
-            
+          CheckBoxViews(idx: idx)
           
-          Button(action: {
-            /* Handle action. Present alert */
-            feedbackGen.warning()
-            deleteAnswerChoice.toggle()
-          }) {
-            Image(systemName: "xmark")
-              .resizable()
-              .aspectRatio(contentMode: .fit)
-              .frame(width: 16, height: 16)
-              .foregroundColor(Theme.Red)
-          }
-          .alert("Delete this answer choice?", isPresented: $deleteAnswerChoice) {
-            Button("Confirm", role: .destructive) {
-              withAnimation {
-                answerChoices = answerChoices.filter { $0.id != answerChoices[idx].id }
+          switch questionType {
+            case .trueOrFalse:
+              TextField(answerChoices[idx].text, text: Binding<String>(get: {
+                answerChoices[idx].text
+              }, set: { val in
+                answerChoices[idx].text = val
+              }))
+                .foregroundColor(Theme.Light)
+                .disableAutocorrection(false)
+                .disabled(true)
+                .textFieldStyle(MLRoundedTextFieldStyle(color: isSelectedAnswerChoice(answerChoices[idx].id) ? Theme.Yellow : Theme.Light))
+                .padding(4.0)
+            default:
+              TextField(answerChoices[idx].text, text: Binding<String>(get: {
+                answerChoices[idx].text
+              }, set: { val in
+                answerChoices[idx].text = val
+              }), prompt: Text("Enter an answer choice")
+                          .foregroundColor(Color.gray)
+                          .font(.headline))
+                .foregroundColor(Theme.Light)
+                .disableAutocorrection(false)
+                .textFieldStyle(MLRoundedTextFieldStyle(color: isSelectedAnswerChoice(answerChoices[idx].id) ? Theme.Yellow : Theme.Light))
+                .padding(4.0)
+              
+              
+              Button(action: {
+                /* Handle action. Present alert */
+                feedbackGen.warning()
+                deleteAnswerChoice.toggle()
+              }) {
+                Image(systemName: "xmark")
+                  .resizable()
+                  .aspectRatio(contentMode: .fit)
+                  .frame(width: 16, height: 16)
+                  .foregroundColor(Theme.Red)
               }
-            }
-            Button("Cancel", role: .cancel) { }
-          }
+              .alert("Delete this answer choice?", isPresented: $deleteAnswerChoice) {
+                Button("Confirm", role: .destructive) {
+                  withAnimation {
+                    answerChoices = answerChoices.filter { $0.id != answerChoices[idx].id }
+                  }
+                }
+                Button("Cancel", role: .cancel) { }
+              } // default
+          } // switch
         } // hstack
       } // loop
       
@@ -138,18 +170,25 @@ struct QuestionViewEditingBody: View {
       // MARK: - Error Messages: End -
       
       VStack {
-        Button(action: {
-          withAnimation {
-            answerChoices.append(.empty)
+        if questionType != .trueOrFalse {
+          Button(action: {
+            withAnimation {
+              switch questionType {
+                case .trueOrFalse: break
+                default:
+                  answerChoices.append(.empty)
+              }
+            }
+          }) {
+            Text("Add new answer choice")
+              .foregroundColor(.white)
+              .frame(maxWidth: .infinity)
+              .padding()
+              .background(RoundedRectangle(cornerRadius: 16.0)
+                            .fill(Theme.LightBlue))
           }
-        }) {
-          Text("Add new answer choice")
-            .foregroundColor(.white)
-            .frame(maxWidth: .infinity)
-            .padding()
-            .background(RoundedRectangle(cornerRadius: 16.0)
-                          .fill(Theme.LightBlue))
         }
+        
         Button(action: {
           let modifiedAnswerChoices = answerChoices.map { choice -> Answer in
             if selectedCorrectAnswerChoices.contains(choice.id) {
@@ -218,6 +257,12 @@ struct QuestionViewEditingBody: View {
       .padding(.top, 4.0)
       .onAppear {
         feedbackGen.warm()
+      }
+      .onAppear {
+        if case .trueOrFalse = questionType {
+          answerChoices.append(Answer(isCorrect: false, text: "True"))
+          answerChoices.append(Answer(isCorrect: false, text: "False"))
+        }
       }
     }
   }
