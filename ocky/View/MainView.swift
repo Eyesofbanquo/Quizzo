@@ -13,9 +13,11 @@ struct MainView: View {
   // MARK: - State: Env -
   @EnvironmentObject var feedbackGen: FeedbackGenerator
   
+  @EnvironmentObject var ockyStateManager: OckyStateManager
+  
   // MARK: - Local -  
   // MARK: - State: Injected -
-  @Binding var actions: CurrentValueSubject<MLGameAuthState, Never>
+//  @Binding var actions: CurrentValueSubject<MLGameAuthState, Never>
   
   var body: some View {
     GeometryReader { proxy in
@@ -39,7 +41,8 @@ struct MainView: View {
           
           Button(action: {
             feedbackGen.success()
-            actions.send(.isAuthenticating)
+            ockyStateManager.send(.multiplayer)
+//            actions.send(.isAuthenticating)
           }) {
             Text("Login to Game Center")
               .questionButton(isHighlighted: false,
@@ -58,7 +61,8 @@ struct MainView: View {
 
 struct MainView_Previews: PreviewProvider {
   static var previews: some View {
-    MainView(actions: .constant(CurrentValueSubject<MLGameAuthState, Never>(.none)))
+    MainView()
       .environmentObject(FeedbackGenerator())
+      .environmentObject(OckyStateManager())
   }
 }

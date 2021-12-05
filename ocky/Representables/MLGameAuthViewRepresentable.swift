@@ -10,11 +10,10 @@ import SwiftUI
 import GameKit
 
 struct MLGameAuthViewRepresentable: UIViewControllerRepresentable {
-  
-  @Binding var authenticated: Bool
+  @State private var state: MLGameAuthState = .none
   
   func makeUIViewController(context: Context) -> MLGameAuthController {
-    let controller = MLGameAuthController(gameStarted: $authenticated)
+    let controller = MLGameAuthController(state: $state)
     
     return controller
   }

@@ -47,6 +47,10 @@
 		336263142732EF5A00264C98 /* Entrypoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336263132732EF5A00264C98 /* Entrypoint.swift */; };
 		336263172732EF8F00264C98 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336263162732EF8F00264C98 /* HomeView.swift */; };
 		336263192733929F00264C98 /* QuizListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336263182733929F00264C98 /* QuizListView.swift */; };
+		3392D2D6275A8A370053CCC6 /* QuizMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3392D2D5275A8A370053CCC6 /* QuizMainView.swift */; };
+		3392D2D8275D5F060053CCC6 /* HomeAccessPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3392D2D7275D5F060053CCC6 /* HomeAccessPoint.swift */; };
+		3392D2DA275D640D0053CCC6 /* OckyState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3392D2D9275D640D0053CCC6 /* OckyState.swift */; };
+		3392D2DC275D64340053CCC6 /* OckyStateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3392D2DB275D64340053CCC6 /* OckyStateManager.swift */; };
 		339B9B15274D69BF0036671E /* QuestionHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339B9B14274D69BF0036671E /* QuestionHistoryView.swift */; };
 		339B9B17274D7AFC0036671E /* QuestionHistoryListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339B9B16274D7AFC0036671E /* QuestionHistoryListView.swift */; };
 		339B9B1A274D7B0F0036671E /* QuestionHistorySnippet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339B9B19274D7B0F0036671E /* QuestionHistorySnippet.swift */; };
@@ -116,6 +120,10 @@
 		336263132732EF5A00264C98 /* Entrypoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entrypoint.swift; sourceTree = "<group>"; };
 		336263162732EF8F00264C98 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		336263182733929F00264C98 /* QuizListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizListView.swift; sourceTree = "<group>"; };
+		3392D2D5275A8A370053CCC6 /* QuizMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizMainView.swift; sourceTree = "<group>"; };
+		3392D2D7275D5F060053CCC6 /* HomeAccessPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAccessPoint.swift; sourceTree = "<group>"; };
+		3392D2D9275D640D0053CCC6 /* OckyState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OckyState.swift; sourceTree = "<group>"; };
+		3392D2DB275D64340053CCC6 /* OckyStateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OckyStateManager.swift; sourceTree = "<group>"; };
 		339B9B14274D69BF0036671E /* QuestionHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionHistoryView.swift; sourceTree = "<group>"; };
 		339B9B16274D7AFC0036671E /* QuestionHistoryListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionHistoryListView.swift; sourceTree = "<group>"; };
 		339B9B19274D7B0F0036671E /* QuestionHistorySnippet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionHistorySnippet.swift; sourceTree = "<group>"; };
@@ -185,6 +193,7 @@
 		3343D8EB2738900900EFC8CB /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				3392D2D7275D5F060053CCC6 /* HomeAccessPoint.swift */,
 				331F7284273C9F4900003CE8 /* QuestionNavigationBarView.swift */,
 				3303AFD5273B5B5A00F0D116 /* CheckboxField.swift */,
 			);
@@ -268,6 +277,7 @@
 		3362630F273267D900264C98 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				3392D2D4275A7BE80053CCC6 /* Quiz */,
 				33CA1FC22755785800E30EE6 /* Question */,
 				3343D8EB2738900900EFC8CB /* Components */,
 				33CA1FBC275572A100E30EE6 /* Multiplayer */,
@@ -278,6 +288,14 @@
 				33B1851F27555427005B89C9 /* README.md */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		3392D2D4275A7BE80053CCC6 /* Quiz */ = {
+			isa = PBXGroup;
+			children = (
+				3392D2D5275A8A370053CCC6 /* QuizMainView.swift */,
+			);
+			path = Quiz;
 			sourceTree = "<group>";
 		};
 		339B9B13274D5B480036671E /* QuestionBody */ = {
@@ -305,6 +323,7 @@
 			children = (
 				33B1852227555581005B89C9 /* MLGameAuthState.swift */,
 				33CA1FC727557A8700E30EE6 /* QuestionViewState.swift */,
+				3392D2D9275D640D0053CCC6 /* OckyState.swift */,
 			);
 			path = State;
 			sourceTree = "<group>";
@@ -336,6 +355,7 @@
 				331F729427441F3800003CE8 /* QuestionService.swift */,
 				33FB5CEA274EBF6200B68D63 /* FeedbackGenerator.swift */,
 				33B18526275567A6005B89C9 /* GameCenterAuthService.swift */,
+				3392D2DB275D64340053CCC6 /* OckyStateManager.swift */,
 			);
 			path = Concrete;
 			sourceTree = "<group>";
@@ -504,6 +524,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				336262FC2732562C00264C98 /* ContentView.swift in Sources */,
+				3392D2DA275D640D0053CCC6 /* OckyState.swift in Sources */,
 				331F728F27430C8500003CE8 /* MLGameStateStack.swift in Sources */,
 				33CA1FC827557A8700E30EE6 /* QuestionViewState.swift in Sources */,
 				3343D8F3273A1FBF00EFC8CB /* EmilyView.swift in Sources */,
@@ -513,6 +534,7 @@
 				33D421EA27375BB30058C74F /* MLGameData.swift in Sources */,
 				335A0DBC273C92210068379D /* QuestionViewStaticHeader.swift in Sources */,
 				33CA1FBE2755731E00E30EE6 /* GKAccessPointModifier.swift in Sources */,
+				3392D2D8275D5F060053CCC6 /* HomeAccessPoint.swift in Sources */,
 				336263192733929F00264C98 /* QuizListView.swift in Sources */,
 				33D421EE27375F220058C74F /* MLGame.swift in Sources */,
 				3343D8F12739A70000EFC8CB /* MatchListView.swift in Sources */,
@@ -532,9 +554,11 @@
 				3352D023274B315F00D31244 /* WinLossView.swift in Sources */,
 				335A0DBE273C984C0068379D /* QuestionViewEditingBody.swift in Sources */,
 				335A0DC0273C9A050068379D /* QuestionViewResultsBody.swift in Sources */,
+				3392D2DC275D64340053CCC6 /* OckyStateManager.swift in Sources */,
 				3362630927325F8300264C98 /* InputModifier.swift in Sources */,
 				331F7285273C9F4900003CE8 /* QuestionNavigationBarView.swift in Sources */,
 				3362630B273263ED00264C98 /* SignupFormViewModel.swift in Sources */,
+				3392D2D6275A8A370053CCC6 /* QuizMainView.swift in Sources */,
 				339B9B17274D7AFC0036671E /* QuestionHistoryListView.swift in Sources */,
 				331F7293274415A500003CE8 /* MLSimpleFactory.swift in Sources */,
 				33CA1FC1275576CD00E30EE6 /* QuestionViewCoordinator.swift in Sources */,

@@ -13,19 +13,21 @@ import Combine
 final class MLGameAuthController: UIViewController {
   
   // MARK: - State -
-  var gameStarted: Binding<Bool>
-  var gameStatePassthrough = CurrentValueSubject<MLGameAuthState, Never>(.none)
+  lazy var gameStatePassthrough = PassthroughSubject<MLGameAuthState, Never>()
   var cancellables = Set<AnyCancellable>()
   
   // MARK: - Services -
   var authService: AuthService
   
+  var state: Binding<MLGameAuthState>
+  
+//  @Binding var currentStateBinding: Binding<MLGameState>
+  
   // MARK: - Init -
   
-  init(gameStarted: Binding<Bool>,
-       authService: AuthService = GameCenterAuthService()) {
-    self.gameStarted = gameStarted
+  init(state: Binding<MLGameAuthState>, authService: AuthService = GameCenterAuthService()) {
     self.authService = authService
+    self.state = state
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -40,21 +42,25 @@ final class MLGameAuthController: UIViewController {
     
     addMLGameView()
     
-    gameStatePassthrough.sink { nextState in
+//    self.authenticateUser()
+    
+    gameStatePassthrough.receive(on: DispatchQueue.main).sink { nextState in
       print("Received: \(nextState)")
       switch nextState {
         case .isAuthenticating:
+          self.state.wrappedValue = .isAuthenticating
           self.authenticateUser()
         default: break
       }
     }
     .store(in: &cancellables)
+    
+    gameStatePassthrough.send(.isAuthenticating)
   }
   
   /// Use Autolayout to add the `MLGameAuthView`.
   private func addMLGameView() {
-    let hostingvc = UIHostingController(rootView: MLGameAuthView(authenticated: gameStarted,
-                                                                 actions: gameStatePassthrough))
+    let hostingvc = UIHostingController(rootView: MLGameAuthView(state: state))
     hostingvc.view.translatesAutoresizingMaskIntoConstraints = false
     addChild(hostingvc)
     view.addSubview(hostingvc.view)
@@ -67,6 +73,7 @@ final class MLGameAuthController: UIViewController {
   }
   
   private func authenticateUser() {
+    
     authService.authenticateCompletion { result in
       switch result {
         case .success(let success):
@@ -84,6 +91,8 @@ final class MLGameAuthController: UIViewController {
   
   /// Changes `authenticated` status from `Entrypoint` from **False** to **True** which will present the `GameView`.
   private func launchGame() {
-    self.gameStarted.wrappedValue = true
+//    self.gameStarted.wrappedValue = true
+//    gameStatePassthrough.send(.inGame)
+    self.state.wrappedValue = .inGame
   }
 }
