@@ -39,15 +39,11 @@ struct MainView: View {
           Text("The quiz making game")
             .foregroundColor(.white)
           
-          Button(action: {
-            feedbackGen.success()
-            ockyStateManager.send(.multiplayer)
-//            actions.send(.isAuthenticating)
-          }) {
-            Text("Login to Game Center")
-              .questionButton(isHighlighted: false,
-                              defaultBackgroundColor: Theme.LightBlue)
+          VStack {
+            SinglePlayerButton
+            MultiplayerButton
           }
+          
         }
         .onAppear {
           feedbackGen.warm()
@@ -56,6 +52,29 @@ struct MainView: View {
     }
     
     
+  }
+  
+  private var SinglePlayerButton: some View {
+    Button(action: {
+      feedbackGen.success()
+      ockyStateManager.send(.single)
+    }) {
+      Text("Single Player Quiz Mode")
+        .questionButton(isHighlighted: false,
+                        defaultBackgroundColor: Theme.LightBlue)
+    }
+  }
+  
+  private var MultiplayerButton: some View {
+    Button(action: {
+      feedbackGen.success()
+      ockyStateManager.send(.multiplayer)
+    }) {
+      Text("Login to Game Center")
+        .questionButton(isHighlighted: false,
+                        defaultBackgroundColor: Theme.LightBlue)
+    }
+  
   }
 }
 

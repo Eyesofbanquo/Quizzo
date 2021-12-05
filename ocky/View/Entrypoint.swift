@@ -28,10 +28,9 @@ struct Entrypoint: View {
           MainView()
         case .multiplayer:
           MLGameAuthViewRepresentable()
-        default: EmptyView()
+        case .single:
+          QuizMainView()
       }
-      
-      /* Display QuizMainViewIfNeeded */
     }
   }
 }
