@@ -9,16 +9,27 @@ import SwiftUI
 
 struct MultiplayerMainView: View {
   // MARK: - State: Env -
+  @EnvironmentObject var ockyStateManager: OckyStateManager
   @EnvironmentObject var handler: MLGame
 
   var body: some View {
-    VStack {
-      Spacer()
-      FindMatchButton()
-      LoadMatchesButton()
-      Spacer()
+    ZStack {
+      /* Place header here */
+      VStack {
+        HomeAccessPoint {
+          ockyStateManager.send(.menu)
+        }
+        .padding(.top)
+        Spacer()
+      }
+      VStack {
+        Spacer()
+        FindMatchButton()
+        LoadMatchesButton()
+        Spacer()
+      }
+      .modifier(GKAccessPointModifier())
     }
-    .modifier(GKAccessPointModifier())
   }
 }
 
@@ -26,6 +37,8 @@ struct MultiplayerMainView_Previews: PreviewProvider {
   static var previews: some View {
     MultiplayerMainView()
       .environmentObject(MLGame())
+      .environmentObject(OckyStateManager())
+      .preferredColorScheme(.dark)
   }
 }
 

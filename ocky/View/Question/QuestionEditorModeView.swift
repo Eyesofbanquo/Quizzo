@@ -44,7 +44,7 @@ struct QuestionEditorModeView: View {
               Image(systemName: questionType.imageName)
                 .font(.largeTitle)
                 .foregroundColor(selectedQuestionType == questionType ? Theme.Yellow : Theme.Light)
-              Text(questionType.rawValue)
+              Text(questionType.stringValue)
                 .font(.subheadline)
                 .foregroundColor(selectedQuestionType == questionType ? Theme.Yellow : Theme.Light)
             }

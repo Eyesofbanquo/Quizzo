@@ -10,9 +10,13 @@ import RealmSwift
 
 @main
 struct SignsUpApp: SwiftUI.App {
+  @StateObject private var ockyStateManager: OckyStateManager = OckyStateManager()
+  @StateObject private var feedbackGen: FeedbackGenerator = FeedbackGenerator()
   var body: some Scene {
     WindowGroup {
       Entrypoint()
+        .environmentObject(ockyStateManager)
+        .environmentObject(feedbackGen)
     }
   }
 }

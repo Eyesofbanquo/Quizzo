@@ -13,6 +13,10 @@ class GameCenterAuthService: AuthService {
   var authenticatedCompletion: ((Result<AuthServiceState, Never>) -> CheckedContinuation<AuthServiceState, Never>)?
   
   func authenticateCompletion(_ completion: @escaping (Result<AuthServiceState, Never>) -> Void) {
+    guard GKLocalPlayer.local.isAuthenticated == false else {
+      completion(.success(.isAuthenticated))
+      return
+    }
     GKLocalPlayer.local.authenticateHandler = { viewController, error in
       if GKLocalPlayer.local.isAuthenticated {
         completion(.success(.isAuthenticated))

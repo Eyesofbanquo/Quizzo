@@ -7,11 +7,20 @@
 
 import Foundation
 
-enum QuestionType: String, Codable, CaseIterable {
-  case multipleChoice = "multiple choice"
-  case singleChoice = "single choice"
-  case trueOrFalse = "true or false"
+enum QuestionType: Int, Codable, CaseIterable {
+  case multipleChoice
+  case singleChoice
+  case trueOrFalse
   case editing
+  
+  var stringValue: String {
+    switch self {
+      case .multipleChoice: return "multiple choice"
+      case .singleChoice: return "single choice"
+      case .trueOrFalse: return "true or false"
+      case .editing: return "editing"
+    }
+  }
   
   var imageName: String {
     switch self {

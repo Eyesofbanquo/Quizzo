@@ -9,5 +9,6 @@ import Foundation
 
 /// The current state of the `MLGameAuthView`.
 enum MLGameAuthState: CaseIterable {
-  case isAuthenticating, isAuthenticated, none
+  case isAuthenticating, isAuthenticated, none /*quizMode*/
+  case inGame
 }
