@@ -40,7 +40,9 @@ struct MainView: View {
             .foregroundColor(.white)
           
           VStack {
-            SinglePlayerButton
+            #if DEBUG 
+              SinglePlayerButton
+            #endif
             MultiplayerButton
           }
           

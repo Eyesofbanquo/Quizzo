@@ -22,6 +22,14 @@ struct Question: Codable, Identifiable {
     id = UUID()
   }
   
+  init(fromResponse response: QuestionResponse) {
+    self.name = response.name
+    self.player = response.player ?? "Ocky App"
+    self.id = UUID(uuidString: response.id) ?? UUID()
+    self.questionType = QuestionType(fromValue: response.type) ?? .editing
+    self.choices = response.choices.map { Answer(fromResponse: $0)}
+  }
+  
   var correctAnswers: [Answer] {
     choices.filter { $0.isCorrect }
   }
