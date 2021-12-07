@@ -9,6 +9,8 @@ import SwiftUI
 
 struct OfflineQuestionView: View {
   
+  @EnvironmentObject var clipService: ClipService
+  
   var question: Question
   
   var body: some View {
@@ -25,10 +27,15 @@ struct OfflineQuestionView: View {
       .padding(.top)
     }
   }
+  
+  func grade(withAnswers answers: [Answer]) {
+    clipService.gradeQuiz(selectedAnswerChoices: answers)
+  }
 }
 
 struct OfflineQuestionView_Previews: PreviewProvider {
   static var previews: some View {
     OfflineQuestionView(question: .stub)
+      .environmentObject(ClipService())
   }
 }

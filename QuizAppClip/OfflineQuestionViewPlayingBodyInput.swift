@@ -14,7 +14,7 @@ struct OfflineQuestionViewPlayingBodyInput: PlayingBodyInput {
   
   static func generate(fromView view: OfflineQuestionView) -> OfflineQuestionViewPlayingBodyInput {
     return OfflineQuestionViewPlayingBodyInput(question: view.question) { question, selectedAnserChoices in
-      
+      view.grade(withAnswers: selectedAnserChoices)
     }
   }
   

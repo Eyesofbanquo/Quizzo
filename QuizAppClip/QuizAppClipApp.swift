@@ -9,12 +9,12 @@ import SwiftUI
 
 @main
 struct QuizAppClipApp: SwiftUI.App {
-  @StateObject var quizService: QuizService = QuizService()
+  @StateObject var clipService: ClipService = ClipService()
   
   var body: some Scene {
     WindowGroup {
       ContentView()
-        .environmentObject(quizService)
+        .environmentObject(clipService)
         .onContinueUserActivity(
           NSUserActivityTypeBrowsingWeb,
           perform: handleUserActivity) //1
@@ -38,7 +38,7 @@ struct QuizAppClipApp: SwiftUI.App {
     
     Task {
       if let quizId = queryItems.first?.value {
-        await quizService.retrieveQuiz(id: quizId)
+        await clipService.retrieveQuiz(id: quizId)
       }
     }
   }
