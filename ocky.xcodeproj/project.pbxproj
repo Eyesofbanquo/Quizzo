@@ -71,6 +71,7 @@
 		3392D309275ECD530053CCC6 /* QuizService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3392D308275ECD530053CCC6 /* QuizService.swift */; };
 		3392D30B275EDF500053CCC6 /* NetworkResponses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3392D30A275EDF500053CCC6 /* NetworkResponses.swift */; };
 		3392D30C275EDF590053CCC6 /* NetworkResponses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3392D30A275EDF500053CCC6 /* NetworkResponses.swift */; };
+		3392D30E275EE2BB0053CCC6 /* QuestionStaticHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3392D30D275EE2BB0053CCC6 /* QuestionStaticHeader.swift */; };
 		339B9B15274D69BF0036671E /* QuestionHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339B9B14274D69BF0036671E /* QuestionHistoryView.swift */; };
 		339B9B17274D7AFC0036671E /* QuestionHistoryListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339B9B16274D7AFC0036671E /* QuestionHistoryListView.swift */; };
 		339B9B1A274D7B0F0036671E /* QuestionHistorySnippet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339B9B19274D7B0F0036671E /* QuestionHistorySnippet.swift */; };
@@ -180,6 +181,7 @@
 		3392D304275E994B0053CCC6 /* OfflineQuestionViewPlayingBodyInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineQuestionViewPlayingBodyInput.swift; sourceTree = "<group>"; };
 		3392D308275ECD530053CCC6 /* QuizService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizService.swift; sourceTree = "<group>"; };
 		3392D30A275EDF500053CCC6 /* NetworkResponses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkResponses.swift; sourceTree = "<group>"; };
+		3392D30D275EE2BB0053CCC6 /* QuestionStaticHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionStaticHeader.swift; sourceTree = "<group>"; };
 		339B9B14274D69BF0036671E /* QuestionHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionHistoryView.swift; sourceTree = "<group>"; };
 		339B9B16274D7AFC0036671E /* QuestionHistoryListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionHistoryListView.swift; sourceTree = "<group>"; };
 		339B9B19274D7B0F0036671E /* QuestionHistorySnippet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionHistorySnippet.swift; sourceTree = "<group>"; };
@@ -369,6 +371,7 @@
 			isa = PBXGroup;
 			children = (
 				3392D2E3275E368A0053CCC6 /* QuizAppClipApp.swift */,
+				3392D30D275EE2BB0053CCC6 /* QuestionStaticHeader.swift */,
 				3392D308275ECD530053CCC6 /* QuizService.swift */,
 				3392D2E5275E368A0053CCC6 /* ContentView.swift */,
 				3392D2E7275E368C0053CCC6 /* Assets.xcassets */,
@@ -737,6 +740,7 @@
 				3392D2F6275E36F90053CCC6 /* Theme.swift in Sources */,
 				3392D303275E98BD0053CCC6 /* OfflineQuestionView.swift in Sources */,
 				3392D30C275EDF590053CCC6 /* NetworkResponses.swift in Sources */,
+				3392D30E275EE2BB0053CCC6 /* QuestionStaticHeader.swift in Sources */,
 				3392D301275E38B40053CCC6 /* QuestionViewAnswerButtonModifier.swift in Sources */,
 				3392D2FF275E38930053CCC6 /* QuestionViewPlayingBody.swift in Sources */,
 				3392D2E4275E368A0053CCC6 /* QuizAppClipApp.swift in Sources */,

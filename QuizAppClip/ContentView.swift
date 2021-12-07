@@ -13,7 +13,15 @@ struct ContentView: View {
     if let question = quizService.question {
       OfflineQuestionView(question: question)
     } else {
-      Text("No data")
+      VStack(spacing: 16.0) {
+        ProgressView()
+          .progressViewStyle(CircularProgressViewStyle())
+          .tint(Theme.Light)
+          .scaleEffect(x: 1.5, y: 1.5)
+        Text("Retrieving your Question Clip...")
+          .font(.headline)
+          .foregroundColor(Theme.Light)
+      }
     }
   }
 }

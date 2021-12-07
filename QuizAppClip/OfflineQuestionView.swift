@@ -15,13 +15,14 @@ struct OfflineQuestionView: View {
     ZStack {
       Theme.BG.ignoresSafeArea()
       
-      VStack {
-        Spacer()
-        Text("Hello, world!")
-          .padding()
-        QuestionViewPlayingBody(input: OfflineQuestionViewPlayingBodyInput.generate(fromView: self))
-        Spacer()
+      ScrollView {
+        VStack(alignment: .leading) {
+          QuestionStaticHeader(question: question)
+            .padding()
+          QuestionViewPlayingBody(input: OfflineQuestionViewPlayingBodyInput.generate(fromView: self))
+        }
       }
+      .padding(.top)
     }
   }
 }
