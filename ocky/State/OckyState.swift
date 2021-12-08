@@ -12,5 +12,5 @@ enum OckyState {
   case single
   case multiplayer
   case menu
-  case clip
+  case clip(id: String)
 }

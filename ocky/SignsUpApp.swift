@@ -44,11 +44,8 @@ struct SignsUpApp: SwiftUI.App {
     
     print(queryItems.first?.value ?? "")
     
-    Task {
-      if let quizId = queryItems.first?.value {
-        ockyStateManager.send(.clip)
-        await clipService.retrieveQuiz(id: quizId)
-      }
+    if let quizId = queryItems.first?.value {
+      ockyStateManager.send(.clip(id: quizId))
     }
   }
 }

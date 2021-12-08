@@ -31,11 +31,22 @@ struct Entrypoint: View {
           MLGameAuthViewRepresentable()
         case .single:
           QuizMainView()
-        case .clip:
+        case .clip(let quizId):
           ZStack {
-            HomeHeaderView
             ClipView()
+              .padding(.top, 62)
               .environmentObject(clipService)
+            
+            VStack {
+              HomeHeaderView
+                .fixedSize(horizontal: false, vertical: true)
+              Spacer()
+            } 
+          }
+          .onAppear {
+            Task {
+              await clipService.retrieveQuiz(id: quizId)
+            }
           }
          
       }

@@ -64,25 +64,35 @@ struct ClipView: View {
           case .playing:
             if let question = clipService.question {
               OfflineQuestionView(question: question)
+              #if APPCLIP
+                .padding(.top, 62)
+              #endif
             } else {
               Text("Unable to load quiz. Please try again")
                 .foregroundColor(Theme.Light)
             }
           case .results(let passed):
-            VStack {
-              Spacer()
-              resultImage(passed)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .scaleEffect(0.80)
-                .foregroundColor(passed ? Theme.LightGreen : .pink)
-              Text(resultText(passed))
-                .font(.largeTitle)
-                .foregroundColor(Theme.Light)
-              Text("Thanks For Playing")
-                .questionButton(isHighlighted: false, defaultBackgroundColor: Theme.Yellow)
-              Spacer()
+            ZStack {
+              Theme.BG.ignoresSafeArea()
+              VStack {
+                Spacer()
+                resultImage(passed)
+                  .resizable()
+                  .aspectRatio(contentMode: .fit)
+                  .scaleEffect(0.80)
+                  .foregroundColor(passed ? Theme.LightGreen : .pink)
+                Text(resultText(passed))
+                  .font(.largeTitle)
+                  .foregroundColor(Theme.Light)
+                Text("Thanks For Playing")
+                  .questionButton(isHighlighted: false, defaultBackgroundColor: Theme.Yellow)
+                Spacer()
+              }
+              .appStoreOverlay(isPresented: presentingAppStoreOverlay) {
+                SKOverlay.AppClipConfiguration(position: .bottom)
+              }
             }
+            
           case .marketing:
             MainView()
               .environmentObject(FeedbackGenerator())
