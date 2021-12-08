@@ -15,9 +15,9 @@ struct MainView: View {
   
   @EnvironmentObject var ockyStateManager: OckyStateManager
   
-  // MARK: - Local -  
+  // MARK: - Local -
   // MARK: - State: Injected -
-//  @Binding var actions: CurrentValueSubject<MLGameAuthState, Never>
+  //  @Binding var actions: CurrentValueSubject<MLGameAuthState, Never>
   
   var body: some View {
     GeometryReader { proxy in
@@ -30,7 +30,7 @@ struct MainView: View {
             .resizable()
             .aspectRatio(contentMode: .fit)
             .padding()
-
+          
           Text("Ocky")
             .foregroundColor(.white)
             .font(.largeTitle)
@@ -39,12 +39,20 @@ struct MainView: View {
           Text("The quiz making game")
             .foregroundColor(.white)
           
+          #if APPCLIP
           VStack {
-            #if DEBUG 
-              SinglePlayerButton
-            #endif
+            AppClipButton
+          }
+          #else
+          
+          VStack {
+          #if DEBUG
+            SinglePlayerButton
+          #endif
             MultiplayerButton
           }
+          #endif
+          
           
         }
         .onAppear {
@@ -76,7 +84,16 @@ struct MainView: View {
         .questionButton(isHighlighted: false,
                         defaultBackgroundColor: Theme.LightBlue)
     }
+  }
   
+  private var AppClipButton: some View {
+    Button(action: {
+      feedbackGen.success()
+    }) {
+      Text("Welcome to Ocky")
+        .questionButton(isHighlighted: false,
+                        defaultBackgroundColor: Theme.LightBlue)
+    }
   }
 }
 

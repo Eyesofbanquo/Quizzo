@@ -13,7 +13,7 @@ struct QuizAppClipApp: SwiftUI.App {
   
   var body: some Scene {
     WindowGroup {
-      ContentView()
+      ClipView()
         .environmentObject(clipService)
         .onContinueUserActivity(
           NSUserActivityTypeBrowsingWeb,
@@ -27,12 +27,17 @@ struct QuizAppClipApp: SwiftUI.App {
       let incomingURL = userActivity.webpageURL,
       let components = URLComponents(
         url: incomingURL,
-        resolvingAgainstBaseURL: true),
-      let queryItems = components.queryItems
+        resolvingAgainstBaseURL: true)
     else {
       print("unable to extract url \(userActivity.webpageURL?.absoluteString ?? "")")
       return
     }
+    
+    guard let queryItems = components.queryItems else {
+        clipService.presentMarketingMenu()
+
+        return
+      }
     
     print(queryItems.first?.value ?? "")
     

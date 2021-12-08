@@ -52,7 +52,7 @@
 		3392D2DA275D640D0053CCC6 /* OckyState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3392D2D9275D640D0053CCC6 /* OckyState.swift */; };
 		3392D2DC275D64340053CCC6 /* OckyStateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3392D2DB275D64340053CCC6 /* OckyStateManager.swift */; };
 		3392D2E4275E368A0053CCC6 /* QuizAppClipApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3392D2E3275E368A0053CCC6 /* QuizAppClipApp.swift */; };
-		3392D2E6275E368A0053CCC6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3392D2E5275E368A0053CCC6 /* ContentView.swift */; };
+		3392D2E6275E368A0053CCC6 /* ClipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3392D2E5275E368A0053CCC6 /* ClipView.swift */; };
 		3392D2E8275E368C0053CCC6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3392D2E7275E368C0053CCC6 /* Assets.xcassets */; };
 		3392D2EB275E368C0053CCC6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3392D2EA275E368C0053CCC6 /* Preview Assets.xcassets */; };
 		3392D2F0275E368C0053CCC6 /* QuizAppClip.app in Embed App Clips */ = {isa = PBXBuildFile; fileRef = 3392D2E1275E368A0053CCC6 /* QuizAppClip.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -72,6 +72,16 @@
 		3392D30B275EDF500053CCC6 /* NetworkResponses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3392D30A275EDF500053CCC6 /* NetworkResponses.swift */; };
 		3392D30C275EDF590053CCC6 /* NetworkResponses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3392D30A275EDF500053CCC6 /* NetworkResponses.swift */; };
 		3392D30E275EE2BB0053CCC6 /* QuestionStaticHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3392D30D275EE2BB0053CCC6 /* QuestionStaticHeader.swift */; };
+		3392D30F2760ED970053CCC6 /* OckyState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3392D2D9275D640D0053CCC6 /* OckyState.swift */; };
+		3392D3102760ED9A0053CCC6 /* OckyStateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3392D2DB275D64340053CCC6 /* OckyStateManager.swift */; };
+		3392D3112760EDA20053CCC6 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3352D024274B350600D31244 /* MainView.swift */; };
+		3392D3122760EDAE0053CCC6 /* FeedbackGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FB5CEA274EBF6200B68D63 /* FeedbackGenerator.swift */; };
+		3392D3142760F3100053CCC6 /* QuestionStaticHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3392D30D275EE2BB0053CCC6 /* QuestionStaticHeader.swift */; };
+		3392D3152760F3130053CCC6 /* ClipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3392D2E5275E368A0053CCC6 /* ClipView.swift */; };
+		3392D3162760F3160053CCC6 /* QuizService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3392D308275ECD530053CCC6 /* QuizService.swift */; };
+		3392D3172760F3190053CCC6 /* OfflineQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3392D302275E98BD0053CCC6 /* OfflineQuestionView.swift */; };
+		3392D3182760F31C0053CCC6 /* OfflineQuestionViewPlayingBodyInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3392D304275E994B0053CCC6 /* OfflineQuestionViewPlayingBodyInput.swift */; };
+		3392D3192760F5370053CCC6 /* HomeAccessPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3392D2D7275D5F060053CCC6 /* HomeAccessPoint.swift */; };
 		339B9B15274D69BF0036671E /* QuestionHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339B9B14274D69BF0036671E /* QuestionHistoryView.swift */; };
 		339B9B17274D7AFC0036671E /* QuestionHistoryListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339B9B16274D7AFC0036671E /* QuestionHistoryListView.swift */; };
 		339B9B1A274D7B0F0036671E /* QuestionHistorySnippet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339B9B19274D7B0F0036671E /* QuestionHistorySnippet.swift */; };
@@ -171,7 +181,7 @@
 		3392D2DB275D64340053CCC6 /* OckyStateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OckyStateManager.swift; sourceTree = "<group>"; };
 		3392D2E1275E368A0053CCC6 /* QuizAppClip.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuizAppClip.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3392D2E3275E368A0053CCC6 /* QuizAppClipApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizAppClipApp.swift; sourceTree = "<group>"; };
-		3392D2E5275E368A0053CCC6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		3392D2E5275E368A0053CCC6 /* ClipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipView.swift; sourceTree = "<group>"; };
 		3392D2E7275E368C0053CCC6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3392D2EA275E368C0053CCC6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		3392D2EC275E368C0053CCC6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -373,7 +383,7 @@
 				3392D2E3275E368A0053CCC6 /* QuizAppClipApp.swift */,
 				3392D30D275EE2BB0053CCC6 /* QuestionStaticHeader.swift */,
 				3392D308275ECD530053CCC6 /* QuizService.swift */,
-				3392D2E5275E368A0053CCC6 /* ContentView.swift */,
+				3392D2E5275E368A0053CCC6 /* ClipView.swift */,
 				3392D2E7275E368C0053CCC6 /* Assets.xcassets */,
 				3392D2EC275E368C0053CCC6 /* Info.plist */,
 				3392D2ED275E368C0053CCC6 /* QuizAppClip.entitlements */,
@@ -666,13 +676,16 @@
 				331F729527441F3800003CE8 /* QuestionService.swift in Sources */,
 				33CA1FCA27557D9900E30EE6 /* QuestionViewDynamicHeader.swift in Sources */,
 				339B9B1A274D7B0F0036671E /* QuestionHistorySnippet.swift in Sources */,
+				3392D3182760F31C0053CCC6 /* OfflineQuestionViewPlayingBodyInput.swift in Sources */,
 				33D421EA27375BB30058C74F /* MLGameData.swift in Sources */,
+				3392D3162760F3160053CCC6 /* QuizService.swift in Sources */,
 				335A0DBC273C92210068379D /* QuestionViewStaticHeader.swift in Sources */,
 				33CA1FBE2755731E00E30EE6 /* GKAccessPointModifier.swift in Sources */,
 				3392D2D8275D5F060053CCC6 /* HomeAccessPoint.swift in Sources */,
 				336263192733929F00264C98 /* QuizListView.swift in Sources */,
 				33D421EE27375F220058C74F /* MLGame.swift in Sources */,
 				3392D30B275EDF500053CCC6 /* NetworkResponses.swift in Sources */,
+				3392D3152760F3130053CCC6 /* ClipView.swift in Sources */,
 				3343D8F12739A70000EFC8CB /* MatchListView.swift in Sources */,
 				336263142732EF5A00264C98 /* Entrypoint.swift in Sources */,
 				331F728B273CAA1200003CE8 /* LivesView.swift in Sources */,
@@ -681,6 +694,7 @@
 				3303AFD6273B5B5A00F0D116 /* CheckboxField.swift in Sources */,
 				33B18527275567A6005B89C9 /* GameCenterAuthService.swift in Sources */,
 				33C10BC42759CA5400912D60 /* QuestionType.swift in Sources */,
+				3392D3172760F3190053CCC6 /* OfflineQuestionView.swift in Sources */,
 				33FB5CEB274EBF6200B68D63 /* FeedbackGenerator.swift in Sources */,
 				3343D8E427388EED00EFC8CB /* MLGameAuthViewRepresentable.swift in Sources */,
 				331F727E273C9CA300003CE8 /* QuestionViewPlayingBody.swift in Sources */,
@@ -695,6 +709,7 @@
 				331F7285273C9F4900003CE8 /* QuestionNavigationBarView.swift in Sources */,
 				3362630B273263ED00264C98 /* SignupFormViewModel.swift in Sources */,
 				3392D2D6275A8A370053CCC6 /* QuizMainView.swift in Sources */,
+				3392D3142760F3100053CCC6 /* QuestionStaticHeader.swift in Sources */,
 				339B9B17274D7AFC0036671E /* QuestionHistoryListView.swift in Sources */,
 				331F7293274415A500003CE8 /* MLSimpleFactory.swift in Sources */,
 				33CA1FC1275576CD00E30EE6 /* QuestionViewCoordinator.swift in Sources */,
@@ -733,13 +748,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				3392D305275E994B0053CCC6 /* OfflineQuestionViewPlayingBodyInput.swift in Sources */,
+				3392D3112760EDA20053CCC6 /* MainView.swift in Sources */,
+				3392D30F2760ED970053CCC6 /* OckyState.swift in Sources */,
 				3392D2FC275E37EF0053CCC6 /* Question.swift in Sources */,
+				3392D3102760ED9A0053CCC6 /* OckyStateManager.swift in Sources */,
 				3392D2FD275E37FD0053CCC6 /* QuestionType.swift in Sources */,
-				3392D2E6275E368A0053CCC6 /* ContentView.swift in Sources */,
+				3392D2E6275E368A0053CCC6 /* ClipView.swift in Sources */,
 				3392D2FE275E38010053CCC6 /* Answer.swift in Sources */,
 				3392D2F6275E36F90053CCC6 /* Theme.swift in Sources */,
+				3392D3192760F5370053CCC6 /* HomeAccessPoint.swift in Sources */,
 				3392D303275E98BD0053CCC6 /* OfflineQuestionView.swift in Sources */,
 				3392D30C275EDF590053CCC6 /* NetworkResponses.swift in Sources */,
+				3392D3122760EDAE0053CCC6 /* FeedbackGenerator.swift in Sources */,
 				3392D30E275EE2BB0053CCC6 /* QuestionStaticHeader.swift in Sources */,
 				3392D301275E38B40053CCC6 /* QuestionViewAnswerButtonModifier.swift in Sources */,
 				3392D2FF275E38930053CCC6 /* QuestionViewPlayingBody.swift in Sources */,
@@ -886,7 +906,7 @@
 				CODE_SIGN_ENTITLEMENTS = ocky/SignsUp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_ASSET_PATHS = "\"ocky/Preview Content\"";
 				DEVELOPMENT_TEAM = 2W3P634BS8;
 				ENABLE_PREVIEWS = YES;
@@ -922,7 +942,7 @@
 				CODE_SIGN_ENTITLEMENTS = ocky/SignsUp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_ASSET_PATHS = "\"ocky/Preview Content\"";
 				DEVELOPMENT_TEAM = 2W3P634BS8;
 				ENABLE_PREVIEWS = YES;
@@ -957,7 +977,7 @@
 				CODE_SIGN_ENTITLEMENTS = QuizAppClip/QuizAppClip.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_ASSET_PATHS = "\"QuizAppClip/Preview Content\"";
 				DEVELOPMENT_TEAM = 2W3P634BS8;
 				ENABLE_PREVIEWS = YES;
@@ -976,6 +996,7 @@
 				MARKETING_VERSION = 1.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.donderapps.mlquizzo.Clip;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "APPCLIP DEBUG";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -990,7 +1011,7 @@
 				CODE_SIGN_ENTITLEMENTS = QuizAppClip/QuizAppClip.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_ASSET_PATHS = "\"QuizAppClip/Preview Content\"";
 				DEVELOPMENT_TEAM = 2W3P634BS8;
 				ENABLE_PREVIEWS = YES;
@@ -1009,6 +1030,7 @@
 				MARKETING_VERSION = 1.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.donderapps.mlquizzo.Clip;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = APPCLIP;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

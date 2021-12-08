@@ -55,4 +55,8 @@ class ClipService: ObservableObject {
     
     self.clipState = .results(passed: passed)
   }
+  
+  func presentMarketingMenu() {
+    self.clipState = .marketing
+  }
 }
