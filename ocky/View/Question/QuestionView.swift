@@ -149,16 +149,6 @@ protocol EditingBodyInput {
   static func generate(fromView view: T) -> U
 }
 
-protocol PlayingBodyInput {
-  associatedtype T = View
-  associatedtype U = Self
-  
-  var question: Question? { get set }
-  var playTurnAction: (Question?, [Answer]) -> Void { get set }
-  
-  static func generate(fromView view: T) -> U
-}
-
 extension QuestionView {
   struct QuestionNavigationBarViewInput: NavigationBarViewInput {
     var displayQuizHistory: Binding<Bool>

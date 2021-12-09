@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Combine
+import StoreKit
 
 struct MainView: View {
   
@@ -15,9 +16,9 @@ struct MainView: View {
   
   @EnvironmentObject var ockyStateManager: OckyStateManager
   
-  // MARK: - Local -  
+  // MARK: - Local -
   // MARK: - State: Injected -
-//  @Binding var actions: CurrentValueSubject<MLGameAuthState, Never>
+  //  @Binding var actions: CurrentValueSubject<MLGameAuthState, Never>
   
   var body: some View {
     GeometryReader { proxy in
@@ -30,7 +31,7 @@ struct MainView: View {
             .resizable()
             .aspectRatio(contentMode: .fit)
             .padding()
-
+          
           Text("Ocky")
             .foregroundColor(.white)
             .font(.largeTitle)
@@ -39,11 +40,27 @@ struct MainView: View {
           Text("The quiz making game")
             .foregroundColor(.white)
           
+          #if APPCLIP
           VStack {
+            AppClipButton
+              .padding(.bottom)
+              .padding(.bottom)
+              .onAppear {
+                guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
+                let config = SKOverlay.AppClipConfiguration(position: .bottom)
+                let overlay = SKOverlay(configuration: config)
+                overlay.present(in: scene)
+              }
+          }
+          #else
+          
+          VStack {
+          #if DEBUG
             SinglePlayerButton
+          #endif
             MultiplayerButton
           }
-          
+          #endif
         }
         .onAppear {
           feedbackGen.warm()
@@ -74,7 +91,16 @@ struct MainView: View {
         .questionButton(isHighlighted: false,
                         defaultBackgroundColor: Theme.LightBlue)
     }
+  }
   
+  private var AppClipButton: some View {
+    Button(action: {
+      feedbackGen.success()
+    }) {
+      Text("Welcome to Ocky")
+        .questionButton(isHighlighted: false,
+                        defaultBackgroundColor: Theme.LightBlue)
+    }
   }
 }
 

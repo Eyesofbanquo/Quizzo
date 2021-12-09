@@ -13,7 +13,8 @@ struct Entrypoint: View {
   
   @AppStorage("signup") private var signup: Bool = false
   @AppStorage("firstLaunch") private var firstLaunch: Bool = true
-  
+  @StateObject var clipService: ClipService = ClipService()
+
   @EnvironmentObject var ockyStateManager: OckyStateManager
   
 //  @State private var authenticated: Bool = false
@@ -30,7 +31,35 @@ struct Entrypoint: View {
           MLGameAuthViewRepresentable()
         case .single:
           QuizMainView()
+        case .clip(let quizId):
+          ZStack {
+            ClipView()
+              .padding(.top, 62)
+              .environmentObject(clipService)
+            
+            VStack {
+              HomeHeaderView
+                .fixedSize(horizontal: false, vertical: true)
+              Spacer()
+            } 
+          }
+          .onAppear {
+            Task {
+              await clipService.retrieveQuiz(id: quizId)
+            }
+          }
+         
       }
+    }
+  }
+  
+  private var HomeHeaderView: some View {
+    VStack {
+      HomeAccessPoint {
+        ockyStateManager.send(.menu)
+      }
+      .padding(.top)
+      Spacer()
     }
   }
 }

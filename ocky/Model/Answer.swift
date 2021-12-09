@@ -17,6 +17,12 @@ struct Answer: Codable, Identifiable, Hashable {
     self.text = text
     self.id = UUID()
   }
+  
+  init(fromResponse response: AnswerResponse) {
+    self.id = UUID(uuidString: response.id) ?? UUID()
+    self.text = response.text
+    self.isCorrect = response.isCorrect
+  }
 }
 
 extension Answer {

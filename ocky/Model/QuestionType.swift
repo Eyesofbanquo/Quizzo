@@ -13,6 +13,15 @@ enum QuestionType: Int, Codable, CaseIterable {
   case trueOrFalse
   case editing
   
+  init?(fromValue value: Int) {
+    switch value {
+      case 0: self = .multipleChoice
+      case 1: self =  .singleChoice
+      case 2: self =  .trueOrFalse
+      default: return nil
+    }
+  }
+  
   var stringValue: String {
     switch self {
       case .multipleChoice: return "multiple choice"

@@ -8,11 +8,6 @@
 import SwiftUI
 
 struct QuestionViewPlayingBody: View {
-  // MARK: -  State: Env -
-  @EnvironmentObject var handler: MLGame
-  @EnvironmentObject var feedbackGen: FeedbackGenerator
-  @EnvironmentObject var questionService: QuestionService
-  
   // MARK: - State: Local
   @State private var answerChoices: [Answer] = []
   @State private var submittedAnswer: Bool = false
@@ -74,7 +69,5 @@ struct QuestionViewPlayingBody: View {
 struct QuestionViewPlayingBody_Previews: PreviewProvider {
   static var previews: some View {
     QuestionViewPlayingBody(question: .stub, playTurnAction: { _, _ in })
-      .environmentObject(MLGame())
-      .environmentObject(FeedbackGenerator())
   }
 }

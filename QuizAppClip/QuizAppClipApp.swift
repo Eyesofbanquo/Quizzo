@@ -1,27 +1,23 @@
 //
-//  SignsUpApp.swift
-//  SignsUp
+//  QuizAppClipApp.swift
+//  QuizAppClip
 //
-//  Created by Markim Shaw on 11/3/21.
+//  Created by Markim Shaw on 12/6/21.
 //
 
 import SwiftUI
-import RealmSwift
 
 @main
-struct SignsUpApp: SwiftUI.App {
-  @StateObject private var ockyStateManager: OckyStateManager = OckyStateManager()
-  @StateObject private var feedbackGen: FeedbackGenerator = FeedbackGenerator()
-  @StateObject private var clipService: ClipService = ClipService()
+struct QuizAppClipApp: SwiftUI.App {
+  @StateObject var clipService: ClipService = ClipService()
   
   var body: some Scene {
     WindowGroup {
-      Entrypoint()
-        .environmentObject(ockyStateManager)
-        .environmentObject(feedbackGen)
+      ClipView()
+        .environmentObject(clipService)
         .onContinueUserActivity(
           NSUserActivityTypeBrowsingWeb,
-          perform: handleUserActivity)
+          perform: handleUserActivity) //1
     }
   }
   
@@ -38,14 +34,18 @@ struct SignsUpApp: SwiftUI.App {
     }
     
     guard let queryItems = components.queryItems else {
-      print("blah")
-      return
-    }
+        clipService.presentMarketingMenu()
+
+        return
+      }
     
     print(queryItems.first?.value ?? "")
     
-    if let quizId = queryItems.first?.value {
-      ockyStateManager.send(.clip(id: quizId))
+    Task {
+      if let quizId = queryItems.first?.value {
+        await clipService.retrieveQuiz(id: quizId)
+      }
     }
   }
 }
+
