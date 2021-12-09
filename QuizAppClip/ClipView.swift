@@ -49,6 +49,7 @@ struct ClipView: View {
   
   var body: some View {
     ZStack {
+      Theme.BG.ignoresSafeArea()
       Group {
         switch clipService.clipState {
           case .loading:
@@ -84,12 +85,16 @@ struct ClipView: View {
                 Text(resultText(passed))
                   .font(.largeTitle)
                   .foregroundColor(Theme.Light)
-                Text("Thanks For Playing")
-                  .questionButton(isHighlighted: false, defaultBackgroundColor: Theme.Yellow)
+                Spacer()
                 Spacer()
               }
-              .appStoreOverlay(isPresented: presentingAppStoreOverlay) {
-                SKOverlay.AppClipConfiguration(position: .bottom)
+              .onAppear {
+                #if APPCLIP
+                guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
+                let config = SKOverlay.AppClipConfiguration(position: .bottomRaised)
+                let overlay = SKOverlay(configuration: config)
+                overlay.present(in: scene)
+                #endif
               }
             }
             
@@ -97,9 +102,7 @@ struct ClipView: View {
             MainView()
               .environmentObject(FeedbackGenerator())
               .environmentObject(OckyStateManager())
-              .appStoreOverlay(isPresented: presentingAppStoreOverlay) {
-                SKOverlay.AppClipConfiguration(position: .bottom)
-              }
+            
         }
       }
     }

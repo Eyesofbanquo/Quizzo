@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Combine
+import StoreKit
 
 struct MainView: View {
   
@@ -42,6 +43,14 @@ struct MainView: View {
           #if APPCLIP
           VStack {
             AppClipButton
+              .padding(.bottom)
+              .padding(.bottom)
+              .onAppear {
+                guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
+                let config = SKOverlay.AppClipConfiguration(position: .bottom)
+                let overlay = SKOverlay(configuration: config)
+                overlay.present(in: scene)
+              }
           }
           #else
           
@@ -52,8 +61,6 @@ struct MainView: View {
             MultiplayerButton
           }
           #endif
-          
-          
         }
         .onAppear {
           feedbackGen.warm()

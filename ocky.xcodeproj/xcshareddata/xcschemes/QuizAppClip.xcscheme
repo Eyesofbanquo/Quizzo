@@ -53,7 +53,7 @@
       <EnvironmentVariables>
          <EnvironmentVariable
             key = "_XCAppClipURL"
-            value = "https://ocky-api.herokuapp.com/q?id=1"
+            value = "https://ocky-api.herokuapp.com"
             isEnabled = "YES">
          </EnvironmentVariable>
       </EnvironmentVariables>
