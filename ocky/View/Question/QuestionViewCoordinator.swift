@@ -22,11 +22,11 @@ struct QuestionViewCoordinator: View {
             if let mostRecentQuestion = handler.gameData.history.last {
               QuestionView(question: mostRecentQuestion, state: questionViewState)
             } else {
-              QuestionEditorModeView()
+              QuestionEditorModeView(isOffline: false)
             }
           }
         case .editing:
-          QuestionEditorModeView()
+          QuestionEditorModeView(isOffline: false)
         case .showQuestion(let gameData, let currentParticipant):
           QuestionView(question: gameData.history.last, state: currentParticipant ? .playing : questionViewState)
         case .history: EmptyView()

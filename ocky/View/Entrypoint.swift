@@ -31,6 +31,8 @@ struct Entrypoint: View {
           MLGameAuthViewRepresentable()
         case .single:
           QuizMainView()
+        case .creator:
+          QuestionEditorModeView(isOffline: true)
         case .clip(let quizId):
           ZStack {
             ClipView()

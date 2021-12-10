@@ -9,6 +9,7 @@ import SwiftUI
 import GameKit
 
 struct QuestionView: View {
+  
   // MARK: - State: Environment -
   @EnvironmentObject var handler: MLGame
   @EnvironmentObject var questionService: QuestionService
