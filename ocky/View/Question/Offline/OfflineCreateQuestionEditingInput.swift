@@ -15,6 +15,14 @@ struct OfflineCreateQuestionEditingInput: EditingBodyInput {
   var endTurn: () -> Void
   var questionType: Binding<QuestionType>
   
+  static var url: URL? {
+    #if DEBUG
+    URL(string: "http://localhost:3000/q")
+    #else
+    URL(string: "https://ocky-api.herokuapp.com/q")
+    #endif
+  }
+  
   static func generate(fromView view: OfflineCreateQuestionView) -> OfflineCreateQuestionEditingInput {
     return OfflineCreateQuestionEditingInput(questionName: view.$questionName, currentPlayer: "Anonymous Creator", addQuestionToHistory: { question in
       /* This doesn't matter */
@@ -22,12 +30,12 @@ struct OfflineCreateQuestionEditingInput: EditingBodyInput {
     }, endTurn: {
       /* This is where the network call is made */
       let session = URLSession.shared
-      guard let url = URL(string: "http://localhost:3000/q"),
-            let question = view.question else { return }
+      guard let url = url, let question = view.question else { return }
       
       let data = try? JSONEncoder().encode(question)
       
       Task {
+        
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
