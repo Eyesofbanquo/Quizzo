@@ -17,17 +17,7 @@ struct SelectedQuestionTypeView: View {
     Group {
       if isOffline {
         OfflineCreateQuestionView(questionType: selectedQuestionType!, state: .editing) {
-          AnyView(HStack {
-            Button(action: {
-              ockyStateManager.send(.menu)
-            }) {
-              Image(systemName: "xmark.circle")
-                .resizable()
-                .frame(width: 32, height: 32)
-                .foregroundColor(Theme.Light)
-            }
-            Spacer()
-          })
+          ockyStateManager.send(.menu)
         }
       } else {
         QuestionView(questionType: selectedQuestionType, state: .editing)
