@@ -55,9 +55,7 @@ struct MainView: View {
           #else
           
           VStack {
-          #if DEBUG
-            SinglePlayerButton
-          #endif
+            CreatorModeButton
             MultiplayerButton
           }
           #endif
@@ -77,6 +75,17 @@ struct MainView: View {
       ockyStateManager.send(.single)
     }) {
       Text("Single Player Quiz Mode")
+        .questionButton(isHighlighted: false,
+                        defaultBackgroundColor: Theme.LightBlue)
+    }
+  }
+  
+  private var CreatorModeButton: some View {
+    Button(action: {
+      feedbackGen.success()
+      ockyStateManager.send(.creator)
+    }) {
+      Text("Creator Mode")
         .questionButton(isHighlighted: false,
                         defaultBackgroundColor: Theme.LightBlue)
     }

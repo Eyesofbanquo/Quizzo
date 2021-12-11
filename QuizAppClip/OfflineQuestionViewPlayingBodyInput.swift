@@ -17,6 +17,4 @@ struct OfflineQuestionViewPlayingBodyInput: PlayingBodyInput {
       view.grade(withAnswers: selectedAnserChoices)
     }
   }
-  
-  
 }

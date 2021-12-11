@@ -10,6 +10,7 @@ import Foundation
 /// This determines the entire state of the app
 enum OckyState {
   case single
+  case creator
   case multiplayer
   case menu
   case clip(id: String)
