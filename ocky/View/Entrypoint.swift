@@ -14,10 +14,10 @@ struct Entrypoint: View {
   @AppStorage("signup") private var signup: Bool = false
   @AppStorage("firstLaunch") private var firstLaunch: Bool = true
   @StateObject var clipService: ClipService = ClipService()
-
+  
   @EnvironmentObject var ockyStateManager: OckyStateManager
   
-//  @State private var authenticated: Bool = false
+  //  @State private var authenticated: Bool = false
   
   var body: some View {
     ZStack {
@@ -27,6 +27,7 @@ struct Entrypoint: View {
       switch ockyStateManager.currentState {
         case .menu:
           MainView()
+//          OrchestratorRepresentable()
         case .multiplayer:
           MLGameAuthViewRepresentable()
         case .single:
@@ -34,23 +35,28 @@ struct Entrypoint: View {
         case .creator:
           QuestionEditorModeView(isOffline: true)
         case .clip(let quizId):
-          ZStack {
-            ClipView()
-              .padding(.top, 62)
-              .environmentObject(clipService)
-            
-            VStack {
-              HomeHeaderView
-                .fixedSize(horizontal: false, vertical: true)
-              Spacer()
-            } 
-          }
-          .onAppear {
-            Task {
-              await clipService.retrieveQuiz(id: quizId)
+          Group {
+            if quizId == "31" {
+              OrchestratorRepresentable()
+            } else {
+              ZStack {
+                ClipView()
+                  .padding(.top, 62)
+                  .environmentObject(clipService)
+                
+                VStack {
+                  HomeHeaderView
+                    .fixedSize(horizontal: false, vertical: true)
+                  Spacer()
+                }
+              }
+              .onAppear {
+                Task {
+                  await clipService.retrieveQuiz(id: quizId)
+                }
+              }
             }
           }
-         
       }
     }
   }
